@@ -1,83 +1,49 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
-
-const footerLinks = [
-  {
-    title: "Quick Links",
-    links: [
-      { name: "Home", path: "/" },
-      { name: "Events", path: "/events" },
-      { name: "About Us", path: "/about" },
-      { name: "Contact", path: "/contact" },
-    ],
-  },
-  {
-    title: "Support",
-    links: [
-      { name: "FAQs", path: "/faq" },
-      { name: "Event Map", path: "/event-map" },
-      { name: "Privacy Policy", path: "/privacy" },
-      { name: "Terms & Conditions", path: "/terms" },
-    ],
-  },
-];
-
-const socialLinks = [
-  { name: "Facebook", icon: <FaFacebook size={20} />, url: "#" },
-  { name: "Instagram", icon: <FaInstagram size={20} />, url: "#" },
-  { name: "Twitter", icon: <FaTwitter size={20} />, url: "#" },
-  { name: "LinkedIn", icon: <FaLinkedin size={20} />, url: "#" },
-];
+import { FaFacebook, FaTwitter, FaYoutube, FaLinkedin, FaInstagram } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer className="bg-white py-10">
-      <div className="container mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-        <div>
-          <h2 className="text-2xl font-bold mb-3">Your Logo</h2>
-          <p>
-            MUJ-UNITY-FEST is a platform where users can unite with their
-            batchmates and play games and win reward
-          </p>
-          <p className="mt-3">&copy; 2024 Your Company</p>
+    <footer className="bg-white text-black py-10 font-[Poppins]">
+      <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 border rounded-lg p-6 shadow-lg">
+        {/* Contact Section */}
+        <div className="space-y-4">
+          <h3 className="font-semibold text-lg">📞 Contact Us Anytime</h3>
+          <p className="text-gray-600">32324313</p>
+
+          <h3 className="font-semibold text-lg">📧 Mail Us</h3>
+          <p className="text-gray-600">example@mail.com</p>
         </div>
 
-        {footerLinks.map((section) => (
-          <div key={section.title}>
-            <h3 className="text-xl font-semibold mb-3">{section.title}</h3>
-            <ul className="space-y-2">
-              {section.links.map((link) => (
-                <li key={link.path}>
-                  <Link to={link.path} className="hover:text-gray-600 block">
-                    &gt; {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+        {/* Video Meet & Office Location */}
+        <div className="space-y-4">
+          <h3 className="font-semibold text-lg">📹 Video Meet With Us</h3>
+          <p className="text-gray-600">Join our virtual meeting</p>
+
+          <h3 className="font-semibold text-lg">📍 Office Location</h3>
+          <p className="text-gray-600">123 Business Street, City</p>
+        </div>
+
+        {/* Follow/Subscribe Section */}
+        <div className="text-center">
+          <h3 className="text-lg font-semibold">Follow/Subscribe Us</h3>
+          <div className="w-20 h-[3px] bg-yellow-400 mx-auto my-2"></div>
+          <div className="flex justify-center items-center gap-4 my-4">
+            <FaFacebook className="text-[#C66E11] text-2xl cursor-pointer" />
+            <FaTwitter className="text-[#C66E11] text-2xl cursor-pointer" />
+            <FaYoutube className="text-[#C66E11] text-2xl cursor-pointer" />
+            <FaLinkedin className="text-[#C66E11] text-2xl cursor-pointer" />
+            <FaInstagram className="text-[#C66E11] text-2xl cursor-pointer" />
           </div>
-        ))}
 
-        <div>
-          <h3 className="text-xl font-semibold mb-3">Follow Us</h3>
-          <ul className="space-y-2">
-            {socialLinks.map((social) => (
-              <li key={social.name}>
-                <a
-                  href={social.url}
-                  className="hover:text-gray-600 flex items-center space-x-2"
-                >
-                  {social.icon}
-                  <span>{social.name}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
+          <div className="flex items-center border rounded-md overflow-hidden">
+            <input
+              type="email"
+              placeholder="Enter Your Email"
+              className="flex-grow px-4 py-2 outline-none"
+            />
+            <button className="bg-[#C66E11] text-white px-4 py-2 font-medium hover:bg-[#A55C0B]">Subscribe</button>
+          </div>
         </div>
-      </div>
-
-      <div className="mt-10 border-t border-gray-300 text-center py-3 text-sm">
-        Made by <span className="font-semibold">Your Name</span>
       </div>
     </footer>
   );
