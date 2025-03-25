@@ -1,4 +1,4 @@
-import { FaInstagram, FaWhatsapp, FaBars } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import logo from "../assets/logo.png";
@@ -26,12 +26,12 @@ const Navbar = () => {
       <div className="bg-[#FFC857] flex items-center justify-between px-6 md:px-10 relative">
         {/* Logo */}
         <Link to="/">
-          <img src={logo} alt="Logo" className="h-12 md:h-25" />
+          <img src={logo} alt="Logo" className="h-18 md:h-25" />
         </Link>
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-black text-2xl focus:outline-none"
+          className="md:hidden text-black text-3xl focus:outline-none"
           onClick={() => setIsOpen(!isOpen)}
         >
           <FaBars />
@@ -44,31 +44,35 @@ const Navbar = () => {
           } md:flex absolute md:static top-full left-0 w-full bg-white md:w-auto shadow-md md:shadow-none p-10 md:p-0 z-50 rounded-xl`}
         >
           <ul className="flex flex-col md:flex-row gap-4 md:gap-6 text-black font-medium text-base p-4 rounded-xl 
-            border-2 border-yellow-700 shadow-[rgba(0, 0, 0, 0.35) 0px 5px 15px;]">
-            {["Home", "Competitions", "Sponsor", "About Us", "Contact-Us"].map(
-              (item, index) => (
-                <li
-                  key={item}
-                  className={`flex items-center gap-6 pr-4 md:pr-6 ${
-                    index !== 4 ? "border-r-2 border-yellow-500" : ""
-                  }`}
+            md:border-2 md:border-yellow-700 md:shadow-md">
+            {[
+              { name: "Home", path: "/" },
+              { name: "Competitions", path: "/competitions" },
+              { name: "Sponsor", path: "/sponsor" },
+              { name: "About Us", path: "/aboutus" },
+              { name: "Contact Us", path: "#contact", isAnchor: true }
+            ].map((item, index) => (
+              <li
+                key={item.name}
+                className={`flex items-center gap-6 pr-4 md:pr-6 ${
+                  index !== 4 ? "md:border-r-2 md:border-yellow-500" : ""
+                }`}
+              >
+                <Link
+                  to={item.path}
+                  className="relative hover:underline hover:decoration-secondary hover:decoration-4 hover:transition-all hover:duration-400"
                 >
-                  <Link
-                    to={`/${item}`}
-                    className="relative hover:underline hover:decoration-secondary hover:decoration-4 hover:transition-all hover:duration-400"
-                  >
-                    {item}
-                  </Link>
-                </li>
-              )
-            )}
+                  {item.name}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
         {/* Login & Signup */}
         <div className="hidden md:flex gap-4">
           <Link
-            to="/login"
+            to="/signin"
             className="bg-secondary hover:bg-primary text-white hover:text-black px-6 py-2 rounded shadow font-semibold"
           >
             Login

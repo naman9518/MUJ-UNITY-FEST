@@ -11,10 +11,11 @@ export default function EventOrganizer() {
           <div className="absolute w-32 h-32 bg-orange-500 rounded-full -z-20 md:w-40 md:h-40" />
           <div className="absolute w-44 h-44 bg-yellow-300 rounded-full -z-30 md:w-52 md:h-52" />
           <img
-            src="/your-image-path.jpg"
+            src="https://www.vdainc.com/wp-content/uploads/2018/09/Emerson-College-Alumni-Weekend-2017_1100x688.jpg"
             alt="Event"
             className="w-48 h-48 object-cover rounded-full shadow-lg md:w-64 md:h-64"
           />
+          
         </div>
 
         {/* Right Side - Text and Bullet Points */}
