@@ -2,7 +2,7 @@ import React from "react";
 
 const ContactUs = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white p-6">
+    <div id="contact" className="flex flex-col items-center justify-center min-h-screen bg-white p-6">
       {/* Heading Section */}
       <h3 className="text-yellow-600 font-semibold uppercase">All About</h3>
       <h1 className="text-2xl md:text-3xl font-bold">Contact Us</h1>
