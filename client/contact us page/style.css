@@ -20,22 +20,17 @@ body {
 header {
   padding: 10px 0;
   position: sticky;
-  top: 0; 
+  top: 0;
   background-color: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(10px); 
-  z-index: 1000; 
-  transition: background-color 0.3s, box-shadow 0.3s; 
-  box-shadow: none; 
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  box-shadow: none;
 }
 
 header.scrolled {
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.5
-  ); 
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 header {
@@ -52,14 +47,14 @@ header {
 }
 
 .header-content {
-  width: 100%; 
-  max-width: 1200px; 
-  height: auto; 
+  width: 100%;
+  max-width: 1200px;
+  height: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap; 
-  padding: 0 15px; 
+  flex-wrap: wrap;
+  padding: 0 15px;
 }
 
 .logo img {
@@ -68,22 +63,22 @@ header {
 }
 
 .nav-menu {
-  display: flex; 
-  flex-direction: row; 
-  position: static; 
-  background-color: transparent; 
-  width: auto; 
-  box-shadow: none; 
-  padding: 0; 
-  list-style: none; 
+  display: flex;
+  flex-direction: row;
+  position: static;
+  background-color: transparent;
+  width: auto;
+  box-shadow: none;
+  padding: 0;
+  list-style: none;
 }
 
 .nav-menu.active {
-  display: flex; 
+  display: flex;
 }
 
 .nav-menu li {
-  margin: 0 15px; 
+  margin: 0 15px;
 }
 
 .nav-menu a {
@@ -352,15 +347,18 @@ textarea.form-control {
 /* Map Styles */
 .map-container {
   margin-top: 50px;
-  height: 300px;
-  border-radius: 5px;
+  height: 400px; 
+  border-radius: 10px;
   overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
+.map-container iframe,
 .map-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: none;
 }
 
 /* Footer Styles */
@@ -373,25 +371,25 @@ footer {
 
 .footer-content {
   display: flex;
-  flex-direction: column; 
-  align-items: center; 
-  text-align: center; 
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   margin-bottom: 40px;
 }
 
 .footer-logo-section {
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 }
 
 .footer-nav {
   display: flex;
-  align-items: center; 
-  gap: 20px; 
+  align-items: center;
+  gap: 20px;
 }
 
 .footer-nav ul {
   display: flex;
-  justify-content: center; 
+  justify-content: center;
   flex-wrap: wrap;
   list-style: none;
   padding: 0;
@@ -418,7 +416,7 @@ footer {
   justify-content: center;
   width: 100%;
   margin: 20px 0;
-  gap: 10px; 
+  gap: 10px;
 }
 
 .social-icon {
@@ -505,7 +503,7 @@ footer {
 
   .nav-menu {
     display: none; /* Hide menu by default on smaller screens */
-    flex-direction: column; 
+    flex-direction: column;
     position: absolute;
     top: 70px;
     right: 0;
@@ -513,7 +511,7 @@ footer {
     width: 100%;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    padding: 10px 0; 
+    padding: 10px 0;
   }
 
   .nav-menu.active {
@@ -521,8 +519,8 @@ footer {
   }
 
   .nav-menu li {
-    margin: 10px 0; 
-    text-align: center; 
+    margin: 10px 0;
+    text-align: center;
   }
 
   .nav-toggle {
@@ -559,7 +557,7 @@ footer {
   }
 
   .header-content {
-    flex-direction: row; 
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
   }
@@ -614,7 +612,7 @@ footer {
   }
 
   .contact-header {
-    margin-top: 100px; 
+    margin-top: 100px;
   }
 }
 
@@ -673,7 +671,7 @@ footer {
 }
 
 .textarea-group textarea.form-control {
-  width: 100%; 
+  width: 100%;
   min-height: 150px;
   resize: vertical;
   padding: 12px 15px;
@@ -681,11 +679,11 @@ footer {
   border-radius: 8px;
   font-size: 16px;
   line-height: 1.6;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 .nav-toggle {
-  display: none; 
+  display: none;
   background: none;
   border: none;
   cursor: pointer;
@@ -707,40 +705,40 @@ footer {
 
 @media (max-width: 768px) {
   .header-content {
-    flex-direction: row; 
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
   }
 
   .nav-toggle {
-    display: block; 
+    display: block;
   }
 
   .nav-menu {
-    display: none; 
-    flex-direction: column; 
+    display: none;
+    flex-direction: column;
     position: absolute;
-    top: 70px; 
+    top: 70px;
     right: 0;
     background-color: white;
     width: 100%;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    padding: 10px 0; 
+    padding: 10px 0;
   }
 
   .nav-menu.active {
-    display: flex; 
+    display: flex;
   }
 
   .nav-menu li {
-    margin: 10px 0; 
-    text-align: center; 
+    margin: 10px 0;
+    text-align: center;
   }
 
   .textarea-group {
-    width: 100%; 
-    padding: 0 15px; 
+    width: 100%;
+    padding: 0 15px;
   }
 }
 
@@ -761,7 +759,7 @@ footer {
   align-items: center;
   cursor: pointer;
   border: none;
-  transition: all 0.3s ease; 
+  transition: all 0.3s ease;
 }
 
 .arrow-up {
@@ -816,7 +814,7 @@ footer {
 
 @media (max-width: 480px) {
   .textarea-group {
-    padding: 0 10px; 
+    padding: 0 10px;
   }
 }
 
@@ -835,9 +833,9 @@ footer {
 
 .footer-content {
   display: flex;
-  flex-direction: column; 
-  align-items: center; 
-  text-align: center; 
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   margin-bottom: 40px;
 }
 
@@ -864,8 +862,8 @@ footer {
 
 .footer-nav {
   display: flex;
-  align-items: center; 
-  gap: 20px; 
+  align-items: center;
+  gap: 20px;
 }
 
 .footer-nav ul {
@@ -898,7 +896,7 @@ footer {
   justify-content: center;
   width: 100%;
   margin: 20px 0;
-  gap: 10px; 
+  gap: 10px;
 }
 
 .social-icon {
@@ -985,11 +983,11 @@ footer {
   }
 
   .nav-toggle {
-    display: block; 
+    display: block;
   }
 
   .nav-menu {
-    display: none; 
+    display: none;
     flex-direction: column;
     position: absolute;
     top: 70px;
@@ -1002,7 +1000,7 @@ footer {
   }
 
   .nav-menu.active {
-    display: flex; 
+    display: flex;
   }
 
   .nav-menu li {
