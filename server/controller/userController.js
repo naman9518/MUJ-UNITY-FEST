@@ -187,6 +187,7 @@ const resetPassword = asyncHandler(async (req, res, next) => {
     message: "OTP send successfully",
   });
 });
+
 const verifyResetPassword = asyncHandler(async (req, res, next) => {
   const { universityEmail, otp, newPassword } = req.body;
 
