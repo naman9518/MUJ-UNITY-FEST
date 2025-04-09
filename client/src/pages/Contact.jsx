@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import "../style.css";
+import "../CSS/style.css";
 
 import decorDesign from "../assets/decor-design.png";
 import mapIcon from "../assets/map-icon.svg";
@@ -16,8 +16,7 @@ const ContactUs = () => {
   return (
     <main>
       <section className="contact-section">
-        <div className="container">
-          <div className="contact-header" data-aos="fade-down">
+        <div className="contact-header" data-aos="fade-down">
             <h1>Contact Us</h1>
             <img
               src={decorDesign}
@@ -132,7 +131,7 @@ const ContactUs = () => {
               title="MUJ Map"
             ></iframe>
           </div>
-        </div>
+    
       </section>
     </main>
   );

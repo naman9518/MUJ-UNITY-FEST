@@ -1,6 +1,6 @@
 import React from "react";
-import "../signup.css"; // For modal background/layout
-import "../SignupSuccess.css"; // Custom thank-you styles
+import "../CSS/signup.css"; // For modal background/layout
+import "../CSS/SignupSuccess.css"; // Custom thank-you styles
 import CheckIcon from "./Checkicon";
 
 function SignUpSuccessfull({ goToLogin }) {

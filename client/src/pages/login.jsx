@@ -1,5 +1,5 @@
 import React from "react";
-import "../LoginModal.css"; // 👈 External styles
+import "../CSS/LoginModal.css"; // 👈 External styles
 
 function LoginModal({ toggleLoginModal, switchToSignup }) {
   return (
@@ -27,11 +27,10 @@ function LoginModal({ toggleLoginModal, switchToSignup }) {
 
         <p className="modal-subtitle">
           <span>Don't have an account yet?</span>
-          {/* 👇 Use switchToSignup on click */}
           <span
             className="modal-signup"
             onClick={switchToSignup}
-            style={{ cursor: "pointer", color: "#007BFF" }}
+            style={{ cursor: "pointer"}}
           >
             {" "}Sign up
           </span>

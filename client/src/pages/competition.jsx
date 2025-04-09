@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import "../competition.css";
+import "../CSS/competition.css";
+
 
 import treasureHunt from '../assets/treasure-hunt.svg';
 import quiz from '../assets/quiz.svg';
@@ -9,7 +10,7 @@ import lameJokes from '../assets/lame-jokes.svg';
 import speedTyping from '../assets/speed-typing.svg';
 import pubg from '../assets/pubg.svg';
 import coding from '../assets/coding.png';
-import decorDesign from "../assets/decor-design.png";
+import decorDesigns from "../assets/decor-design.png";
 
 import img1 from '../assets/img1.svg';
 import img2 from '../assets/img2.svg';
@@ -73,18 +74,50 @@ const Competitions = () => {
   ];
 
   return (
-    <main>
-      <section className="competitions-section">
-        <div className="container">
-            <div className="competitions-header" data-aos="fade-down">
-                <h1>Competitions</h1>
-                    <img
-                        src={decorDesign}
-                        alt="Design Element"
-                        className="desegn-element"
-                      />
-            </div>
-        </div>
+    
+      <main>
+  
+        <style>
+          {`
+            .contact-header {
+  width: 276px;
+  height: 83px;
+  padding: 10px;
+  margin-top: 80px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.contact-header h1 {
+  font-size: 42px;
+  color: #333;
+  font-weight: 600;
+  margin: 0;
+  position: relative;
+}
+
+.design-element {
+  position: absolute;
+  top: -5px;
+  right: -50px;
+  height: 35px;
+  width: auto;
+}
+          `}
+        </style>
+    
+        <section className="competitions-section">
+          <div className="contact-header" data-aos="fade-down">
+            <h1>Competitions</h1>
+            <img
+              src={decorDesigns}
+              alt="Design Element"
+              className="design-element"
+            />
+          </div>
+    
      
 
       <div className="competitions-list">

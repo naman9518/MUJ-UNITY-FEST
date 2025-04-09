@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "../style.css";
+import "../CSS/style.css";
 import logo from "../assets/MUJ-Unity-Fest-Logo-6 1.svg"; // ✅ Import logo
 import instagramIcon from "../assets/instagram-icon.svg"; // ✅ Import Instagram icon
 import whatsappIcon from "../assets/icon _whatsapp.svg"; // ✅ Import WhatsApp icon
