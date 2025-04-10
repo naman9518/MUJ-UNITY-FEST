@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from "react";
-import { FaLinkedin } from "react-icons/fa";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import "../CSS/teammember.css";
+import React, { useEffect, useRef } from 'react';
+import '../CSS/treasure_hunt.css';
+import gameImage from '../assets/treasure-hunt.svg';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { FaLinkedin } from 'react-icons/fa';
 
 const teamMembers = [
   {
@@ -103,10 +104,8 @@ const TeamMembers = () => {
   return (
     <div className="team-section">
       <h2 className="team-title" data-aos="fade-up">
-      Meet our team of <span style={{ color: "#f26522" }}>organizers</span>  and <span style={{ color: "#f26522" }}>creators </span> of the fest event
-</h2>
-
-
+      Organizing <span style={{ color: "#f26522" }}>Team</span>
+      </h2>
       <div ref={scrollRef} className="team-scroll-container hide-scrollbar">
         <div className="team-cards-wrapper">
           {teamMembers.map((member, index) => (
@@ -139,7 +138,74 @@ const TeamMembers = () => {
         </div>
       </div>
     </div>
-  )
+  );
 };
 
-export default TeamMembers;
+const TreasureHunt = () => {
+  return (
+    <main>
+      {/* Game Header */}
+      <section className="game-header">
+        <div className="container">
+          <h1>Treasure Hunt</h1>
+          <p>Crack clues. Race the clock. Find the treasure!</p>
+        </div>
+      </section>
+
+      {/* Game Details */}
+      <section className="game-details">
+        <div className="container game-details-container">
+          <div className="game-image">
+            <img src={gameImage} alt="Treasure Hunt" />
+          </div>
+          <div className="game-info">
+            <h2>About the <span className="highlight">game</span></h2>
+            <p>Step into the ultimate adventure across the MUJ campus! The Treasure Hunt is not just a game – it’s a test of wit, teamwork, and quick thinking. Each clue brings you closer to victory... and further into the mystery. Compete with the best minds, solve hidden puzzles, and race against time. Do you have what it takes to find the final treasure?</p>
+            <div className="registration-cta">
+              <a href="#" className="btn btn-primary">Register Now</a>
+              {/* <button className="btn btn-outline">Play Now</button> */}
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Game Instructions */}
+      <section className="game-instructions">
+        <div className="container instructions-container">
+          <div className="instructions-header">
+            <h2>Game <span className="highlight">Instructions</span></h2>
+          </div>
+          <div className="instructions-content">
+            <div className="instruction-col">
+              <h3><span>01</span> How to play</h3>
+              <ul>
+                <li>Teams of 2-3 members only.</li>
+                <li>Navigate through the 360-degree virtual campus tour to discover hidden challenges.</li>
+                <li>Each challenge will contain a riddle or a question. To proceed, you must choose the correct option from the given choices.</li>
+                <li>Once you select the correct answer, the next clue will be unlocked, and you can move forward to the next stage.</li>
+                <li>Keep solving clues and challenges to progress through the campus and move closer to the treasure!</li>
+                <li>The team that solves all the challenges and finds the final treasure first will be the winner.</li>
+              </ul>
+            </div>
+            <div className="instruction-col">
+              <h3><span>02</span> Game rules</h3>
+              <ul>
+                <li>No external help is allowed. All the answers can be found within the clues or in the 360-degree virtual tour.</li>
+                <li>The clues are scattered across different areas of the virtual campus tour, so make sure to explore every corner carefully.</li>
+                <li>Misconduct, cheating, or interfering with other teams will result in immediate disqualification.</li>
+                <li>The game will have a time limit. Be quick and strategic to finish before time runs out!</li>
+                <li>For tech support, contact <a href="mailto:support@mujunityfest.in" style={{ color: '#f26522', textDecoration: 'none' }}>support@mujunityfest.in</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <TeamMembers />
+    </main>
+  );
+};
+
+export default TreasureHunt;

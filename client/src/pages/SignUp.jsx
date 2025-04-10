@@ -143,7 +143,7 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
 
   return (
     <div className="logout-modal-wrapper" onClick={() => toggleSignupModal(false)}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-contents" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2 className="modal-title">Sign up</h2>
           <button className="modal-close-btn" onClick={() => toggleSignupModal(false)}>×</button>

@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from "react";
-import { FaLinkedin } from "react-icons/fa";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import "../CSS/teammember.css";
+import React, { useEffect, useRef } from 'react';
+import '../CSS/treasure_hunt.css';
+import gameImage from '../assets/lame-jokes.svg';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { FaLinkedin } from 'react-icons/fa';
 
 const teamMembers = [
   {
@@ -103,10 +104,8 @@ const TeamMembers = () => {
   return (
     <div className="team-section">
       <h2 className="team-title" data-aos="fade-up">
-      Meet our team of <span style={{ color: "#f26522" }}>organizers</span>  and <span style={{ color: "#f26522" }}>creators </span> of the fest event
-</h2>
-
-
+      Organizing <span style={{ color: "#f26522" }}>Team</span>
+      </h2>
       <div ref={scrollRef} className="team-scroll-container hide-scrollbar">
         <div className="team-cards-wrapper">
           {teamMembers.map((member, index) => (
@@ -139,7 +138,81 @@ const TeamMembers = () => {
         </div>
       </div>
     </div>
-  )
+  );
 };
 
-export default TeamMembers;
+const TreasureHunt = () => {
+  return (
+    <main>
+      {/* Game Header */}
+      <section className="game-header">
+        <div className="container">
+          <h1>Lame Jokes</h1>
+          <p>Crack clues. Race the clock. Find the treasure!</p>
+        </div>
+      </section>
+
+      {/* Game Details */}
+      <section className="game-details">
+        <div className="container game-details-container">
+          <div className="game-image">
+            <img src={gameImage} alt="Treasure Hunt" />
+          </div>
+          <div className="game-info">
+            <h2>About the <span className="highlight">game</span></h2>
+            <p>let ready for some laughs and groans in the MUJ Lame Jokes Competition! It’s not about telling the funniest joke; it’s all about telling the cheesiest, cringiest, and most eye-roll-inducing jokes you can come up with. The more "lame" your joke, the better your chances of winning!</p>
+            <div className="registration-cta">
+              <a href="#" className="btn btn-primary">Register Now</a>
+              {/* <button className="btn btn-outline">Play Now</button> */}
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Game Instructions */}
+      <section className="game-instructions">
+        <div className="container instructions-container">
+          <div className="instructions-header">
+            <h2>Game <span className="highlight">Instructions</span></h2>
+          </div>
+          <div className="instructions-content">
+            <div className="instruction-col">
+              <h3><span>01</span> How to play</h3>
+              <ul>
+                <li>Individual participation – each participant competes solo.</li>
+                <li>To enter, submit your best (or worst!) lame joke through the registration form or event platform.</li>
+                <li>Your joke will be read out loud by the event host or shared on the screen for everyone to hear (depending on the event format).</li>
+                <li>After your joke is read, the audience will rate it on how lame or cringe-worthy it is, using an online poll or voting system.</li>
+                <li>The more groans, laughs, or eye-rolls your joke gets, the higher your score!</li>
+                <li>The participant with the highest score from the audience votes wins the competition.</li>
+              </ul>
+            </div>
+            <div className="instruction-col">
+              <h3><span>02</span> Game rules</h3>
+              <ul>
+                <li>The joke must be original – no copying from the internet or others.</li>
+                <li>Your joke must be appropriate for all audiences. Keep it fun and light-hearted</li>
+                <li>Time limit: You’ll have X seconds to tell your joke when it’s your turn.</li>
+                <li>Judging criteria: The audience will rate each joke on the following:
+                <ul>
+                  <li>Creativity</li>
+                  <li>Audience reaction (groans, laughs, or cringes)</li>
+                </ul>
+                </li>
+
+                <li>Misconduct: Any form of cheating or plagiarism will lead to disqualification.</li>
+                <li>For tech support, contact <a href="mailto:support@mujunityfest.in" style={{ color: '#f26522', textDecoration: 'none' }}>support@mujunityfest.in</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <TeamMembers />
+    </main>
+  );
+};
+
+export default TreasureHunt;
