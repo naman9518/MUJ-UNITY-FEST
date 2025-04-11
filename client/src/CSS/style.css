@@ -56,6 +56,21 @@ header {
   padding: 0 15px;
 }
 
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  border: 2px solid #eee;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.user-avatar:hover {
+  transform: scale(1.05);
+}
+
 .logo img {
   width: 71px;
   height: 70px;
@@ -137,84 +152,6 @@ header {
   background-color: #f26522;
   color: white;
 }
-
-
-
-/* Desktop auth buttons (default) */
-.auth-buttons.desktop-auth {
-  display: flex;
-  gap: 1rem;
-}
-
-/* Hide mobile auth buttons in desktop */
-.auth-buttons.mobile-auth {
-  display: none;
-}
-
-/* On mobile, hide desktop auth and show mobile */
-@media (max-width: 768px) {
-  .auth-buttons.desktop-auth {
-    display: none;
-  }
-
-  .auth-buttons.mobile-auth {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-    margin-top: 1rem;
-  }
-}
-
-
-
-@media (max-width: 768px) {
-  .header-content {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    text-align: center;
-    position: relative;
-  }
-
-  .top-row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  .logo img {
-    width: 50px;
-    height: 50px;
-  }
-
-  .auth-buttons {
-    display: flex;
-    gap: 10px;
-  }
-
-  .nav-toggle {
-    display: block;
-  }
-
-  .nav-menu {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    display: none;
-    padding: 10px 0;
-    background-color: white;
-  }
-
-  .nav-menu.open {
-    display: flex;
-  }
-}
-
 
 /* Contact Section Styles */
 .contact-section {

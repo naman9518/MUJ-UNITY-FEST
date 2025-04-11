@@ -5,6 +5,9 @@ import Hamburger from "../assets/burger-menu-svgrepo-com.svg";
 import Cross from "../assets/cross-svgrepo-com.svg";
 import Signin from "../pages/login";
 import Signup from "../pages/signup";
+import User from "../assets/user.png"
+import "../CSS/style.css"
+
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -49,6 +52,12 @@ const Header = () => {
     setShowLoginModal(true);
   };
 
+  // ✅ Handle login success (triggered from login modal)
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true);
+    setShowLoginModal(false);
+  };
+
   return (
     <>
       <header className={`header ${scrolled ? "scrolled" : ""} ${hidden ? "header-hidden" : ""}`}>
@@ -71,14 +80,19 @@ const Header = () => {
           </ul>
 
           <div className="auth-buttons">
-            {isLoggedIn ? (
-              <button className="profile-button">Profile</button>
-            ) : (
-              <>
-                <button className="btn btn-primary" onClick={toggleLoginModal}>Login</button>
-                <button className="btn btn-outline" onClick={toggleSignupModal}>Signup</button>
-              </>
-            )}
+          {isLoggedIn ? (
+  <>
+   
+   <img src={User} alt="user" className="user-avatar" />
+  <button className="btn btn-primary" onClick={() => setIsLoggedIn(false)}>Logout</button>
+  </>
+) : (
+  <>
+    <button className="btn btn-primary" onClick={toggleLoginModal}>Login</button>
+    <button className="btn btn-outline" onClick={toggleSignupModal}>Signup</button>
+  </>
+)}
+
           </div>
         </div>
       </header>
@@ -88,6 +102,7 @@ const Header = () => {
         <Signin
           toggleLoginModal={toggleLoginModal}
           switchToSignup={switchToSignup}
+          onLoginSuccess={handleLoginSuccess} // 👈 Pass handler here
         />
       )}
 

@@ -1,7 +1,16 @@
 import React from "react";
 import "../CSS/LoginModal.css"; // 👈 External styles
 
-function LoginModal({ toggleLoginModal, switchToSignup }) {
+function LoginModal({ toggleLoginModal, switchToSignup, onLoginSuccess }) {
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    // 🔐 Here you can add your real login API logic
+    // For now, assume login is successful
+    onLoginSuccess();            // 👈 Update parent to show "Profile"
+    toggleLoginModal(false);     // 👈 Close the modal
+  };
+
   return (
     <div
       className="login-modal-wrapper"
@@ -30,19 +39,20 @@ function LoginModal({ toggleLoginModal, switchToSignup }) {
           <span
             className="modal-signup"
             onClick={switchToSignup}
-            style={{ cursor: "pointer"}}
+            style={{ cursor: "pointer" }}
           >
             {" "}Sign up
           </span>
         </p>
 
-        <form className="modal-form">
+        <form className="modal-form" onSubmit={handleLogin}>
           <div className="modal-input-wrapper">
             <input
               type="text"
               placeholder="Your email or phone number"
               className="modal-input"
               aria-label="Email or phone number"
+              required
             />
           </div>
 
@@ -52,6 +62,7 @@ function LoginModal({ toggleLoginModal, switchToSignup }) {
               placeholder="Password"
               className="modal-input"
               aria-label="Password"
+              required
             />
           </div>
 
