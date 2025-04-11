@@ -1,0 +1,19 @@
+{
+  "name": "muj-unity-fest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naman9518/MUJ-UNITY-FEST.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/naman9518/MUJ-UNITY-FEST/issues"
+  },
+  "homepage": "https://github.com/naman9518/MUJ-UNITY-FEST#readme"
+}

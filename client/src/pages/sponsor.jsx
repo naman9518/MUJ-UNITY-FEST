@@ -1,73 +1,68 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
+import "../CSS/sponsor.css";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import decorDesigns from "../assets/decor-design.png";
+import SponsorModal from "../components/sponsorform"; // Make sure path is correct
 
-const Sponsors = () => {
+// Reusable Button
+function SponsorButton({ children, className = "", ...props }) {
   return (
-    <div className="w-full bg-white">
-      {/* Header */}
-      <div
-        className="text-center py-10 px-5"
-        style={{
-          background:
-            "linear-gradient(90deg, rgba(198, 110, 17, 0.933) 0%, rgba(255, 218, 51, 0.933) 100%)",
-        }}
-      >
-        <h2 className="text-xl font-bold text-white">SPONSORS</h2>
-      </div>
-
-      {/* Sponsor Cards (Single Row) */}
-      <div className="w-full flex justify-center overflow-x-auto gap-6 p-6">
-  <div className="max-w-5xl flex flex-nowrap gap-6">
-    {[1, 2, 3].map((item) => (
-      <div key={item} className="border p-6 text-center shadow-md min-w-[250px]">
-        <h3 className="text-lg font-medium">Sponsor type</h3>
-        <p className="text-gray-500">Name of Sponsor</p>
-      </div>
-    ))}
-  </div>
-</div>
-
-
-      {/* Sponsor Types */}
-      {[1, 2].map((section) => (
-        <div
-          key={section}
-          className="border p-6 max-w-5xl mx-auto mb-4 shadow-md"
-        >
-          <h3 className="text-xl font-bold">Sponsor type</h3>
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-4 mt-2 text-gray-600">
-            {[...Array(6)].map((_, idx) => (
-              <p key={idx}>Name of Sponsor</p>
-            ))}
-          </div>
-        </div>
-      ))}
-
-      {/* Button */}
-      <div className="text-center mt-6">
-        <button className="bg-yellow-500 text-white py-2 px-6 rounded shadow-md">
-          Become a Sponsor
-        </button>
-      </div>
-
-      {/* Contact Form */}
-      <div className="max-w-4xl mx-auto mt-10 mb-10 p-6 border-2 border-yellow-500 rounded-lg shadow-md">
-        <h3 className="text-lg font-bold mb-4">
-          Contact Us For More Information Regarding Sponsorship
-        </h3>
-        <p className="text-gray-600 mb-4">Write us your email</p>
-        <div className="flex">
-          <input
-            type="email"
-            placeholder="Write your email"
-            className="flex-1 p-2 border rounded-l-lg focus:outline-none"
-          />
-          <button className="bg-yellow-500 text-white px-6 py-2 rounded-r-lg shadow-md">
-            Send
-          </button>
-        </div>
-      </div>
-    </div>
+    <button className={`sponsor-button ${className}`} {...props}>
+      {children}
+    </button>
   );
-};
+}
 
-export default Sponsors;
+function Sponsor() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      easing: "ease-in-out",
+      once: true,
+    });
+  }, []);
+
+  const handleSponsorClick = () => {
+    setIsModalOpen(true); // Open modal
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false); // Close modal
+  };
+
+  return (
+    <section className={`sponsor-section ${isModalOpen ? "blurred-bg" : ""}`}>
+      {/* Header */}
+      <div className="sponsor-header" data-aos="fade-down">
+        <img src={decorDesigns} alt="Design Element" className="designs-element" />
+        <h1 className="sponsor-title">Sponsors</h1>
+      </div>
+
+      {/* Content */}
+      <div className="sponsor-container" data-aos="zoom-in-up" data-aos-delay="300">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/92113200405bcc53a041066f6254df6ef95dab2b?placeholderIfAbsent=true&apiKey=b34fd0203e694b298cc231e66341e7bd"
+          alt="Sponsor background"
+          className="sponsor-background"
+        />
+
+        <div className="sponsor-content" data-aos="fade-up" data-aos-delay="500">
+          <SponsorButton onClick={handleSponsorClick} data-aos="zoom-in" data-aos-delay="400">
+            Become a sponsor
+          </SponsorButton>
+        </div>
+
+        <div className="sponsor-footer" data-aos="fade-up" data-aos-delay="700" />
+      </div>
+
+      {/* Modal */}
+      {isModalOpen && <SponsorModal onClose={handleCloseModal} />}
+    </section>
+  );
+}
+
+export default Sponsor;
