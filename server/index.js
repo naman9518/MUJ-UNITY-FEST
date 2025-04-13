@@ -4,10 +4,12 @@ import DB from "./model/db.js";
 import CustomError from "./middleware/customError.js";
 import errorMiddleware from "./middleware/errorMiddleware.js";
 import userRoute from "./route/userRoute.js";
+import cors from "cors";
 const app = express();
 app.use(express.json());
-app.use("/api/users", userRoute);
 
+app.use("/api/users", userRoute);
+app.use(cors());
 app.get("*", (req, res, next) => {
   next(new CustomError("This route does not exist", 404));
 });

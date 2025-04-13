@@ -7,7 +7,7 @@ import dotenv from "dotenv/config";
 import nodemailer from "nodemailer";
 const getSignupOtp = asyncHandler(async (req, res, next) => {
   const { universityEmail } = req.body;
-
+  console.log(universityEmail);
   if (!universityEmail || !universityEmail.includes("@mujonline.edu.in")) {
     return next(new CustomError("This is not a valid University Email", 404));
   }
