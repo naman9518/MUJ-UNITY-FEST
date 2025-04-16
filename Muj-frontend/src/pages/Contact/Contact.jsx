@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import "../style.css";
 
-import decorDesign from "../../src/assets/decor-design.png";
-import mapIcon from "../../src/assets/map-icon.svg";
-import headsetIcon from "../../src/assets/headset-icon.svg";
-import phoneIcon from "../../src/assets/phone-icon.svg";
+import decorDesign from "../../assets/decor-design.png";
+import mapIcon from "../../assets/map-icon.svg";
+import headsetIcon from "../../assets/headset-icon.svg";
+import phoneIcon from "../../assets/phone-icon.svg";
 
 const ContactUs = () => {
   useEffect(() => {

@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './game.css';
-import gameImage from "../../../src/assets/coding.png";
+import gameImage from "../../../../assets/coding.png";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import Team from "../../utilis/TeamMembers";
+import Team from "../../../../utilis/Resuable/TeamMembers";
 
 const PaymentModal = ({ onClose }) => (
   <div className="payment-modal-backdrop">

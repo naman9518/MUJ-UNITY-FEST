@@ -1,8 +1,7 @@
 import React from 'react';
-import './game.css';
-import gameImage from '../../../src/assets/lame-jokes.svg';
-import Team from "../../utilis/TeamMembers";
-import GameLayout from './Gamelayout';
+import gameImage from '../../../../assets/lame-jokes.svg';
+import Team from "../../../../utilis/Resuable/TeamMembers";
+import GameLayout from '../../../../utilis/Resuable/Gamelayout';
 
 const TreasureHunt = () => {
   return (

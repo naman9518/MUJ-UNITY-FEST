@@ -1,10 +1,8 @@
-"use client";
 import React, { useEffect, useState } from "react";
-import "../components/Sponsor Component/sponsor.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import decorDesigns from "../../src/assets/decor-design.png";
-import SponsorModal from "../components/Sponsor Component/sponsorform";
+import decorDesigns from "../../assets/decor-design.png";
+import SponsorModal from "../../components/Sponsor Component/sponsorform";
 
 // Reusable Button
 function SponsorButton({ children, className = "", ...props }) {

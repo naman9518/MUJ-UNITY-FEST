@@ -3,29 +3,29 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 import { Routes, Route } from "react-router-dom";
-import Layout from "./utilis/Layout";
-import Home from "./pages/Home";
-import Competition from "./pages/competition"
-import Aboutus from "./pages/Aboutus";
-import Sponsor  from "./pages/sponsor";
-import Contact from "./pages/Contact";
-import TreasureHunt from "./components/Competition component/treasure_hunt";
-import Quiz from "./components/Competition component/Quiz";
-import LameJokes from "./components/Competition component/Lamejokes";
-import SpeedTyping  from "./components/Competition component/typingspeed";
-import Pubg from "./components/Competition component/pubg";
-import CodingChallenge from "./components/Competition component/coding";
+import Layout from "./utilis/Resuable/Layout";
+import Home from "./pages/Home/Home";
+import Competition from "./pages/competition/competition"
+import Aboutus from "./pages/Aboutus/Aboutus";
+import Sponsor  from "./pages/sponsor/sponsor";
+import Contact from "./pages/Contact/Contact";
+import TreasureHunt from "./components/Competition component/Games/TreasureHunt/treasure_hunt";
+import Quiz from "./components/Competition component/Games/Quiz/Quiz";
+import LameJokes from "./components/Competition component/Games/LameJoke/Lamejokes";
+import SpeedTyping  from "./components/Competition component/Games/Typingspeed/typingspeed";
+import Pubg from "./components/Competition component/Games/Pubg/pubg";
+import CodingChallenge from "./components/Competition component/Games/Coding/coding";
 
 // style 
 import "./style.css";
 import "./components/Competition component/competition.css"
-import "./components/Competition component/game.css"
+import "./utilis/Resuable/game.css"
 import "./components/home component/home.css"
 import "./components/Sponsor Component/sponsorform.css";
 import "./components/Sponsor Component/sponsor.css";
-import "./utilis/footer.css";
-import "./utilis/header.css";
-import "./utilis/teammember.css";
+import "./utilis/Resuable/Footer";
+import "./utilis/Resuable/Header";
+import "./utilis/Resuable/TeamMembers";
 import "./pages/Auth/login/LoginModal.css";
 import "./pages/Auth/signup/signup.css";
 import "./pages/Auth/signup/SignupSuccess.css";

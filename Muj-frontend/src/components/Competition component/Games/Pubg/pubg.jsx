@@ -1,6 +1,6 @@
 import React from 'react';
-import pubgImage from "../../../src/assets/pubg.svg";
-import Game from "./Gamelayout";
+import pubgImage from "../../../../assets/pubg.svg";
+import GameLayout from "../../../../utilis/Resuable/Gamelayout";
 
 const PUBG = () => {
   const howToPlay = [
@@ -18,7 +18,7 @@ const PUBG = () => {
   ];
 
   return (
-    <Game
+    <GameLayout
       title="PUBG"
       tagline="Crack clues. Race the clock. Find the treasure!"
       image={pubgImage}

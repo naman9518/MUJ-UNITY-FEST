@@ -4,14 +4,14 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 // Assets
-import treasureHunt from "../../src/assets/treasure-hunt.svg";
-import quiz from "../../src/assets/quiz.svg";
-import lameJokes from "../../src/assets/lame-jokes.svg";
-import speedTyping from "../../src/assets/speed-typing.svg";
-import pubg from "../../src/assets/pubg.svg";
-import coding from "../../src/assets/coding.png";
-import decorDesigns from "../../src/assets/decor-design.png";
-import Team from "../utilis/TeamMembers"
+import treasureHunt from "../../assets/treasure-hunt.svg";
+import quiz from "../../assets/quiz.svg";
+import lameJokes from "../../assets/lame-jokes.svg";
+import speedTyping from "../../assets/speed-typing.svg";
+import pubg from "../../assets/pubg.svg";
+import coding from "../../assets/coding.png";
+import decorDesigns from "../../assets/decor-design.png";
+import Team from "../../utilis/Resuable/TeamMembers"
 
 
 const Competitions = () => {

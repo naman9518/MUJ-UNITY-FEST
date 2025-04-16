@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
-import "../style.css";
-import logo from "../../src/assets/MUJ-Unity-Fest-Logo-6 1.svg";
-import instagramIcon from "../../src/assets/instagram-icon.svg";
-import whatsappIcon from "../../src/assets/icon _whatsapp.svg"; 
+import logo from "../../assets/MUJ-Unity-Fest-Logo-6 1.svg";
+import instagramIcon from "../../assets/instagram-icon.svg";
+import whatsappIcon from "../../assets/icon _whatsapp.svg"; 
 import GoToTop from "./GoToTop";
 
 // Social Icon Component for Reusability

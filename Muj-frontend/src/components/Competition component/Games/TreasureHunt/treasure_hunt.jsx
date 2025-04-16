@@ -1,6 +1,6 @@
 import React from 'react';
-import GameLayout from './Gamelayout';
-import speedTypingImage from "../../../src/assets/treasure-hunt.svg"
+import GameLayout from "../../../../utilis/Resuable/Gamelayout";;
+import speedTypingImage from "../../../../assets/treasure-hunt.svg"
 
 
 const TreasureHunt = () => {

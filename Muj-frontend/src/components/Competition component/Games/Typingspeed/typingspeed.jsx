@@ -1,6 +1,6 @@
 import React from 'react';
-import GameLayout from './Gamelayout';
-import speedTypingImage from "../../../src/assets/quiz.svg";
+import GameLayout from "../../../../utilis/Resuable/Gamelayout";;
+import speedTypingImage from "../../../../assets/speed-typing.svg";
 
 const SpeedTyping = () => {
   const howToPlay = [
@@ -22,7 +22,7 @@ const SpeedTyping = () => {
 
   return (
     <GameLayout
-      title="Quiz"
+      title="Speed Typing"
       tagline="Crack clues. Race the clock. Find the treasure!"
       image={speedTypingImage}
       aboutText="Think you can type faster than your friends? Here’s your chance to prove it! The MUJ Speed Typing Competition is a fast-paced event that challenges you to type as quickly and accurately as possible. The key is speed and accuracy – because the faster you type, the higher your score!"

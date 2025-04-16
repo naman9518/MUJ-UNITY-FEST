@@ -1,7 +1,7 @@
 // src/components/GameLayout.jsx
 import React from 'react';
 import './game.css';
-import Team from '../../utilis/TeamMembers';
+import Team from './TeamMembers';
 
 const GameLayout = ({ title, tagline, image, aboutText, howToPlay, rules }) => {
   return (

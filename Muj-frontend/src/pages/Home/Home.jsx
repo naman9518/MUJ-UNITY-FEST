@@ -2,12 +2,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Team from "../utilis/TeamMembers";
-import IntroVideo from "../components/home component/IntroVideo";
-import AboutSection from "../components/home component/AboutSection";
-import ScheduleSection from "../components/home component/ScheduleSection";
-import GallerySection from "../components/home component/GallerySection";
-import FAQSection from "../components/home component/FAQSection";
+import Team from "../../utilis/Resuable/TeamMembers";
+import IntroVideo from "../../components/home component/IntroVideo";
+import AboutSection from "../../components/home component/AboutSection";
+import ScheduleSection from "../../components/home component/ScheduleSection";
+import GallerySection from "../../components/home component/GallerySection";
+import FAQSection from "../../components/home component/FAQSection";
 
 const EventPage = () => {
   const [faqOpen, setFaqOpen] = useState(null);

@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import Logo from "../../src/assets/MUJ-Unity-Fest-Logo-6 1.svg";
-import Hamburger from "../../src/assets/burger-menu-svgrepo-com.svg";
-import Cross from "../../src/assets/cross-svgrepo-com.svg";
-import Signin from "../pages/Auth/login/login";
-import Signup from "../pages/Auth/signup/SignUp";
-import User from "../../src/assets/user.png"
-import "../style.css"
+import Logo from "../../assets/MUJ-Unity-Fest-Logo-6 1.svg";
+import Hamburger from "../../assets/burger-menu-svgrepo-com.svg";
+import Cross from "../../assets/cross-svgrepo-com.svg";
+import Signin from "../../pages/Auth/login/login";
+import Signup from "../../pages/Auth/signup/SignUp";
+import User from "../../assets/user.png"
 
 
 const Header = () => {

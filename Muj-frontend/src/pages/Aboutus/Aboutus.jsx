@@ -2,13 +2,12 @@
 import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import decorDesign from "../../src/assets/decor-design.png";
-import topImg1 from "../../src/assets/top-img-1.svg";
-import topImg2 from "../../src/assets/top-img-2.svg";
-import authorImg1 from "../../src/assets/author-img-1.svg";
-import arrowRight from "../../src/assets/arrow_right_alt.svg";
-import TeamMembers from "../../src/utilis/TeamMembers";
-import "../utilis/teammember.css"
+import decorDesign from "../../assets/decor-design.png";
+import topImg1 from "../../assets/top-img-1.svg";
+import topImg2 from "../../assets/top-img-2.svg";
+import authorImg1 from "../../assets/author-img-1.svg";
+import arrowRight from "../../assets/arrow_right_alt.svg";
+import TeamMembers from "../../utilis/Resuable/TeamMembers";
 
 const AboutUs = () => {
   useEffect(() => {
