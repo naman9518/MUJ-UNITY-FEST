@@ -1,12 +1,29 @@
-# React + Vite
+# Project Setup Instructions
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+##  How to Run the Project from Scratch
 
-Currently, two official plugins are available:
+1. **Clone the Repository**
+   git clone https://github.com/naman9518/MUJ-UNITY-FEST.git
+   cd Muj-frontend
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+2. **Install Dependencies**
+    npm install
 
-## Expanding the ESLint configuration
+3. **Run the Project**
+    npm run dev
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+4. **Open in Browser**
+    Visit: http://localhost:5173
+
+**.env Changes**
+-> If you make any changes to the .env file:
+->Restart the development server to apply the changes.
+    npm run dev
+Never commit the actual .env file to version control. Use a .env.example to show what keys are needed.
+
+
+
+
+
+
+
