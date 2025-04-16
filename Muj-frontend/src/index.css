@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --font-poppins: "poppins," sans-serif "";
+  --color-primary: rgb(255, 218, 51);
+  --color-secondary: rgba(198, 110, 17, 0.93);
+}
+
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+
+

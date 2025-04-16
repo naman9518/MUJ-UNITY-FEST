@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Hind:wght@300;400;500;600;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../contact us page/style.css">
+    <title>MUJ Unity Fest - Home</title>
+</head>
+
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <img src="../contact us page/MUJ-Unity-Fest-Logo-6 1.svg" alt="Logo">
+            </div>
+            <button class="nav-toggle" onclick="toggleMenu()">
+                <img src="../contact us page/burger-menu-svgrepo-com.svg" alt="Open Menu" class="menu-icon open-icon">
+                <img src="../contact us page/cross-svgrepo-com.svg" alt="Close Menu" class="menu-icon close-icon"
+                    style="display: none;">
+            </button>
+            <ul class="nav-menu">
+                <li><a href="../home-page/home.html">Home</a></li>
+                <li><a href="#">Competitions</a></li>
+                <li><a href="#">Sponsor</a></li>
+                <li><a href="../about-us-page/about-us.html" class="active">About Us</a></li>
+                <li><a href="../contact us page/index.html">Contact Us</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="btn btn-primary">Login</button>
+                <button class="btn btn-outline">Signup</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Intro Video Section -->
+        <section class="intro-video-section">
+            <div class="container">
+              <div class="video-container">
+                <video id="introVideo" autoplay muted loop playsinline>
+                  <source src="muj-fest-hero-intro-web-view.mp4" media="(min-width: 768px)">
+                  <source src="muj-fest-hero-intro-mobile-view.mp4" media="(max-width: 767px)">
+                  Your browser does not support the video tag.
+                </video>
+                <button id="muteButton" class="mute-button">Unmute</button>
+              </div>
+            </div>
+          </section>
+
+        <!-- About the Event Section -->
+        <section class="about-event-section">
+            <div class="container">
+                <h2>About the <span class="highlight">event</span></h2>
+                <p class="event-description">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad
+                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+
+                <div class="event-features">
+                    <div class="feature-card">
+                        <img src="feature-1.svg" alt="Unforgettable experience">
+                        <h3>Unforgettable experience</h3>
+                    </div>
+                    <div class="feature-card">
+                        <img src="feature-2.svg" alt="Fun events & games">
+                        <h3>Fun events & games</h3>
+                    </div>
+                    <div class="feature-card">
+                        <img src="feature-3.svg" alt="Networking">
+                        <h3>Networking</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Event Schedule Section -->
+        <section class="schedule-section">
+            <div class="container">
+                <h2>Browse the event's <span class="highlight">schedule</span></h2>
+
+                <div class="schedule-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>Lunch Break</h3>
+                            <p>1:00 - 2:00PM</p>
+                        </div>
+                    </div>
+                    <!-- Add more timeline items as needed -->
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>Opening Ceremony</h3>
+                            <p>9:00 - 10:00AM</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>Competition Round 1</h3>
+                            <p>10:30 - 12:30PM</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>Networking Session</h3>
+                            <p>2:30 - 4:00PM</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>Awards Ceremony</h3>
+                            <p>5:00 - 6:30PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="gallery-section">
+            <div class="container">
+                <h2>Check our latest <span class="highlight">gallery</span></h2>
+
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="gallery images/gallery-1.svg" alt="Gallery image 1">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="gallery images/gallery-2.svg" alt="Gallery image 2">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="gallery images/gallery-3.svg" alt="Gallery image 3">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="gallery images/gallery-4.svg" alt="Gallery image 4">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="gallery images/gallery-5.svg" alt="Gallery image 5">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <div class="container">
+                <h2>Frequently <span class="highlight">asked</span> questions</h2>
+
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <button class="accordion-button">
+                            <span>WHEN DOES THE EVENT RUN?</span>
+                            <span class="accordion-icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <p>The MUJ Unity Fest will run from April 15-17, 2025. The event starts at 9:00 AM on the
+                                first day and concludes at 6:00 PM on the final day.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-button">
+                            <span>WHERE DOES THE EVENT RUN?</span>
+                            <span class="accordion-icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <p>The event will be held at the Manipal University Jaipur campus in the main auditorium and
+                                surrounding areas.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-button">
+                            <span>HOW DO I REGISTER FOR COMPETITIONS?</span>
+                            <span class="accordion-icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <p>You can register for competitions through our website by creating an account and
+                                selecting the competitions you wish to participate in. Registration closes one week
+                                before the event starts.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-button">
+                            <span>ARE THERE ACCOMMODATION OPTIONS?</span>
+                            <span class="accordion-icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <p>Yes, limited on-campus accommodation is available for participants coming from other
+                                cities. Please contact the organizing team for more details and bookings.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="unity-fest-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo-section">
+                    <img src="../contact us page/MUJ-Unity-Fest-Logo-6 1.svg" alt="MUJ Unity Fest Logo"
+                        class="footer-logo">
+                    <p class="footer-tagline">Uniting Students, Building Connections, Creating Lasting Memories Together
+                    </p>
+                </div>
+                <div class="footer-nav">
+                    <ul>
+                        <li><a href="../home-page/home.html">Home</a></li>
+                        <li><a href="#">Competitions</a></li>
+                        <li><a href="#">Sponsor</a></li>
+                        <li><a href="../about-us-page/about-us.html" class="active">About Us</a></li>
+                        <li><a href="../contact us page/index.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/muj_unity_fest/" class="social-icon" target="_blank"
+                        rel="noopener noreferrer">
+                        <img src="../contact us page/instagram-icon.svg" alt="Instagram">
+                    </a>
+                    <a href="https://wa.me/919761914738" class="social-icon" target="_blank" rel="noopener noreferrer">
+                        <img src="../contact us page/icon _whatsapp.svg" alt="WhatsApp">
+                    </a>
+                    <!-- Add other social media icons as needed -->
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 MUJ Unity Fest. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <span class="separator">|</span>
+                    <a href="#">Terms of Service</a>
+                    <span class="separator">|</span>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button id="goToTopBtn" class="top-btn" style="display: none;">
+        <i class="arrow-up">↑</i>
+    </button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.min.js"></script>
+    <script src="../contact us page/script.js"></script>
+</body>
+
+</html>
