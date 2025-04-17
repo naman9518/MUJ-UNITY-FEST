@@ -5,10 +5,12 @@ import { NavLink } from "react-router-dom";
 import logo from "../assets/main/logo.jpg";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose } from "react-icons/io5";
+import SignUp from "./Signup";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const [signup, setSignup] = useState(false);
+  const [signin, setSignin] = useState(false);
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
 
@@ -66,15 +68,21 @@ export default function Navbar() {
 
         {/* Buttons */}
         <div className="hidden sm:flex items-center space-x-2 sm:space-x-4">
-          <button className="bg-secondary text-white font-semibold py-1.5 sm:py-2 px-4 sm:px-8 rounded-md shadow hover:bg-[#b26617] text-sm sm:text-base">
-            Login
+          <button
+            onClick={() => setSignin(true)}
+            className="bg-secondary text-white font-semibold py-1.5 sm:py-2 px-4 sm:px-8 rounded-md shadow hover:bg-[#b26617] text-sm sm:text-base"
+          >
+            Signin
           </button>
-          <button className="bg-white text-black font-semibold py-1.5 sm:py-2 px-4 sm:px-8 hover:text-white hover:bg-secondary rounded-md border text-sm sm:text-base">
+          <button
+            onClick={() => setSignup(true)}
+            className="bg-white text-black font-semibold py-1.5 sm:py-2 px-4 sm:px-8 hover:text-white hover:bg-secondary rounded-md border text-sm sm:text-base"
+          >
             Signup
           </button>
         </div>
       </div>
-
+      {signup && <SignUp />}
       {/* Mobile Full Screen Menu (only page links) */}
       {menuOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-white z-50 flex flex-col items-center justify-center space-y-8 transition-all duration-300">
