@@ -1,0 +1,253 @@
+/* Mobile-first approach */
+.centre {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.whiteContainer {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.profile {
+  width: 100%;
+  padding: 1rem;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.closeButton {
+  align-self: flex-end;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  margin: 10px 15px 0 0;
+}
+
+.heading {
+  font-size: 24px;
+  font-weight: 600;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.wholesection {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+}
+
+.whole {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 0.8rem;
+}
+
+.details {
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  width: 100%;
+  margin-bottom: 0.3rem;
+  font-size: 14px;
+  color: #333;
+}
+
+.inputs {
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  padding: 0 10px;
+  font-family: "Poppins", sans-serif;
+  border: 1px solid #ddd;
+  outline: none;
+  box-sizing: border-box;
+  font-size: 14px;
+  background-color: white;
+}
+
+.inputs:focus {
+  border-color: orange;
+}
+
+.grey {
+  background-color: #f5f5f5;
+}
+
+.edit {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.editlogo,
+.editlogo2 {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  display: block;
+  border: 1px solid #ddd;
+  background-color: white;
+}
+
+.profilephoto {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.editLabel {
+  color: #0066cc;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+  display: block;
+  margin-top: 0.5rem;
+}
+
+.footer {
+  width: 100%;
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 15px;
+  padding-bottom: 20px;
+}
+
+.both {
+  border: 2px solid orange;
+  border-radius: 4px;
+  width: 45%;
+  padding: 0.7rem;
+  background-color: white;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.both:hover {
+  border-color: black;
+  transform: scale(1.02);
+  background-color: #ffe1b3;
+}
+
+.save {
+  background-color: orange;
+  color: white;
+}
+
+.Profileicon,
+.Profileicon2 {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+
+  margin-right: 3rem;
+  margin-bottom: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.Profileicon:hover,
+.Profileicon2:hover {
+  transform: scale(1.1);
+}
+
+.Profileicon2 {
+  border: 1px solid #ddd;
+}
+
+/* Tablet and Desktop styles */
+@media (min-width: 600px) {
+  .whiteContainer {
+    width: 90%;
+    max-width: 600px;
+    height: auto;
+    max-height: 90vh;
+    border-radius: 10px;
+    margin: 20px auto;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .profile {
+    padding: 1.5rem;
+  }
+
+  .heading {
+    font-size: 32px;
+  }
+
+  .whole {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .details {
+    width: 30%;
+    margin-left: 5%;
+    margin-bottom: 0;
+    font-size: 16px;
+  }
+
+  .inputs {
+    width: 60%;
+    margin-left: 10px;
+    font-size: 16px;
+  }
+
+  .footer {
+    gap: 30px;
+  }
+
+  .both {
+    width: 30%;
+    padding: 0.8rem;
+    font-size: 16px;
+  }
+
+  .Profileicon,
+  .Profileicon2 {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .heading {
+    font-size: 36px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .Profileicon,
+  .Profileicon2 {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+}

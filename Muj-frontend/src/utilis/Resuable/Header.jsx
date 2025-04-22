@@ -5,8 +5,7 @@ import Hamburger from "../../assets/burger-menu-svgrepo-com.svg";
 import Cross from "../../assets/cross-svgrepo-com.svg";
 import Signin from "../../pages/Auth/login/login";
 import Signup from "../../pages/Auth/signup/SignUp";
-import User from "../../assets/user.png"
-
+import ProfilePage from "./profilepage";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,7 +14,6 @@ const Header = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const location = useLocation();
 
   useEffect(() => {
@@ -31,16 +29,15 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Disable body scroll when modal is open
   useEffect(() => {
-    document.body.style.overflow = showLoginModal || showSignupModal ? "hidden" : "auto";
+    document.body.style.overflow =
+      showLoginModal || showSignupModal ? "hidden" : "auto";
   }, [showLoginModal, showSignupModal]);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const toggleLoginModal = () => setShowLoginModal(!showLoginModal);
   const toggleSignupModal = () => setShowSignupModal(!showSignupModal);
 
-  // Modal switchers
   const switchToSignup = () => {
     setShowLoginModal(false);
     setShowSignupModal(true);
@@ -51,12 +48,34 @@ const Header = () => {
     setShowLoginModal(true);
   };
 
-  // ✅ Handle login success (triggered from login modal)
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
     setShowLoginModal(false);
   };
 
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setMenuOpen(false);
+  };
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setIsMobile(true);  // On mobile
+      } else {
+        setIsMobile(false); // On desktop
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Set initial value on mount
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <>
       <header className={`header ${scrolled ? "scrolled" : ""} ${hidden ? "header-hidden" : ""}`}>
@@ -65,10 +84,18 @@ const Header = () => {
             <img src={Logo} alt="Logo" />
           </div>
 
-          <button className="nav-toggle" onClick={toggleMenu}>
-            <img src={Hamburger} alt="Open Menu" className={`menu-icon ${menuOpen ? "hidden" : ""}`} />
-            <img src={Cross} alt="Close Menu" className={`menu-icon ${menuOpen ? "" : "hidden"}`} />
-          </button>
+         {/* Mobile controls section - Only visible on mobile */}
+<div className="mobile-controls">
+  {(isLoggedIn && isMobile) && (
+    <div className="mobile-profile-icon">
+      <ProfilePage />
+    </div>
+  )}
+  <button className="nav-toggle" onClick={toggleMenu}>
+    <img src={Hamburger} alt="Open Menu" className={`menu-icon ${menuOpen ? "hidden" : ""}`} />
+    <img src={Cross} alt="Close Menu" className={`menu-icon ${menuOpen ? "" : "hidden"}`} />
+  </button>
+</div>
 
           <ul className={`nav-menu ${menuOpen ? "open" : ""}`}>
             <li><a href="/home" className={location.pathname === "/home" ? "active" : ""}>Home</a></li>
@@ -76,36 +103,49 @@ const Header = () => {
             <li><a href="/sponsor" className={location.pathname === "/sponsor" ? "active" : ""}>Sponsor</a></li>
             <li><a href="/about" className={location.pathname === "/about" ? "active" : ""}>About Us</a></li>
             <li><a href="/contact" className={location.pathname === "/contact" ? "active" : ""}>Contact Us</a></li>
+
+            {/* Mobile Auth Buttons */}
+            {menuOpen && (
+              <li className="auth-buttons-mobile">
+                {!isLoggedIn ? (
+                  <>
+                    <button className="btn btn-primary" style={{marginRight:"1rem"}} onClick={toggleLoginModal}>Login</button>
+                    <button className="btn btn-outline" onClick={toggleSignupModal}>Signup</button>
+                  </>
+                ) : (
+                  <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
+                )}
+              </li>
+            )}
           </ul>
 
-          <div className="auth-buttons">
-          {isLoggedIn ? (
-  <>
-   
-   <img src={User} alt="user" className="user-avatar" />
-  <button className="btn btn-primary" onClick={() => setIsLoggedIn(false)}>Logout</button>
-  </>
-) : (
-  <>
-    <button className="btn btn-primary" onClick={toggleLoginModal}>Login</button>
-    <button className="btn btn-outline" onClick={toggleSignupModal}>Signup</button>
-  </>
-)}
-
-          </div>
+          {/* Desktop Auth Buttons */}
+          {!menuOpen && (
+            <div className="auth-buttons">
+              {!isLoggedIn ? (
+                <>
+                  <button className="btn btn-primary" onClick={toggleLoginModal}>Login</button>
+                  <button className="btn btn-outline" onClick={toggleSignupModal}>Signup</button>
+                </>
+              ) : (
+                <>
+                  <ProfilePage />
+                  <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
+                </>
+              )}
+            </div>
+          )}
         </div>
       </header>
 
-      {/* Login Modal */}
       {showLoginModal && (
         <Signin
           toggleLoginModal={toggleLoginModal}
           switchToSignup={switchToSignup}
-          onLoginSuccess={handleLoginSuccess} // 👈 Pass handler here
+          onLoginSuccess={handleLoginSuccess}
         />
       )}
 
-      {/* Signup Modal */}
       {showSignupModal && (
         <Signup
           toggleSignupModal={toggleSignupModal}

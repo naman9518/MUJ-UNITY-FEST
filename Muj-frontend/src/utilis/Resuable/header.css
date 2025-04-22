@@ -1,213 +1,232 @@
-
 /* Header Styles */
 header {
-    padding: 10px 0;
-    position: sticky;
-    top: 0;
-    background-color: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(10px);
-    z-index: 1000;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: none;
-  }
-  
-  header.scrolled {
-    background-color: rgba(255, 255, 255, 0.5);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  header {
-    position: fixed;
-    width: 100%;
-    height: 95px;
-    top: 0px;
-    transition: transform 0.3s ease;
-    z-index: 1000;
-  }
-  
-  .header-hidden {
-    transform: translateY(-100%);
-  }
-  
-  .header-content {
-    width: 100%;
-    max-width: 1200px;
-    height: auto;
+  padding: 10px 0;
+  position: sticky;
+  top: 0;
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s ease;
+  width: 100%;
+  height: 95px;
+}
+
+header.scrolled {
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header-hidden {
+  transform: translateY(-100%);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0 15px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.logo img {
+  width: 71px;
+  height: 70px;
+}
+
+/* Mobile controls section - Hidden by default on desktop */
+.mobile-controls {
+  display: none;
+  align-items: center;
+  gap: 15px;
+  margin-left: auto;
+}
+
+.mobile-profile-icon {
+  display: none;
+}
+
+/* Navigation menu */
+.nav-menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-grow: 1;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-menu li {
+  margin: 0 15px;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: #333;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  padding: 10px 0;
+  position: relative;
+}
+
+.nav-menu a.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #f26522;
+}
+
+/* Auth buttons - Desktop version */
+.auth-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+/* Hide desktop profile icon by default - will show on desktop via media query */
+.auth-buttons .Profileicon,
+.auth-buttons .Profileicon2 {
+  display: none;
+}
+
+.btn {
+  width: 116px;
+  height: 45px;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  border: none;
+}
+
+.btn-primary {
+  background-color: #f26522;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #e55511;
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid #f26522;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-outline:hover {
+  background-color: #f26522;
+  color: white;
+}
+
+.nav-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.menu-icon.hidden {
+  display: none;
+}
+
+/* Mobile styles (<= 768px) */
+@media (max-width: 768px) {
+  /* Show mobile controls */
+  .mobile-controls {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    padding: 0 15px;
   }
   
-  .user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 10px;
-    border: 2px solid #eee;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
+  /* Show mobile profile icon when logged in */
+  .mobile-profile-icon {
+    display: block;
   }
-  
-  .user-avatar:hover {
-    transform: scale(1.05);
+
+  /* Profile icon styling for mobile */
+  .mobile-profile-icon .Profileicon,
+  .mobile-profile-icon .Profileicon2 {
+    width: 30px;
+    height: 30px;
+    margin-right: 0;
   }
-  
-  .logo img {
-    width: 71px;
-    height: 70px;
-  }
-  
+
+  /* Navigation menu changes for mobile */
   .nav-menu {
-    display: flex;
-    flex-direction: row;
-    position: static;
-    background-color: transparent;
-    width: auto;
-    box-shadow: none;
-    padding: 0;
-    list-style: none;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-  }
-  
-  .nav-menu.active {
-    display: flex;
-  }
-  
-  .nav-menu li {
-    margin: 0 15px;
-  }
-  
-  .nav-menu a {
-    text-decoration: none;
-    color: #333;
-    font-family: "Poppins", sans-serif;
-    font-weight: 400;
-    padding: 10px 0;
-    position: relative;
-  }
-  
-  .nav-menu a.active:after {
-    content: "";
+    display: none;
+    flex-direction: column;
+    background: white;
     position: absolute;
-    bottom: 0;
+    top: 100%;
     left: 0;
     width: 100%;
-    height: 3px;
-    background-color: #f26522;
-  }
-  
-  .auth-buttons {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .btn {
-    width: 116px;
-    height: 45px;
-    padding: 10px;
-    border-radius: 5px;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    font-size: 14px;
-  }
-  
-  .btn-primary {
-    background-color: #f26522;
-    color: white;
-    transition: background-color 0.3s;
-  }
-  
-  .btn-primary:hover {
-    background-color: #e55511;
-  }
-  
-  .btn-outline {
-    background-color: transparent;
-    border: 1px solid #f26522;
-    color: #333;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .btn-outline:hover {
-    background-color: #f26522;
-    color: white;
+    z-index: 999;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
-  @media (max-width: 768px) {
-    .nav-menu {
-      display: none;
-      flex-direction: column;
-      background: white; /* ya jo bhi tu chaahe */
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 100%;
-      z-index: 999;
-      padding: 1rem;
-    }
-  
-    .nav-menu.open {
-      display: flex;
-    }
-  
-    .nav-toggle {
-      display: block;
-    }
+  .nav-menu.open {
+    display: flex;
   }
-  
-  /* by default hide hamburger for desktop */
-  .nav-toggle {
+
+  .nav-menu li {
+    margin: 10px 0;
+  }
+
+  /* Hide desktop auth buttons on mobile */
+  .auth-buttons {
     display: none;
   }
-  @media (max-width: 768px) {
 
-    .nav-menu {
-      display: none;
-      flex-direction: column;
-      position: absolute;
-      top: 70px;
-      right: 0;
-      background-color: white;
-      width: 100%;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-      padding: 10px 0;
-    }
-  
-    .nav-menu.active {
-      display: flex; 
-    }
-  
-    .nav-menu li {
-      margin: 10px 0;
-      text-align: center;
-    }
-  
-    .nav-toggle {
-      display: block; 
-    }
-  
-    .auth-buttons {
-      display: none;
-    }
+  /* Mobile auth buttons in menu */
+  .auth-buttons-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 1rem;
+  }
 
+  .auth-buttons-mobile button {
+    width: 100%;
+    font-size: 14px;
+    padding: 12px;
+    
+  }
+}
 
+/* Desktop styles (> 768px) */
+@media (min-width: 769px) {
+  /* Show desktop profile icon */
+  .auth-buttons .Profileicon,
+  .auth-buttons .Profileicon2 {
+    display: block;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-right: 1rem;
+  }
+  .login-mobile{
 
-  
-    .header-content {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-    }
-  
-    .logo img {
-      margin-bottom: 10px;
-    }
-  
-    .auth-buttons {
-      margin-top: 10px;
-    }}
+margin-right: 1rem;
+
+  }
+
+  /* Ensure mobile profile icon is hidden on desktop */
+  .mobile-profile-icon {
+    display: none !important;
+  }
+}
