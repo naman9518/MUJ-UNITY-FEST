@@ -1,0 +1,183 @@
+.logout-modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.modal-contents {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95) }
+  to { opacity: 1; transform: scale(1) }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+}
+
+.modal-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+}
+
+.modal-subtitle {
+  color: #666;
+  margin-bottom: 1.5rem;
+  font-size: 15px;
+}
+
+.modal-signin {
+  color: #e55511;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.form-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  min-width: 0;
+}
+
+.form-input:focus {
+  border-color: #e55511;
+  outline: none;
+}
+
+.input-error {
+  border-color: #ff4444;
+}
+
+.error-message {
+  color: #ff4444;
+  font-size: 13px;
+  margin-top: -8px;
+  margin-bottom: 4px;
+}
+
+.otp-combined {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+  flex: 1;
+}
+
+.otp-input {
+  flex: 1;
+}
+
+.get-otp-btn {
+  padding: 12px 16px;
+  background-color: #e55511;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.3s;
+}
+
+.get-otp-btn:hover {
+  background-color: #d04b0e;
+}
+
+.get-otp-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.modal-submit {
+  width: 100%;
+  padding: 14px;
+  background-color: #e55511;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 1rem;
+  transition: background-color 0.3s;
+}
+
+.modal-submit:hover {
+  background-color: #d04b0e;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 1rem;
+  font-size: 14px;
+}
+
+.checkbox-row input {
+  width: 16px;
+  height: 16px;
+}
+
+.checkbox-row a {
+  color: #e55511;
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .otp-combined {
+    flex-direction: column;
+  }
+  
+  .get-otp-btn {
+    width: 100%;
+  }
+}
