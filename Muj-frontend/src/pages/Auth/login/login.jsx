@@ -12,6 +12,35 @@ const errorMessages = {
   password: "Password must contain 8+ characters, 1 uppercase, 1 lowercase, 1 number, 1 special character.",
 };
 
+const InputField = ({ type, placeholder, value, onChange, ariaLabel, error, onBlur }) => (
+  <div className="modal-input-wrapper">
+    <input
+      type={type}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      onBlur={onBlur}
+      className={`modal-input ${error ? "input-error" : ""}`}
+      aria-label={ariaLabel}
+      required
+    />
+    {error && <p className="error-text">{error}</p>}
+  </div>
+);
+
+const Checkbox = ({ id, label, checked, onChange }) => (
+  <div className="modal-remember">
+    <input
+      type="checkbox"
+      id={id}
+      className="modal-checkbox"
+      checked={checked}
+      onChange={onChange}
+    />
+    <label htmlFor={id}>{label}</label>
+  </div>
+);
+
 const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,9 +60,32 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
     }
   };
 
+  const handleEmailChange = (e) => {
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+    if (errors.email) {
+      setErrors({ ...errors, email: validateField("email", newEmail) });
+    }
+  };
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    if (errors.password) {
+      setErrors({ ...errors, password: validateField("password", newPassword) });
+    }
+  };
+
+  const handleEmailBlur = () => {
+    setErrors({ ...errors, email: validateField("email", email) });
+  };
+
+  const handlePasswordBlur = () => {
+    setErrors({ ...errors, password: validateField("password", password) });
+  };
+
   const handleLogin = (e) => {
     e.preventDefault();
-    
     const validationResults = {
       email: validateField("email", email),
       password: validateField("password", password),
@@ -85,10 +137,19 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
   }
 
   return (
-    <div className="login-modal-wrapper">
-      <div className="modal-content">
+    <div
+      className="login-modal-wrapper"
+      onClick={() => toggleLoginModal(false)}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="login-title"
+    >
+      <div
+        className="modal-content"
+        onClick={(event) => event.stopPropagation()}
+      >
         <div className="modal-header">
-          <h2 className="modal-title">Sign in</h2>
+          <h2 id="login-title" className="modal-title">Sign in</h2>
           <button
             className="modal-close-btn"
             onClick={() => toggleLoginModal(false)}
@@ -97,67 +158,56 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
             ×
           </button>
         </div>
+        
         <p className="modal-subtitle">
           <span>Don't have an account yet?</span>
-          <span className="modal-signup" onClick={switchToSignup}>
+          <span
+            className="modal-signup"
+            onClick={switchToSignup}
+            style={{ cursor: "pointer" }}
+          >
             {" "}Sign up
           </span>
         </p>
+        
         <form className="modal-form" onSubmit={handleLogin}>
-          <div className="modal-input-wrapper">
-            <input
-              type="email"
-              placeholder="University Email"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                if (errors.email) {
-                  setErrors({ ...errors, email: validateField("email", e.target.value) });
-                }
-              }}
-              className={`modal-input ${errors.email ? "input-error" : ""}`}
-              required
-            />
-            {errors.email && <p className="error-text">{errors.email}</p>}
-          </div>
-          <div className="modal-input-wrapper">
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                if (errors.password) {
-                  setErrors({ ...errors, password: validateField("password", e.target.value) });
-                }
-              }}
-              className={`modal-input ${errors.password ? "input-error" : ""}`}
-              required
-            />
-            {errors.password && <p className="error-text">{errors.password}</p>}
-          </div>
+          <InputField
+            type="email"
+            placeholder="University Email"
+            value={email}
+            onChange={handleEmailChange}
+            onBlur={handleEmailBlur}
+            ariaLabel="Email"
+            error={errors.email}
+          />
+          
+          <InputField
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={handlePasswordChange}
+            onBlur={handlePasswordBlur}
+            ariaLabel="Password"
+            error={errors.password}
+          />
+          
           <div className="modal-options">
-            <div className="modal-remember">
-              <input
-                type="checkbox"
-                id="remember"
-                checked={rememberMe}
-                onChange={() => setRememberMe(!rememberMe)}
-                className="modal-checkbox"
-              />
-              <label htmlFor="remember">Remember me</label>
-            </div>
-            <button
-              type="button"
+            <Checkbox
+              id="remember"
+              label="Remember me"
+              checked={rememberMe}
+              onChange={() => setRememberMe(!rememberMe)}
+            />
+            <button 
+              type="button" 
               className="modal-forgot"
               onClick={handleForgotPassword}
             >
               Forgot password?
             </button>
           </div>
-          <button type="submit" className="modal-submit">
-            Sign in
-          </button>
+          
+          <button type="submit" className="modal-submit">Sign in</button>
         </form>
       </div>
     </div>
