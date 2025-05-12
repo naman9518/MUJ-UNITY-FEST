@@ -1,9 +1,4 @@
 ## Recent Work Highlights
-- updated signup page
-- Updated login page
-- Forgot password implementation 
-- Password reset confirmation Popup
-- back to login functionality 
-- Login confirmation Popup
-- Updated Profile page
-- Profile updation confirmation Popup
+- Fixed profile 'remove not working'
+- Refactor authentication context and login handling for improved error management and state consistency across pages
+- Place the ProfilePage component in the header to enhance code consistency and readability.
