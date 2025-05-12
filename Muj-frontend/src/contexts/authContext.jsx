@@ -14,52 +14,54 @@ export const AuthProvider = ({ children }) => {
       const savedLoginState = localStorage.getItem('isLoggedIn');
       const savedUserEmail = localStorage.getItem('userEmail');
       
-      if (savedLoginState === 'true') {
+      if (savedLoginState === 'true' && savedUserEmail) {
         setIsLoggedIn(true);
         setUser({ email: savedUserEmail });
       }
-      
       setLoading(false);
     };
     
     checkLoggedIn();
   }, []);
 
-  // Login function
   const login = (userData) => {
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('userEmail', userData.email);
-    
-    setIsLoggedIn(true);
-    setUser(userData);
-    
-    return true;
+    try {
+      if (!userData?.email) {
+        throw new Error('Invalid user data');
+      }
+      
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('userEmail', userData.email);
+      setIsLoggedIn(true);
+      setUser(userData);
+      return true;
+    } catch (error) {
+      console.error('Login error:', error);
+      return false;
+    }
   };
 
-  // Logout function
   const logout = () => {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userEmail');
-    
     setIsLoggedIn(false);
     setUser(null);
   };
 
   const resetPassword = async (email, otp, newPassword) => {
-    // this would make an API call to reset the password
     console.log('Password reset requested for:', email);
     return true;
   };
 
   return (
-    <AuthContext.Provider 
-      value={{ 
-        isLoggedIn, 
-        user, 
+    <AuthContext.Provider
+      value={{
+        isLoggedIn,
+        user,
         loading,
-        login, 
+        login,
         logout,
-        resetPassword 
+        resetPassword
       }}
     >
       {children}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../../contexts/authContext.jsx";
 import Logo from "../../assets/MUJ-Unity-Fest-Logo-6 1.svg";
 import Hamburger from "../../assets/burger-menu-svgrepo-com.svg";
 import Cross from "../../assets/cross-svgrepo-com.svg";
@@ -13,18 +14,16 @@ const Header = () => {
   const [hidden, setHidden] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, logout } = useAuth(); 
   const location = useLocation();
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
-
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
       setHidden(window.scrollY > lastScrollY);
       lastScrollY = window.scrollY;
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -37,45 +36,38 @@ const Header = () => {
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const toggleLoginModal = () => setShowLoginModal(!showLoginModal);
   const toggleSignupModal = () => setShowSignupModal(!showSignupModal);
-
   const switchToSignup = () => {
     setShowLoginModal(false);
     setShowSignupModal(true);
   };
-
   const switchToLogin = () => {
     setShowSignupModal(false);
     setShowLoginModal(true);
   };
 
   const handleLoginSuccess = () => {
-    setIsLoggedIn(true);
     setShowLoginModal(false);
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    logout();
     setMenuOpen(false);
   };
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
-        setIsMobile(true); // On mobile
+        setIsMobile(true);
       } else {
-        setIsMobile(false); // On desktop
+        setIsMobile(false);
       }
     };
-
     window.addEventListener("resize", handleResize);
-
-    // Set initial value on mount
     handleResize();
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
   return (
     <>
       <header
@@ -87,8 +79,6 @@ const Header = () => {
           <div className="logo">
             <img src={Logo} alt="Logo" />
           </div>
-
-          {/* Mobile controls section - Only visible on mobile */}
           <div className="mobile-controls">
             {isLoggedIn && isMobile && (
               <div className="profile-icon-wrapper">
@@ -108,7 +98,6 @@ const Header = () => {
               />
             </button>
           </div>
-
           <ul className={`nav-menu ${menuOpen ? "open" : ""}`}>
             <li>
               <a
@@ -150,8 +139,6 @@ const Header = () => {
                 Contact Us
               </a>
             </li>
-
-            {/* Mobile Auth Buttons */}
             {menuOpen && (
               <li className="auth-buttons-mobile">
                 {!isLoggedIn ? (
@@ -178,8 +165,6 @@ const Header = () => {
               </li>
             )}
           </ul>
-
-          {/* Desktop Auth Buttons */}
           {!menuOpen && (
             <div className="auth-buttons">
               {!isLoggedIn ? (
@@ -209,7 +194,6 @@ const Header = () => {
           )}
         </div>
       </header>
-
       {showLoginModal && (
         <Signin
           toggleLoginModal={toggleLoginModal}
@@ -217,7 +201,6 @@ const Header = () => {
           onLoginSuccess={handleLoginSuccess}
         />
       )}
-
       {showSignupModal && (
         <Signup
           toggleSignupModal={toggleSignupModal}
