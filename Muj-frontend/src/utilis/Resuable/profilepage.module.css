@@ -12,7 +12,8 @@
   border: 2px solid white;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease;
-  margin-right: 1rem;
+  margin-right: 2.5rem;
+  margin-bottom: .5rem;
 }
 
 .profileIconContainer:hover {
