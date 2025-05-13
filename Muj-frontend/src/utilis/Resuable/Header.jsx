@@ -7,6 +7,7 @@ import Cross from "../../assets/cross-svgrepo-com.svg";
 import Signin from "../../pages/Auth/login/login";
 import Signup from "../../pages/Auth/signup/SignUp";
 import ProfilePage from "./profilepage";
+import "./header.css";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,8 +15,10 @@ const Header = () => {
   const [hidden, setHidden] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
-  const { isLoggedIn, logout } = useAuth(); 
+  const [profileModalOpen, setProfileModalOpen] = useState(false);
+  const { isLoggedIn, logout } = useAuth();
   const location = useLocation();
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -30,10 +33,27 @@ const Header = () => {
 
   useEffect(() => {
     document.body.style.overflow =
-      showLoginModal || showSignupModal ? "hidden" : "auto";
-  }, [showLoginModal, showSignupModal]);
+      showLoginModal || showSignupModal || profileModalOpen ? "hidden" : "auto";
+  }, [showLoginModal, showSignupModal, profileModalOpen]);
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+    if (!menuOpen) {
+      document.body.classList.add("menu-open");
+    } else {
+      document.body.classList.remove("menu-open");
+    }
+  };
+
   const toggleLoginModal = () => setShowLoginModal(!showLoginModal);
   const toggleSignupModal = () => setShowSignupModal(!showSignupModal);
   const switchToSignup = () => {
@@ -44,29 +64,14 @@ const Header = () => {
     setShowSignupModal(false);
     setShowLoginModal(true);
   };
-
-  const handleLoginSuccess = () => {
-    setShowLoginModal(false);
-  };
-
+  const handleLoginSuccess = () => setShowLoginModal(false);
   const handleLogout = () => {
     logout();
     setMenuOpen(false);
   };
-
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setIsMobile(true);
-      } else {
-        setIsMobile(false);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const handleProfileModalChange = (isOpen) => {
+    setProfileModalOpen(isOpen);
+  };
 
   return (
     <>
@@ -80,12 +85,13 @@ const Header = () => {
             <img src={Logo} alt="Logo" />
           </div>
           <div className="mobile-controls">
-            {isLoggedIn && isMobile && (
-              <div className="profile-icon-wrapper">
-                <ProfilePage />
-              </div>
-            )}
-            <button className="nav-toggle" onClick={toggleMenu}>
+            <button
+              className={`nav-toggle ${
+                profileModalOpen ? "profile-active" : ""
+              }`}
+              onClick={toggleMenu}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+            >
               <img
                 src={Hamburger}
                 alt="Open Menu"
@@ -99,7 +105,7 @@ const Header = () => {
             </button>
           </div>
           <ul className={`nav-menu ${menuOpen ? "open" : ""}`}>
-            <li>
+            <li style={{ "--item-index": 0 }}>
               <a
                 href="/home"
                 className={location.pathname === "/home" ? "active" : ""}
@@ -107,7 +113,7 @@ const Header = () => {
                 Home
               </a>
             </li>
-            <li>
+            <li style={{ "--item-index": 1 }}>
               <a
                 href="/competition"
                 className={location.pathname === "/competition" ? "active" : ""}
@@ -115,7 +121,7 @@ const Header = () => {
                 Competitions
               </a>
             </li>
-            <li>
+            <li style={{ "--item-index": 2 }}>
               <a
                 href="/sponsor"
                 className={location.pathname === "/sponsor" ? "active" : ""}
@@ -123,7 +129,7 @@ const Header = () => {
                 Sponsor
               </a>
             </li>
-            <li>
+            <li style={{ "--item-index": 3 }}>
               <a
                 href="/about"
                 className={location.pathname === "/about" ? "active" : ""}
@@ -131,7 +137,7 @@ const Header = () => {
                 About Us
               </a>
             </li>
-            <li>
+            <li style={{ "--item-index": 4 }}>
               <a
                 href="/contact"
                 className={location.pathname === "/contact" ? "active" : ""}
@@ -139,34 +145,49 @@ const Header = () => {
                 Contact Us
               </a>
             </li>
-            {menuOpen && (
-              <li className="auth-buttons-mobile">
-                {!isLoggedIn ? (
-                  <>
-                    <button
-                      className="btn btn-primary"
-                      style={{ marginRight: "1rem" }}
-                      onClick={toggleLoginModal}
-                    >
-                      Login
-                    </button>
-                    <button
-                      className="btn btn-outline"
-                      onClick={toggleSignupModal}
-                    >
-                      Signup
-                    </button>
-                  </>
-                ) : (
-                  <button className="btn btn-primary" onClick={handleLogout}>
-                    Logout
-                  </button>
+            {menuOpen && isMobile && (
+              <>
+                {!isLoggedIn && <li className="menu-separator"></li>}
+                {isLoggedIn && (
+                  <li className="profile-section">
+                    <div className="mobile-profile-wrapper">
+                      <ProfilePage onModalChange={handleProfileModalChange} />
+                      <span className="profile-text">My Profile</span>
+                    </div>
+                  </li>
                 )}
-              </li>
+                <li className="auth-buttons-mobile" style={{ "--item-index": 6 }}>
+                  {isLoggedIn ? (
+                    <button className="btn btn-primary" onClick={handleLogout}>
+                      Logout
+                    </button>
+                  ) : (
+                    <>
+                      <button
+                        className="btn btn-primary"
+                        onClick={toggleLoginModal}
+                      >
+                        Login
+                      </button>
+                      <button
+                        className="btn btn-outline"
+                        onClick={toggleSignupModal}
+                      >
+                        Signup
+                      </button>
+                    </>
+                  )}
+                </li>
+              </>
             )}
           </ul>
           {!menuOpen && (
             <div className="auth-buttons">
+              {isLoggedIn && (
+                <div className="profile-icon-wrapper">
+                  <ProfilePage onModalChange={handleProfileModalChange} />
+                </div>
+              )}
               {!isLoggedIn ? (
                 <>
                   <button
@@ -183,12 +204,9 @@ const Header = () => {
                   </button>
                 </>
               ) : (
-                <>
-                  <ProfilePage />
-                  <button className="btn btn-primary" onClick={handleLogout}>
-                    Logout
-                  </button>
-                </>
+                <button className="btn btn-primary" onClick={handleLogout}>
+                  Logout
+                </button>
               )}
             </div>
           )}

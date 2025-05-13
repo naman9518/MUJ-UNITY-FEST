@@ -10,18 +10,21 @@
   align-items: center;
   z-index: 1000;
   overflow-y: auto;
+  padding: 20px;
 }
 
 .modal-contents {
   background-color: #fff;
   border-radius: 15px;
-  padding: 30px;
+  padding: 20px;
   width: 90%;
   max-width: 600px;
   box-shadow: 0 4px 20px rgb(0 0 0 / .3);
   position: relative;
   animation: fadeIn 0.3s ease-in-out;
   gap: 0;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 @keyframes fadeIn {
@@ -68,8 +71,20 @@
 .signup-form .form-row {
   display: flex;
   gap: 10px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 600px) {
+  .signup-form .form-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .modal-contents {
+    padding: 15px;
+  }
 }
 
 .signup-form {
@@ -89,6 +104,8 @@
   font-size: 1rem;
   outline: none;
   background: #fff0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .input-error {
@@ -116,18 +133,23 @@
 
 .otp-combined {
   display: flex;
-  gap: 11px;
-  flex: 1.1;
+  gap: 5px;
+  flex: 1;
   position: relative;
+  width: 100%;
+}
+
+.otp-input {
+  padding-right: 110px;
 }
 
 .get-otp-btn {
   position: absolute;
-  top: .2px;
+  top: 10px;
   right: 0;
-  width: 100px;
-  height: 46px;
-  padding: 9px;
+  min-width: 100px;
+  height: 36px;
+  padding: 8px;
   background-color: #f26522;
   color: #fff;
   border: none;
@@ -135,6 +157,7 @@
   cursor: pointer;
   z-index: 1;
   transition: background-color 0.3s;
+  font-size: 14px;
 }
 
 .get-otp-btn:disabled {
@@ -144,9 +167,10 @@
 
 .checkbox-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
-  margin-top: 30px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 .modal-subtitle {
@@ -155,10 +179,10 @@
 
 select.form-input {
   appearance: none;
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23131313%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23131313%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E);
   background-repeat: no-repeat;
-  background-position: right 0.7rem top 50%;
-  background-size: 0.65rem auto;
+  background-position: right .7rem top 50%;
+  background-size: .65rem auto;
   padding-right: 2rem;
 }
 

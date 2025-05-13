@@ -1,9 +1,12 @@
+// Update your ProfilePage.jsx with these changes
+
 import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/authContext.jsx";
 import { CgProfile } from "react-icons/cg";
 import { FiEdit2, FiTrash2, FiCheck, FiX } from "react-icons/fi";
 import Styles from "./profilepage.module.css";
-const ProfilePage = () => {
+
+const ProfilePage = ({ onModalChange }) => { // Add onModalChange prop
   const emptyState = {
     fullname: { oldname: "", newname: "" },
     phoneNumber: { oldPhoneNumber: "", newPhoneNumber: "" },
@@ -13,15 +16,17 @@ const ProfilePage = () => {
     Batch: { oldBatch: "", newBatch: "" },
     image: { oldImage: "", newImage: "" },
   };
+
   const { isLoggedIn, user } = useAuth();
   const [value, setValue] = useState(() => {
     const storedProfile = localStorage.getItem("userProfile");
     return storedProfile ? JSON.parse(storedProfile) : emptyState;
   });
   const [tempValue, setTempValue] = useState(value);
-  const [showModal, setShowModal] = useState(!1);
-  const [updateSuccess, setUpdateSuccess] = useState(!1);
+  const [showModal, setShowModal] = useState(false);
+  const [updateSuccess, setUpdateSuccess] = useState(false);
   const [hasImage, setHasImage] = useState(!!value.image.oldImage);
+
   useEffect(() => {
     if (isLoggedIn && user?.email) {
       setValue((prev) => ({
@@ -40,15 +45,25 @@ const ProfilePage = () => {
       }));
     }
   }, [isLoggedIn, user]);
+
+  // Notify parent component about modal state changes
+  useEffect(() => {
+    if (onModalChange) {
+      onModalChange(showModal);
+    }
+  }, [showModal, onModalChange]);
+
   const openModal = () => {
-    setShowModal(!0);
+    setShowModal(true);
     document.body.style.overflow = "hidden";
   };
+
   const closeModal = () => {
     setTempValue(value);
-    setShowModal(!1);
+    setShowModal(false);
     document.body.style.overflow = "auto";
   };
+
   const handleChange = (e) => {
     const { name, value: newValue } = e.target;
     const [mainKey, subKey] = name.split(".");
@@ -57,6 +72,7 @@ const ProfilePage = () => {
       [mainKey]: { ...prev[mainKey], [subKey]: newValue },
     }));
   };
+
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -70,18 +86,23 @@ const ProfilePage = () => {
       reader.readAsDataURL(file);
     }
   };
+
   const removeProfileImage = () => {
     setTempValue((prev) => ({
       ...prev,
       image: { oldImage: "", newImage: "" },
     }));
-    setValue((prev) => ({ ...prev, image: { oldImage: "", newImage: "" } }));
-    setHasImage(!1);
+    setValue((prev) => ({
+      ...prev,
+      image: { oldImage: "", newImage: "" },
+    }));
+    setHasImage(false);
     localStorage.setItem(
       "userProfile",
       JSON.stringify({ ...value, image: { oldImage: "", newImage: "" } })
     );
   };
+
   const saveProfile = () => {
     const updated = {};
     for (let key in value) {
@@ -98,14 +119,15 @@ const ProfilePage = () => {
       }
     }
     setValue(updated);
-    setUpdateSuccess(!0);
-    setShowModal(!1);
+    setUpdateSuccess(true);
+    setShowModal(false);
     setHasImage(!!tempValue.image.newImage);
     document.body.style.overflow = "auto";
     localStorage.setItem("userProfile", JSON.stringify(updated));
-    setTimeout(() => setUpdateSuccess(!1), 3000);
+    setTimeout(() => setUpdateSuccess(false), 3000);
   };
-  const ProfileField = ({ label, name, subKey, readOnly = !1 }) => (
+
+  const ProfileField = ({ label, name, subKey, readOnly = false }) => (
     <div className={Styles.whole}>
       <div className={Styles.details}>{label}</div>
       <input
@@ -118,9 +140,9 @@ const ProfilePage = () => {
       />
     </div>
   );
+
   return (
     <>
-      {}
       <div className={Styles.profileIconContainer} onClick={openModal}>
         {hasImage ? (
           <img
@@ -141,7 +163,6 @@ const ProfilePage = () => {
           </div>
         )}
       </div>
-      {}
       {showModal && (
         <div className={Styles.modalOverlay}>
           <div className={Styles.modalContent}>
@@ -194,11 +215,7 @@ const ProfilePage = () => {
               </div>
             </div>
             <div className={Styles.formSection}>
-              <ProfileField
-                label="Full Name"
-                name="fullname"
-                subKey="newname"
-              />
+              <ProfileField label="Full Name" name="fullname" subKey="newname" />
               <ProfileField
                 label="Phone Number"
                 name="phoneNumber"
@@ -213,7 +230,7 @@ const ProfilePage = () => {
                 label="University Mail"
                 name="UniversityMail"
                 subKey="newUniversityMail"
-                readOnly={!0}
+                readOnly={true}
               />
               <ProfileField label="Course" name="Course" subKey="newCourse" />
               <ProfileField label="Batch" name="Batch" subKey="newBatch" />
@@ -230,7 +247,6 @@ const ProfilePage = () => {
           </div>
         </div>
       )}
-      {}
       {updateSuccess && (
         <div className={Styles.successNotification}>
           <FiCheck size={20} />
@@ -240,4 +256,5 @@ const ProfilePage = () => {
     </>
   );
 };
+
 export default ProfilePage;

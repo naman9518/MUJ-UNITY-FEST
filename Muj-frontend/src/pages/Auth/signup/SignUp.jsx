@@ -22,12 +22,15 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
     firstName: "",
     lastName: "",
     email: "",
+    phoneNumber: "",
+    alternatePhone: "",
     otp: "",
     password: "",
     confirmPassword: "",
     course: "",
     batch: "",
   });
+  
   const [errors, setErrors] = useState({});
   const [otpTimer, setOtpTimer] = useState(0);
   const [timerInterval, setTimerInterval] = useState(null);
@@ -77,11 +80,14 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
       return acc;
     }, {});
     setErrors(validationResults);
+    
     if (Object.values(validationResults).every((msg) => !msg)) {
       setFormData({
         firstName: "",
         lastName: "",
         email: "",
+        phoneNumber: "",
+        alternatePhone: "",
         otp: "",
         password: "",
         confirmPassword: "",
@@ -117,16 +123,13 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
       <div className="modal-contents" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2 className="modal-title">Sign up</h2>
-          <button className="modal-close-btn" onClick={() => toggleSignupModal(false)}>
-            ×
-          </button>
+          <button className="modal-close-btn" onClick={() => toggleSignupModal(false)}>×</button>
         </div>
-        <p className="modal-subtitle">
-          Already have an account?
-          <span className="modal-signin" onClick={switchToLogin}>
-            {" "}Sign in
-          </span>
+        
+        <p className="modal-subtitle">Already have an account?
+          <span className="modal-signin" onClick={switchToLogin}>{" "}Sign in</span>
         </p>
+        
         <form className="signup-form" onSubmit={handleSubmit}>
           <div className="form-row">
             <input
@@ -152,14 +155,20 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
           <div className="form-row">
             <input
               type="tel"
+              name="phoneNumber"
               placeholder="Phone number*"
               className="form-input"
+              value={formData.phoneNumber}
+              onChange={handleInputChange}
               required
             />
             <input
               type="tel"
+              name="alternatePhone"
               placeholder="Alternate phone number"
               className="form-input"
+              value={formData.alternatePhone}
+              onChange={handleInputChange}
             />
           </div>
           
@@ -173,6 +182,10 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
               onChange={handleInputChange}
               required
             />
+          </div>
+          {errors.email && <p className="error-message">{errors.email}</p>}
+          
+          <div className="form-row">
             <div className="otp-combined">
               <input
                 type="text"
@@ -192,7 +205,6 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
               </button>
             </div>
           </div>
-          {errors.email && <p className="error-message">{errors.email}</p>}
           {errors.otp && <p className="error-message">{errors.otp}</p>}
           
           <div className="form-row">
@@ -211,6 +223,10 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
               <option value="B.Com">B.Com</option>
               <option value="M.Com">M.Com</option>
             </select>
+          </div>
+          {errors.course && <p className="error-message">{errors.course}</p>}
+          
+          <div className="form-row">
             <select
               name="batch"
               className={`form-input ${errors.batch ? "input-error" : ""}`}
@@ -220,13 +236,10 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
             >
               <option value="">Select Batch*</option>
               {Array.from({ length: 9 }, (_, i) => (
-                <option key={i} value={`Batch${i + 1}`}>
-                  {`Batch ${i + 1}`}
-                </option>
+                <option key={i} value={`Batch${i + 1}`}>{`Batch ${i + 1}`}</option>
               ))}
             </select>
           </div>
-          {errors.course && <p className="error-message">{errors.course}</p>}
           {errors.batch && <p className="error-message">{errors.batch}</p>}
           
           <div className="form-row">
@@ -239,6 +252,10 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
               onChange={handleInputChange}
               required
             />
+          </div>
+          {errors.password && <p className="error-message">{errors.password}</p>}
+          
+          <div className="form-row">
             <input
               type="password"
               name="confirmPassword"
@@ -249,7 +266,6 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
               required
             />
           </div>
-          {errors.password && <p className="error-message">{errors.password}</p>}
           {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
           
           <div className="checkbox-row">
@@ -272,14 +288,11 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
                 style={{ color: "#f26522", textDecoration: "underline" }}
               >
                 Privacy Policy
-              </a>
-              .
+              </a>.
             </label>
           </div>
           
-          <button type="submit" className="modal-submit">
-            Sign up
-          </button>
+          <button type="submit" className="modal-submit">Sign up</button>
         </form>
       </div>
     </div>
