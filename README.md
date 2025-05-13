@@ -1,4 +1,19 @@
 ## Recent Work Highlights
+- Refactor signup modal styles for improved responsiveness and usability. 
+- enhance header component with mobile support and profile modal integration;
+- Add payment modal styles; update profile page component and styles for better user experience.
+- Streamline CSS for consistency and maintainability.
+- Update profile icon container styles for improved spacing
+---
 - Fixed profile 'remove not working'
 - Refactor authentication context and login handling for improved error management and state consistency across pages
 - Place the ProfilePage component in the header to enhance code consistency and readability.
+---
+- updated signup page
+- Updated login page
+- Forgot password implementation 
+- Password reset confirmation Popup
+- back to login functionality 
+- Login confirmation Popup
+- Updated Profile page
+- Profile updation confirmation Popup
