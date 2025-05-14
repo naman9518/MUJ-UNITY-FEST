@@ -1,4 +1,5 @@
 ## Recent Work Highlights
+- Fixed sponsorform size, implemented submit confirmation upon form submition.
 - Refactor signup modal styles for improved responsiveness and usability. 
 - enhance header component with mobile support and profile modal integration;
 - Add payment modal styles; update profile page component and styles for better user experience.
