@@ -20,7 +20,7 @@ function SponsorModal({ onClose }) {
   }
 
   return (
-    <div className="sponsor-modal-wrapper" onClick={handleClose}>
+    <div className="sponsor-modal-wrapper">
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <button className="close-button" onClick={handleClose}>×</button>
         <h2 className="modal-title">Become our sponsor</h2>
@@ -43,7 +43,7 @@ function SponsorModal({ onClose }) {
             I authorize MUJ UNITY FEST and its associates to contact me with updates
             via email, SMS, WhatsApp, and voice call.
           </label>
-          <button type="submit" className="signup-button">Sign up</button>
+          <button type="submit" className="signup-button">Submit</button>
         </form>
       </div>
     </div>

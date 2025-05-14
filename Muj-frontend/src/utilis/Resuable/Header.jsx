@@ -23,27 +23,35 @@ const Header = () => {
   useEffect(() => {
     let lastScrollY = window.scrollY;
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-      setHidden(window.scrollY > lastScrollY);
+      setScrolled(window.scrollY > 20);
+      setHidden(window.scrollY > 100 && window.scrollY > lastScrollY); 
       lastScrollY = window.scrollY;
     };
+    
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow =
+    document.body.style.overflow = 
       showLoginModal || showSignupModal || profileModalOpen ? "hidden" : "auto";
   }, [showLoginModal, showSignupModal, profileModalOpen]);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+      const newIsMobile = window.innerWidth < 768;
+      setIsMobile(newIsMobile);
+      
+      if (!newIsMobile && menuOpen) {
+        setMenuOpen(false);
+        document.body.classList.remove("menu-open");
+      }
     };
+    
     window.addEventListener("resize", handleResize);
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [menuOpen]);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -54,23 +62,43 @@ const Header = () => {
     }
   };
 
-  const toggleLoginModal = () => setShowLoginModal(!showLoginModal);
-  const toggleSignupModal = () => setShowSignupModal(!showSignupModal);
+  const toggleLoginModal = () => {
+    setShowLoginModal(!showLoginModal);
+    if (menuOpen) setMenuOpen(false);
+  };
+  
+  const toggleSignupModal = () => {
+    setShowSignupModal(!showSignupModal);
+    if (menuOpen) setMenuOpen(false);
+  };
+
   const switchToSignup = () => {
     setShowLoginModal(false);
     setShowSignupModal(true);
   };
+
   const switchToLogin = () => {
     setShowSignupModal(false);
     setShowLoginModal(true);
   };
+
   const handleLoginSuccess = () => setShowLoginModal(false);
+
   const handleLogout = () => {
     logout();
     setMenuOpen(false);
   };
+
   const handleProfileModalChange = (isOpen) => {
     setProfileModalOpen(isOpen);
+  };
+
+  // Close menu when clicking on a navigation link
+  const handleNavLinkClick = () => {
+    if (menuOpen) {
+      setMenuOpen(false);
+      document.body.classList.remove("menu-open");
+    }
   };
 
   return (
@@ -80,15 +108,102 @@ const Header = () => {
           hidden ? "header-hidden" : ""
         }`}
       >
-        <div className="container header-content">
+        <div className="header-content">
           <div className="logo">
-            <img src={Logo} alt="Logo" />
+            <a href="/home">
+              <img src={Logo} alt="Logo" />
+            </a>
           </div>
+          
+          <nav>
+            <ul className={`nav-menu ${menuOpen ? "open" : ""}`}>
+              <li>
+                <a
+                  href="/home"
+                  className={location.pathname === "/home" ? "active" : ""}
+                  onClick={handleNavLinkClick}
+                >
+                  Home
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/competition"
+                  className={location.pathname === "/competition" ? "active" : ""}
+                  onClick={handleNavLinkClick}
+                >
+                  Competitions
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/sponsor"
+                  className={location.pathname === "/sponsor" ? "active" : ""}
+                  onClick={handleNavLinkClick}
+                >
+                  Sponsor
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/about"
+                  className={location.pathname === "/about" ? "active" : ""}
+                  onClick={handleNavLinkClick}
+                >
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/contact"
+                  className={location.pathname === "/contact" ? "active" : ""}
+                  onClick={handleNavLinkClick}
+                >
+                  Contact Us
+                </a>
+              </li>
+              
+              {menuOpen && isMobile && (
+                <>
+                  {!isLoggedIn && <li className="menu-separator"></li>}
+                  {isLoggedIn && (
+                    <li className="profile-section">
+                      <div className="mobile-profile-wrapper">
+                        <ProfilePage onModalChange={handleProfileModalChange} />
+                        <span className="profile-text">My Profile</span>
+                      </div>
+                    </li>
+                  )}
+                  <li className="auth-buttons-mobile">
+                    {isLoggedIn ? (
+                      <button className="btn btn-primary" onClick={handleLogout}>
+                        Logout
+                      </button>
+                    ) : (
+                      <>
+                        <button
+                          className="btn btn-primary"
+                          onClick={toggleLoginModal}
+                        >
+                          Login
+                        </button>
+                        <button
+                          className="btn btn-outline"
+                          onClick={toggleSignupModal}
+                        >
+                          Signup
+                        </button>
+                      </>
+                    )}
+                  </li>
+                </>
+              )}
+            </ul>
+          </nav>
+
           <div className="mobile-controls">
             <button
-              className={`nav-toggle ${
-                profileModalOpen ? "profile-active" : ""
-              }`}
+              className={`nav-toggle ${profileModalOpen ? "profile-active" : ""}`}
               onClick={toggleMenu}
               aria-label={menuOpen ? "Close menu" : "Open menu"}
             >
@@ -104,83 +219,7 @@ const Header = () => {
               />
             </button>
           </div>
-          <ul className={`nav-menu ${menuOpen ? "open" : ""}`}>
-            <li style={{ "--item-index": 0 }}>
-              <a
-                href="/home"
-                className={location.pathname === "/home" ? "active" : ""}
-              >
-                Home
-              </a>
-            </li>
-            <li style={{ "--item-index": 1 }}>
-              <a
-                href="/competition"
-                className={location.pathname === "/competition" ? "active" : ""}
-              >
-                Competitions
-              </a>
-            </li>
-            <li style={{ "--item-index": 2 }}>
-              <a
-                href="/sponsor"
-                className={location.pathname === "/sponsor" ? "active" : ""}
-              >
-                Sponsor
-              </a>
-            </li>
-            <li style={{ "--item-index": 3 }}>
-              <a
-                href="/about"
-                className={location.pathname === "/about" ? "active" : ""}
-              >
-                About Us
-              </a>
-            </li>
-            <li style={{ "--item-index": 4 }}>
-              <a
-                href="/contact"
-                className={location.pathname === "/contact" ? "active" : ""}
-              >
-                Contact Us
-              </a>
-            </li>
-            {menuOpen && isMobile && (
-              <>
-                {!isLoggedIn && <li className="menu-separator"></li>}
-                {isLoggedIn && (
-                  <li className="profile-section">
-                    <div className="mobile-profile-wrapper">
-                      <ProfilePage onModalChange={handleProfileModalChange} />
-                      <span className="profile-text">My Profile</span>
-                    </div>
-                  </li>
-                )}
-                <li className="auth-buttons-mobile" style={{ "--item-index": 6 }}>
-                  {isLoggedIn ? (
-                    <button className="btn btn-primary" onClick={handleLogout}>
-                      Logout
-                    </button>
-                  ) : (
-                    <>
-                      <button
-                        className="btn btn-primary"
-                        onClick={toggleLoginModal}
-                      >
-                        Login
-                      </button>
-                      <button
-                        className="btn btn-outline"
-                        onClick={toggleSignupModal}
-                      >
-                        Signup
-                      </button>
-                    </>
-                  )}
-                </li>
-              </>
-            )}
-          </ul>
+
           {!menuOpen && (
             <div className="auth-buttons">
               {isLoggedIn && (
@@ -212,6 +251,7 @@ const Header = () => {
           )}
         </div>
       </header>
+      
       {showLoginModal && (
         <Signin
           toggleLoginModal={toggleLoginModal}
@@ -219,6 +259,7 @@ const Header = () => {
           onLoginSuccess={handleLoginSuccess}
         />
       )}
+      
       {showSignupModal && (
         <Signup
           toggleSignupModal={toggleSignupModal}

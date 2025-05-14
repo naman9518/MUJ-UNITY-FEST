@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { useAuth } from "../../../contexts/authContext.jsx"; 
+import { useAuth } from "../../../contexts/authContext.jsx";
 import SuccessMessage from "./SuccessMessage";
 import ResetPassword from "./resetpassword.jsx";
+import "./LoginModal.css"; 
 
 const validationPatterns = {
   email: /@mujonline\.edu\.in$/,
@@ -10,8 +11,7 @@ const validationPatterns = {
 
 const errorMessages = {
   email: "Email must end with @mujonline.edu.in",
-  password:
-    "Password must contain 8+ characters, 1 uppercase, 1 lowercase, 1 number, 1 special character.",
+  password: "Password must contain 8+ characters, 1 uppercase, 1 lowercase, 1 number, 1 special character.",
 };
 
 const InputField = ({
@@ -58,16 +58,16 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
   const [showResetPassword, setShowResetPassword] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [errors, setErrors] = useState({});
-  const { login } = useAuth(); 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const { login } = useAuth();
 
   const validateField = (field, value) => {
     switch (field) {
       case "email":
         return validationPatterns.email.test(value) ? "" : errorMessages.email;
       case "password":
-        return validationPatterns.password.test(value)
-          ? ""
-          : errorMessages.password;
+        return validationPatterns.password.test(value) ? "" : errorMessages.password;
       default:
         return "";
     }
@@ -102,22 +102,32 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    
     const validationResults = {
       email: validateField("email", email),
       password: validateField("password", password),
     };
+    
     setErrors(validationResults);
-
+    
     if (Object.values(validationResults).every((msg) => !msg)) {
-      const userData = { email };
-      const loginSuccess = await login(userData); 
-      
-      if (loginSuccess) {
-        if (rememberMe) {
-          localStorage.setItem("isLoggedIn", "true");
-          localStorage.setItem("userEmail", email);
+      setIsSubmitting(true);
+      try {
+        const userData = { email, password };
+        const loginSuccess = await login(userData);
+        
+        if (loginSuccess) {
+          if (rememberMe) {
+            localStorage.setItem("isLoggedIn", "true");
+            localStorage.setItem("userEmail", email);
+          }
+          setShowSuccess(true);
         }
-        setShowSuccess(true);
+      } catch (error) {
+        console.error("Login error:", error);
+        // Add error handling here if needed
+      } finally {
+        setIsSubmitting(false);
       }
     }
   };
@@ -169,9 +179,7 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
         onClick={(event) => event.stopPropagation()}
       >
         <div className="modal-header">
-          <h2 id="login-title" className="modal-title">
-            Sign in
-          </h2>
+          <h2 id="login-title" className="modal-title">Sign in</h2>
           <button
             className="modal-close-btn"
             onClick={() => toggleLoginModal(false)}
@@ -180,6 +188,7 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
             ×
           </button>
         </div>
+        
         <p className="modal-subtitle">
           <span>Don't have an account yet?</span>
           <span
@@ -191,6 +200,7 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
             Sign up
           </span>
         </p>
+        
         <form className="modal-form" onSubmit={handleLogin}>
           <InputField
             type="email"
@@ -201,6 +211,7 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
             ariaLabel="Email"
             error={errors.email}
           />
+          
           <InputField
             type="password"
             placeholder="Password"
@@ -210,6 +221,7 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
             ariaLabel="Password"
             error={errors.password}
           />
+          
           <div className="modal-options">
             <Checkbox
               id="remember"
@@ -225,8 +237,13 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
               Forgot password?
             </button>
           </div>
-          <button type="submit" className="modal-submit">
-            Sign in
+          
+          <button 
+            type="submit" 
+            className="modal-submit"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Signing in..." : "Sign in"}
           </button>
         </form>
       </div>

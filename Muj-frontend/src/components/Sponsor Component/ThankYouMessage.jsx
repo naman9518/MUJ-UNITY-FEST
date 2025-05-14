@@ -1,7 +1,7 @@
 import React from "react";
 import CheckIcon from "./Checkicon";
 
-function Sponsorsignup({ onClose }) {
+function ThankYouPage({ onClose }) {
   return (
     <div className="success-wrapper">
       <div className="success-card">
@@ -20,4 +20,4 @@ function Sponsorsignup({ onClose }) {
   );
 }
 
-export default Sponsorsignup;
+export default ThankYouPage;
