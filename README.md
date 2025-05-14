@@ -1,6 +1,6 @@
 ## Recent Work Highlights
 
-- Fixed sponsorform size, implemented submit confirmation upon form submition.
+- Fixed sponsorform size, implemented submit confirmation upon form submission.
 - Add GoToTop component and styles; refactor Header and Footer styles
 - Implemented GoToTop component with smooth scroll functionality and animations.
 - Added corresponding CSS for GoToTop button with responsive design.
