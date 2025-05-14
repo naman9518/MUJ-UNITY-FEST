@@ -13,7 +13,7 @@ const ContactUs = () => {
   }, []);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitted(true);
@@ -23,14 +23,9 @@ const ContactUs = () => {
     setIsSubmitted(false);
   };
 
-  if (isSubmitted) {
-    return <ThankYouPage onClose={handleClose} />;
-  }
-
   return (
     <main>
       <section className="contact-section">
-        {}
         <div className="contact-header" data-aos="fade-down">
           <h1>Contact Us</h1>
           <img
@@ -42,7 +37,6 @@ const ContactUs = () => {
         <p className="contact-subtitle" data-aos="fade-up">
           We are here to help. Send us a message
         </p>
-        {}
         <form className="contact-form" data-aos="fade-up" onSubmit={handleSubmit}>
           <div className="form-row">
             <div className="form-group">
@@ -94,7 +88,6 @@ const ContactUs = () => {
             </button>
           </div>
         </form>
-        {}
         <div className="contact-info">
           <div className="info-card" data-aos="fade-right">
             <div className="info-icon info-icon-map">
@@ -127,7 +120,6 @@ const ContactUs = () => {
             </a>
           </div>
         </div>
-        {}
         <div className="map-container" data-aos="zoom-in">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.8771334088133!2d75.56265937510696!3d26.843859963046796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396c4850e05bee9b%3A0x1b8d67402d4eb863!2sManipal%20University%20Jaipur!5e0!3m2!1sen!2sin!4v1743344341850!5m2!1sen!2sin"
@@ -141,6 +133,8 @@ const ContactUs = () => {
           ></iframe>
         </div>
       </section>
+      
+      {isSubmitted && <ThankYouPage onClose={handleClose} />}
     </main>
   );
 };
