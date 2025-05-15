@@ -1,7 +1,7 @@
 .fullcard{
 
-height: 30rem;
-width:20rem ;
+height: 25rem;
+width:15rem ;
 
 border-radius: 20px;
 overflow-y: hidden;
@@ -13,8 +13,8 @@ background-color: black;
 @media (max-width: 480px) {
 
 .fullcard{
-  min-width: 15rem;
-  min-height: 25rem;
+  min-width: 10rem;
+  min-height: 15rem;
 }
 
 
@@ -32,7 +32,7 @@ height: 80%;
     background-color: aqua;
     width: 100%;
     height: 90%;
-    top: -10%;
+    top: -15%;
     position: relative;
   
 
