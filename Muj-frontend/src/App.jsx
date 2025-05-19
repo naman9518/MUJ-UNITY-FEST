@@ -3,7 +3,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./utilis/Resuable/Layout";
-import Home from "./pages/Home/Home";
+import Home from "./pages/Home/Home"; // ✅ No changes made
 import Competition from "./pages/competition/competition";
 import Aboutus from "./pages/Aboutus/Aboutus";
 import Sponsor from "./pages/sponsor/sponsor";
@@ -29,13 +29,29 @@ import "./pages/Auth/login/LoginModal.css";
 import "./pages/Auth/signup/signup.css";
 import "./pages/Auth/signup/SignupSuccess.css";
 
+// ✅ ADD THESE TWO IMPORTS
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "./redux/authSlice";
+
 export default function App() {
+  const dispatch = useDispatch(); // ✅ initialize Redux dispatch
+
   useEffect(() => {
     AOS.init({
       duration: 1000,
       once: true,
     });
   }, []);
+
+  // ✅ NEW: Restore Redux login state on page load
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const email = localStorage.getItem("userEmail");
+
+    if (isLoggedIn && email) {
+      dispatch(loginSuccess({ email }));
+    }
+  }, [dispatch]);
 
   return (
     <AuthProvider>

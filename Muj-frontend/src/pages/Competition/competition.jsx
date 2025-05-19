@@ -1,18 +1,18 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-// Assets
 import treasureHunt from "../../assets/treasure-hunt.svg";
 import quiz from "../../assets/quiz.svg";
 import lameJokes from "../../assets/lame-jokes.svg";
 import speedTyping from "../../assets/speed-typing.svg";
 import pubg from "../../assets/pubg.svg";
 import coding from "../../assets/coding.png";
-import decorDesigns from "../../assets/decor-design.png";
-import Team from "../../utilis/Resuable/TeamMembers"
 
+import decorDesign from "../../assets/decor-design.png";  // <-- yahan import karo
+
+import Team from "../../utilis/Resuable/TeamMembers";
 
 const Competitions = () => {
   const navigate = useNavigate();
@@ -69,9 +69,13 @@ const Competitions = () => {
     "Coding Challenge": "/game/coding-challenge",
   };
 
+  const handleCardClick = (title) => {
+    const route = gameRoutes[title];
+    if (route) navigate(route);
+  };
+
   return (
     <main>
-      {/* Inline styles */}
       <style>
         {`
         .contact-header {
@@ -116,7 +120,11 @@ const Competitions = () => {
       <section className="competitions-section">
         <div className="contact-header" data-aos="fade-down">
           <h1>Competitions</h1>
-          <img src={decorDesigns} alt="Design Element" className="design-element" />
+          <img
+            src={decorDesign}  // <-- yahan import kiya hua use karo
+            alt="Design Element"
+            className="design-element"
+          />
         </div>
 
         <div className="competitions-list">
@@ -127,11 +135,8 @@ const Competitions = () => {
                   className="competition-card"
                   key={index}
                   data-aos="zoom-in"
-                  onClick={() => {
-                    const route = gameRoutes[comp.title];
-                    if (route) navigate(route);
-                  }}
-                  style={{ cursor: gameRoutes[comp.title] ? "pointer" : "default" }}
+                  onClick={() => handleCardClick(comp.title)}
+                  style={{ cursor: "pointer" }}
                 >
                   <div className="competition-image">
                     <img src={comp.image} alt={comp.alt} />
@@ -146,6 +151,7 @@ const Competitions = () => {
           </div>
         </div>
       </section>
+
       <Team />
     </main>
   );

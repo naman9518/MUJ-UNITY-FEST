@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../../../redux/authSlice";
 import { useAuth } from "../../../contexts/authContext.jsx";
 import SuccessMessage from "./SuccessMessage";
 import ResetPassword from "./resetpassword.jsx";
-import "./LoginModal.css"; 
+import "./LoginModal.css";
 
 const validationPatterns = {
   email: /@mujonline\.edu\.in$/,
@@ -52,6 +54,7 @@ const Checkbox = ({ id, label, checked, onChange }) => (
 );
 
 const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
@@ -59,7 +62,7 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const { login } = useAuth();
 
   const validateField = (field, value) => {
@@ -102,30 +105,32 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    
+
     const validationResults = {
       email: validateField("email", email),
       password: validateField("password", password),
     };
-    
+
     setErrors(validationResults);
-    
+
     if (Object.values(validationResults).every((msg) => !msg)) {
       setIsSubmitting(true);
       try {
         const userData = { email, password };
-        const loginSuccess = await login(userData);
-        
-        if (loginSuccess) {
+        const loginSuccessFlag = await login(userData);
+
+        if (loginSuccessFlag) {
+          dispatch(loginSuccess({ email }));
+
           if (rememberMe) {
             localStorage.setItem("isLoggedIn", "true");
             localStorage.setItem("userEmail", email);
           }
+
           setShowSuccess(true);
         }
       } catch (error) {
         console.error("Login error:", error);
-        // Add error handling here if needed
       } finally {
         setIsSubmitting(false);
       }
@@ -158,8 +163,8 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
         message="Welcome back to MUJ Unity Fest!"
         actionText="Continue"
         onAction={() => {
-          toggleLoginModal(false);
-          onLoginSuccess?.();
+          onLoginSuccess?.(); // ✅ Call this first
+          toggleLoginModal(false); // ✅ Then close the modal
         }}
         onClose={() => toggleLoginModal(false)}
       />
@@ -188,7 +193,7 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
             ×
           </button>
         </div>
-        
+
         <p className="modal-subtitle">
           <span>Don't have an account yet?</span>
           <span
@@ -196,11 +201,10 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
             onClick={switchToSignup}
             style={{ cursor: "pointer" }}
           >
-            {" "}
-            Sign up
+            {" "}Sign up
           </span>
         </p>
-        
+
         <form className="modal-form" onSubmit={handleLogin}>
           <InputField
             type="email"
@@ -211,7 +215,7 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
             ariaLabel="Email"
             error={errors.email}
           />
-          
+
           <InputField
             type="password"
             placeholder="Password"
@@ -221,7 +225,7 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
             ariaLabel="Password"
             error={errors.password}
           />
-          
+
           <div className="modal-options">
             <Checkbox
               id="remember"
@@ -237,7 +241,7 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
               Forgot password?
             </button>
           </div>
-          
+
           <button 
             type="submit" 
             className="modal-submit"

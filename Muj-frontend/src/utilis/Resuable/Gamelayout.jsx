@@ -3,7 +3,7 @@ import React from 'react';
 import './game.css';
 import Team from './TeamMembers';
 
-const GameLayout = ({ title, tagline, image, aboutText, howToPlay, rules }) => {
+const GameLayout = ({ title, tagline, image, aboutText, howToPlay, rules, onRegisterClick }) => {
   return (
     <main>
       {/* Game Header */}
@@ -24,7 +24,12 @@ const GameLayout = ({ title, tagline, image, aboutText, howToPlay, rules }) => {
             <h2>About the <span className="highlight">game</span></h2>
             <p>{aboutText}</p>
             <div className="registration-cta">
-              <a href="#" className="btn btn-primary">Register Now</a>
+              <button
+                className="btn btn-primary"
+                onClick={onRegisterClick}  // Use the passed click handler here
+              >
+                Register Now
+              </button>
             </div>
           </div>
         </div>
@@ -51,7 +56,12 @@ const GameLayout = ({ title, tagline, image, aboutText, howToPlay, rules }) => {
                 {rules.map((item, index) => (
                   <li key={index}>{item}</li>
                 ))}
-                <li>For tech support, contact <a href="mailto:support@mujunityfest.in" style={{ color: '#f26522', textDecoration: 'none' }}>support@mujunityfest.in</a></li>
+                <li>
+                  For tech support, contact{' '}
+                  <a href="mailto:support@mujunityfest.in" style={{ color: '#f26522', textDecoration: 'none' }}>
+                    support@mujunityfest.in
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
