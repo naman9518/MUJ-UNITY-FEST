@@ -22,12 +22,15 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
     firstName: "",
     lastName: "",
     email: "",
+    phoneNumber: "",
+    alternatePhone: "",
     otp: "",
     password: "",
     confirmPassword: "",
     course: "",
     batch: "",
   });
+  
   const [errors, setErrors] = useState({});
   const [otpTimer, setOtpTimer] = useState(0);
   const [timerInterval, setTimerInterval] = useState(null);
@@ -43,8 +46,10 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
     setErrors((prevErrors) => ({
       ...prevErrors,
       [name]: validateField(name, value),
@@ -54,23 +59,15 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
   const validateField = (field, value) => {
     switch (field) {
       case "firstName":
-        return validationPatterns.firstName.test(value)
-          ? ""
-          : errorMessages.firstName;
+        return validationPatterns.firstName.test(value) ? "" : errorMessages.firstName;
       case "email":
-        return validationPatterns.email.test(value)
-          ? ""
-          : errorMessages.email;
+        return validationPatterns.email.test(value) ? "" : errorMessages.email;
       case "otp":
         return validationPatterns.otp.test(value) ? "" : errorMessages.otp;
       case "password":
-        return validationPatterns.password.test(value)
-          ? ""
-          : errorMessages.password;
+        return validationPatterns.password.test(value) ? "" : errorMessages.password;
       case "confirmPassword":
-        return value === formData.password
-          ? ""
-          : errorMessages.confirmPassword;
+        return value === formData.password ? "" : errorMessages.confirmPassword;
       default:
         return "";
     }
@@ -82,10 +79,21 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
       acc[key] = validateField(key, formData[key]);
       return acc;
     }, {});
-
     setErrors(validationResults);
-
+    
     if (Object.values(validationResults).every((msg) => !msg)) {
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phoneNumber: "",
+        alternatePhone: "",
+        otp: "",
+        password: "",
+        confirmPassword: "",
+        course: "",
+        batch: "",
+      });
       setShowSuccess(true);
     }
   };
@@ -98,7 +106,7 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
 
   const handleGetOtp = () => {
     if (otpTimer === 0) {
-      setOtpTimer(90); // 1 minute 30 seconds = 90 seconds
+      setOtpTimer(90);
     }
   };
 
@@ -117,12 +125,11 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
           <h2 className="modal-title">Sign up</h2>
           <button className="modal-close-btn" onClick={() => toggleSignupModal(false)}>×</button>
         </div>
-
-        <p className="modal-subtitle">
-          Already have an account?
-          <span className="modal-signin" onClick={switchToLogin}> Sign in</span>
+        
+        <p className="modal-subtitle">Already have an account?
+          <span className="modal-signin" onClick={switchToLogin}>{" "}Sign in</span>
         </p>
-
+        
         <form className="signup-form" onSubmit={handleSubmit}>
           <div className="form-row">
             <input
@@ -144,21 +151,27 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
             />
           </div>
           {errors.firstName && <p className="error-message">{errors.firstName}</p>}
-
+          
           <div className="form-row">
             <input
               type="tel"
+              name="phoneNumber"
               placeholder="Phone number*"
               className="form-input"
+              value={formData.phoneNumber}
+              onChange={handleInputChange}
               required
             />
             <input
               type="tel"
+              name="alternatePhone"
               placeholder="Alternate phone number"
               className="form-input"
+              value={formData.alternatePhone}
+              onChange={handleInputChange}
             />
           </div>
-
+          
           <div className="form-row">
             <input
               type="email"
@@ -169,6 +182,10 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
               onChange={handleInputChange}
               required
             />
+          </div>
+          {errors.email && <p className="error-message">{errors.email}</p>}
+          
+          <div className="form-row">
             <div className="otp-combined">
               <input
                 type="text"
@@ -188,9 +205,8 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
               </button>
             </div>
           </div>
-          {errors.email && <p className="error-message">{errors.email}</p>}
           {errors.otp && <p className="error-message">{errors.otp}</p>}
-
+          
           <div className="form-row">
             <select
               name="course"
@@ -207,7 +223,10 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
               <option value="B.Com">B.Com</option>
               <option value="M.Com">M.Com</option>
             </select>
-
+          </div>
+          {errors.course && <p className="error-message">{errors.course}</p>}
+          
+          <div className="form-row">
             <select
               name="batch"
               className={`form-input ${errors.batch ? "input-error" : ""}`}
@@ -221,10 +240,8 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
               ))}
             </select>
           </div>
-
-          {errors.course && <p className="error-message">{errors.course}</p>}
           {errors.batch && <p className="error-message">{errors.batch}</p>}
-
+          
           <div className="form-row">
             <input
               type="password"
@@ -235,6 +252,10 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
               onChange={handleInputChange}
               required
             />
+          </div>
+          {errors.password && <p className="error-message">{errors.password}</p>}
+          
+          <div className="form-row">
             <input
               type="password"
               name="confirmPassword"
@@ -245,9 +266,8 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
               required
             />
           </div>
-          {errors.password && <p className="error-message">{errors.password}</p>}
           {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
-
+          
           <div className="checkbox-row">
             <input type="checkbox" id="terms" required />
             <label htmlFor="terms">
@@ -258,7 +278,7 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
                 rel="noopener noreferrer"
                 style={{ color: "#f26522", textDecoration: "underline" }}
               >
-                Terms & Conditions
+                Terms&Conditions
               </a>{" "}
               and{" "}
               <a
@@ -271,7 +291,7 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
               </a>.
             </label>
           </div>
-
+          
           <button type="submit" className="modal-submit">Sign up</button>
         </form>
       </div>

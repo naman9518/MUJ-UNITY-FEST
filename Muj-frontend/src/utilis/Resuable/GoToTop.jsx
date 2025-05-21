@@ -1,32 +1,41 @@
-import React, { useEffect, useState } from "react";
-import { FaArrowUp } from "react-icons/fa";
+import { useState, useEffect } from "react";
 
 const GoToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
 
-  const goToBtn = () => {
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  const goToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   };
 
-  const listenToScroll = () => {
-    let heightToHidden = 20;
-    const winScroll =
-      document.body.scrollTop || document.documentElement.scrollTop;
-
-    setIsVisible(winScroll > heightToHidden);
+  const handleScroll = () => {
+    if (window.scrollY > 300) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", listenToScroll);
-    return () => window.removeEventListener("scroll", listenToScroll);
+    window.addEventListener("scroll", handleScroll);
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
     <>
       {isVisible && (
-        <div className="top-btn" onClick={goToBtn}>
-          <FaArrowUp className="top-btn--icon" />
-        </div>
+        <button 
+          className="top-btn" 
+          onClick={goToTop}
+          aria-label="Scroll to top"
+        >
+          <span className="arrow-up">↑</span>
+        </button>
       )}
     </>
   );

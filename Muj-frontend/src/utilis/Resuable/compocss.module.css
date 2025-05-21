@@ -1,0 +1,94 @@
+.fullcard{
+
+height: 25rem;
+width:15rem ;
+
+border-radius: 20px;
+overflow-y: hidden;
+
+background-color: black;
+
+}
+
+@media (max-width: 480px) {
+
+.fullcard{
+  min-width: 10rem;
+  min-height: 15rem;
+}
+
+
+
+}
+
+
+.forimage{
+background-color: beige;
+width: 100%;
+height: 80%;
+
+}
+.cardinfo {
+    background-color: aqua;
+    width: 100%;
+    height: 90%;
+    top: -15%;
+    position: relative;
+  
+
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    cursor: pointer;
+  
+    /* Smooth transition */
+    transition: top 0.5s ease-in-out;
+  }
+  
+  .cardinfo:hover {
+    top: -70%;
+  }
+  .portraits{
+object-fit: cover;
+    width: 100%;
+    height: 100%;
+
+  }
+  .name{
+    padding: 10px;
+    padding-left: 20px;
+    padding-bottom: 5px;
+    text-align: left;
+    font-size: large;
+    font-family: "Poppins", sans-serif;
+  }
+  .about{
+    padding: 20px;
+    padding-top: 40px;
+    text-align: left;
+font-style: italic;
+font-family: "Poppins", sans-serif;
+
+  }
+  .linkedindiv{
+    display: flex;
+    justify-content: left;
+    margin-left: 10%;
+  }
+  .work{
+    padding: 10px;
+    padding-top: 5px;
+    padding-left: 20px;
+    text-align: left;
+font-style: italic;
+font-family: "Poppins", sans-serif;
+  }
+  .Linkedin{
+    background-color: transparent;
+    border: 0.5px solid black;
+    height: 40px;
+    text-align: center;
+border-radius: 5px;
+padding-inline: 0.5rem;
+cursor: pointer;
+margin-top: 1px;
+}
