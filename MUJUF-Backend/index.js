@@ -4,6 +4,8 @@ import DB from "./model/db.js";
 import CustomError from "./middleware/customError.js";
 import errorMiddleware from "./middleware/errorMiddleware.js";
 import authRoute from "./auth/authRoute.js";
+import sponsorRoute from "./sponsor/sponsorRoute.js";
+import contactRoute from "./contact/contactRoute.js";
 import cors from "cors";
 //App setup
 const app = express();
@@ -12,6 +14,10 @@ app.use(cors());
 
 //routes
 app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/sponsor", sponsorRoute);
+app.use("/api/v1/contact", contactRoute);
+
+
 app.get("*", (req, res, next) => {
   next(new CustomError("This route does not exist", 404));
 });

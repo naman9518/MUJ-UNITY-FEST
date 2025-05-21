@@ -5,22 +5,6 @@ import 'aos/dist/aos.css';
 import Team from "../../../../utilis/Resuable/TeamMembers";
 import PaymentModal from '../paymentModal'; // Import the separate PaymentModal component
 
-const PaymentModal = ({ onClose }) => (
-  <div className="payment-modal-backdrop">
-    <div className="payment-modal">
-      <div className="warning">
-        <svg width="44" height="44" viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="12" r="12" fill="#FFE0E3" />
-          <path d="M12 7V13" stroke="#FF3232" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          <circle cx="12" cy="17" r="1.5" fill="#FF3232" />
-        </svg>
-      </div>
-      <h2>Payment Processing</h2>
-      <p>If you had made the payment, please wait for the payment confirmation within 24 hours.</p>
-    </div>
-  </div>
-);
-
 const ReminderPopup = ({ onClose }) => (
   <div className="reminder-popup">
     <div className="reminder-content">
@@ -87,6 +71,7 @@ const TreasureHunt = () => {
           <p>Crack clues. Race the clock. Find the treasure!</p>
         </div>
       </section>
+      
       <section className="game-details">
         <div className="container game-details-container">
           <div className="game-image">
@@ -94,7 +79,7 @@ const TreasureHunt = () => {
           </div>
           <div className="game-info">
             <h2>About the <span className="highlight">game</span></h2>
-            <p>Step into the ultimate adventure across the MUJ campus! The Treasure Hunt is not just a game - it's a test of wit, teamwork, and quick thinking.</p>
+            <p>Step into the ultimate adventure across the MUJ campus! The Treasure Hunt is not just a game-it's a test of wit, teamwork, and quick thinking.</p>
             <p>Compete with the best minds, solve hidden puzzles, and race against time. Do you have what it takes to find the final treasure?</p>
             <div className="registration-cta">
               <button className="btn btn-primary" onClick={handleRegisterClick}>Register Now</button>

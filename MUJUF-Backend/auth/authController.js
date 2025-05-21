@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv/config";
 import nodemailer from "nodemailer";
 import sendMail from "../utils/sendMail.js";
+
 const getSignupOtp = asyncHandler(async (req, res, next) => {
   const { universityEmail } = req.body;
   console.log(universityEmail);
@@ -64,6 +65,7 @@ const singupController = asyncHandler(async (req, res, next) => {
   ) {
     return next(new CustomError("All fields are required", 400));
   }
+
   const [[isValidOtp]] = await DB.execute(
     `SELECT * FROM verification WHERE universityEmail = ? AND otp = ? AND otpExpiryAt >NOW()`,
     [universityEmail, otp]
@@ -84,6 +86,7 @@ const singupController = asyncHandler(async (req, res, next) => {
       phone2 || null,
     ]
   );
+
   await DB.execute(`DELETE FROM verification WHERE universityEmail = ?`, [
     universityEmail,
   ]);
@@ -92,6 +95,7 @@ const singupController = asyncHandler(async (req, res, next) => {
     messsage: "Signup successful. Sign in to continue",
   });
 });
+
 const signInController = asyncHandler(async (req, res, next) => {
   const { universityEmail, password } = req.body;
 
@@ -111,6 +115,7 @@ const signInController = asyncHandler(async (req, res, next) => {
       )
     );
   }
+
   const isCorrectPassword = await bcrypt.compare(
     password,
     userDetails.password
@@ -125,6 +130,7 @@ const signInController = asyncHandler(async (req, res, next) => {
       expiresIn: process.env.JWT_EXPIRY_DAYS,
     }
   );
+  
   res.cookie("token", jwtToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV !== "development",
