@@ -10,13 +10,18 @@ import cors from "cors";
 //App setup
 const app = express();
 app.use(express.json());
-app.use(cors());
+
+app.use(
+  cors({
+    origin: process.env.CLIENT,
+    credentials: true,
+  })
+);
 
 //routes
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/sponsor", sponsorRoute);
 app.use("/api/v1/contact", contactRoute);
-
 
 app.get("*", (req, res, next) => {
   next(new CustomError("This route does not exist", 404));

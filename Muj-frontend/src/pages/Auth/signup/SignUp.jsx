@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import SignUpSuccessfull from "./SignupSuccess";
+import SignUpSuccessfull from "./SignupSuccessfull";
+import useAuthStore from "../../../store/useAuthStore";
+
 
 const validationPatterns = {
   firstName: /^[A-Za-z]+$/,
@@ -17,6 +19,9 @@ const errorMessages = {
 };
 
 function SignUpModal({ toggleSignupModal, switchToLogin }) {
+
+  const { sendOtp, loading, error, signupUser } = useAuthStore();
+  
   const [showSuccess, setShowSuccess] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -73,15 +78,29 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const validationResults = Object.keys(formData).reduce((acc, key) => {
-      acc[key] = validateField(key, formData[key]);
-      return acc;
-    }, {});
-    setErrors(validationResults);
-    
-    if (Object.values(validationResults).every((msg) => !msg)) {
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  const validationResults = Object.keys(formData).reduce((acc, key) => {
+    acc[key] = validateField(key, formData[key]);
+    return acc;
+  }, {});
+  setErrors(validationResults);
+
+  if (Object.values(validationResults).every((msg) => !msg)) {
+
+    const finalFormData = {
+    name: `${formData.firstName} ${formData.lastName}`,
+    universityEmail: formData.email,
+    course: formData.course,
+    batch: formData.batch,
+    password: formData.password,
+    otp: formData.otp,
+    phone: formData.phoneNumber,
+    phone2: formData.alternatePhone,
+  };
+
+    const res = await signupUser(finalFormData);
+    if (res.success) {
       setFormData({
         firstName: "",
         lastName: "",
@@ -95,8 +114,13 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
         batch: "",
       });
       setShowSuccess(true);
+
+    } else {
+      alert(res.message); 
     }
-  };
+  }
+};
+
 
   const goToLogin = () => {
     setShowSuccess(false);
@@ -104,11 +128,18 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
     switchToLogin();
   };
 
-  const handleGetOtp = () => {
-    if (otpTimer === 0) {
-      setOtpTimer(90);
+const handleGetOtp = async () => {
+  if (otpTimer === 0 && formData.email) {
+    const errorMsg = validateField("email", formData.email);
+    if (errorMsg) {
+      setErrors((prev) => ({ ...prev, email: errorMsg }));
+      return;
     }
-  };
+    await sendOtp(formData.email);
+    setOtpTimer(15);
+  }
+};
+
 
   const formatTimer = (seconds) => {
     const m = String(Math.floor(seconds / 60)).padStart(2, "0");
@@ -236,7 +267,7 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
             >
               <option value="">Select Batch*</option>
               {Array.from({ length: 9 }, (_, i) => (
-                <option key={i} value={`Batch${i + 1}`}>{`Batch ${i + 1}`}</option>
+                <option key={i} value={`${i + 1}`}>{`Batch ${i + 1}`}</option>
               ))}
             </select>
           </div>
@@ -294,6 +325,7 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
           
           <button type="submit" className="modal-submit">Sign up</button>
         </form>
+        {error && <p className="error-text global-error">{error}</p>}
       </div>
     </div>
   );

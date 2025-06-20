@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Styles from "./resetpassword.module.css";
 import SuccessMessage from "./SuccessMessage";
+import useAuthStore from "../../../store/useAuthStore";
 
 const validationPatterns = {
   email: /@mujonline\.edu\.in$/,
@@ -11,7 +12,8 @@ const validationPatterns = {
 const errorMessages = {
   email: "Email must end with @mujonline.edu.in",
   otp: "OTP must be exactly 6 digits.",
-  password: "Password must contain 8+ characters, 1 uppercase, 1 lowercase, 1 number, 1 special character.",
+  password:
+    "Password must contain 8+ characters, 1 uppercase, 1 lowercase, 1 number, 1 special character.",
   confirm: "Passwords do not match.",
 };
 
@@ -24,6 +26,8 @@ const ResetPassword = ({ onBack }) => {
   const [errors, setErrors] = useState({});
   const [showSuccess, setShowSuccess] = useState(false);
 
+  const { sendResetOtp, verifyResetPassword, error, loading } = useAuthStore();
+
   const validateField = (field, value) => {
     switch (field) {
       case "email":
@@ -31,7 +35,9 @@ const ResetPassword = ({ onBack }) => {
       case "otp":
         return validationPatterns.otp.test(value) ? "" : errorMessages.otp;
       case "password":
-        return validationPatterns.password.test(value) ? "" : errorMessages.password;
+        return validationPatterns.password.test(value)
+          ? ""
+          : errorMessages.password;
       case "confirm":
         return value === password ? "" : errorMessages.confirm;
       default:
@@ -39,29 +45,49 @@ const ResetPassword = ({ onBack }) => {
     }
   };
 
-  const handleSendOtp = (e) => {
+  const handleSendOtp = async (e) => {
     e.preventDefault();
+
     const emailError = validateField("email", email);
     if (emailError) {
       setErrors({ email: emailError });
       return;
     }
-    setOtpSent(true);
-    setErrors({});
+
+    const isSent = await sendResetOtp({ email });
+
+    if (isSent) {
+      setOtpSent(true);
+    } else {
+      setErrors({ general: "Failed to send OTP" });
+    }
   };
 
-  const handleResetPassword = (e) => {
+  const handleResetPassword = async (e) => {
     e.preventDefault();
+
     const validationResults = {
       otp: validateField("otp", otp),
       password: validateField("password", password),
       confirm: validateField("confirm", confirmPassword),
     };
-    
+
     setErrors(validationResults);
-    
-    if (Object.values(validationResults).every(msg => !msg)) {
-      setShowSuccess(true);
+
+    if (Object.values(validationResults).every((msg) => !msg)) {
+      const resetData = {
+        universityEmail: email,
+        otp,
+        newPassword: password,
+      };
+
+      const isReset = await verifyResetPassword(resetData);
+
+      if (isReset) {
+        setShowSuccess(true);
+      } else {
+        setErrors({ general: "Failed to reset password" });
+      }
     }
   };
 
@@ -94,11 +120,16 @@ const ResetPassword = ({ onBack }) => {
             onChange={(e) => {
               setEmail(e.target.value);
               if (errors.email) {
-                setErrors({ ...errors, email: validateField("email", e.target.value) });
+                setErrors({
+                  ...errors,
+                  email: validateField("email", e.target.value),
+                });
               }
             }}
             disabled={otpSent}
-            className={`${Styles.input} ${errors.email ? Styles.inputError : ""}`}
+            className={`${Styles.input} ${
+              errors.email ? Styles.inputError : ""
+            }`}
             required
           />
           {errors.email && <p className={Styles.errorText}>{errors.email}</p>}
@@ -118,11 +149,16 @@ const ResetPassword = ({ onBack }) => {
                 onChange={(e) => {
                   setOtp(e.target.value);
                   if (errors.otp) {
-                    setErrors({ ...errors, otp: validateField("otp", e.target.value) });
+                    setErrors({
+                      ...errors,
+                      otp: validateField("otp", e.target.value),
+                    });
                   }
                 }}
                 maxLength={6}
-                className={`${Styles.input} ${errors.otp ? Styles.inputError : ""}`}
+                className={`${Styles.input} ${
+                  errors.otp ? Styles.inputError : ""
+                }`}
                 required
               />
               {errors.otp && <p className={Styles.errorText}>{errors.otp}</p>}
@@ -135,18 +171,23 @@ const ResetPassword = ({ onBack }) => {
                 onChange={(e) => {
                   setPassword(e.target.value);
                   if (errors.password) {
-                    setErrors({ ...errors, password: validateField("password", e.target.value) });
+                    setErrors({
+                      ...errors,
+                      password: validateField("password", e.target.value),
+                    });
                   }
                   // Also validate confirm password when password changes
                   if (confirmPassword) {
-                    setErrors({ 
-                      ...errors, 
+                    setErrors({
+                      ...errors,
                       confirm: validateField("confirm", confirmPassword),
-                      password: validateField("password", e.target.value)
+                      password: validateField("password", e.target.value),
                     });
                   }
                 }}
-                className={`${Styles.input} ${errors.password ? Styles.inputError : ""}`}
+                className={`${Styles.input} ${
+                  errors.password ? Styles.inputError : ""
+                }`}
                 required
               />
               {errors.password && (
@@ -160,12 +201,14 @@ const ResetPassword = ({ onBack }) => {
                 value={confirmPassword}
                 onChange={(e) => {
                   setConfirmPassword(e.target.value);
-                  setErrors({ 
-                    ...errors, 
-                    confirm: validateField("confirm", e.target.value)
+                  setErrors({
+                    ...errors,
+                    confirm: validateField("confirm", e.target.value),
                   });
                 }}
-                className={`${Styles.input} ${errors.confirm ? Styles.inputError : ""}`}
+                className={`${Styles.input} ${
+                  errors.confirm ? Styles.inputError : ""
+                }`}
                 required
               />
               {errors.confirm && (

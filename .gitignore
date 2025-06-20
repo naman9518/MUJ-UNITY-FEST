@@ -1,0 +1,43 @@
+# Node modules (both frontend and backend)
+**/node_modules/
+
+# Environment files
+**/.env
+
+# Build folders
+**/dist/
+**/build/
+
+# Logs
+**/logs/
+**/*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE specific
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Package lock files (optional, if you want to ignore them)
+# **/package-lock.json
+# **/yarn.lock
+
+# Coverage reports
+**/coverage/
+
+# Temporary files
+*.tmp
+*.swp
+
+# SQLite or other DB files
+**/*.sqlite
+**/*.db
+
+# Others
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

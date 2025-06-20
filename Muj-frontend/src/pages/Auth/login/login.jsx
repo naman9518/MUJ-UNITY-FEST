@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useAuth } from "../../../contexts/authContext.jsx";
+// import { useAuth } from "../../../contexts/authContext.jsx";
 import SuccessMessage from "./SuccessMessage";
 import ResetPassword from "./resetpassword.jsx";
 import "./LoginModal.css"; 
+import useAuthStore from "../../../store/useAuthStore.js";
 
 const validationPatterns = {
   email: /@mujonline\.edu\.in$/,
@@ -60,7 +61,7 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const { login } = useAuth();
+  const { login, error } = useAuthStore();
 
   const validateField = (field, value) => {
     switch (field) {
@@ -246,6 +247,7 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
             {isSubmitting ? "Signing in..." : "Sign in"}
           </button>
         </form>
+        {error && <p className="error-text global-error">{error}</p>}
       </div>
     </div>
   );

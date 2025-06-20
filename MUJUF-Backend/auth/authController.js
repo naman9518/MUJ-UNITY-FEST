@@ -9,7 +9,6 @@ import sendMail from "../utils/sendMail.js";
 
 const getSignupOtp = asyncHandler(async (req, res, next) => {
   const { universityEmail } = req.body;
-  console.log(universityEmail);
   if (!universityEmail || !universityEmail.includes("@mujonline.edu.in")) {
     return next(new CustomError("This is not a valid University Email", 404));
   }
@@ -139,7 +138,7 @@ const signInController = asyncHandler(async (req, res, next) => {
   });
   res.status(200).json({
     success: true,
-    message: `Sign in successfully as ${userDetails.name}`,
+    message: `Signed in successfully as ${userDetails.name}`,
     userInfo: {
       id: userDetails.id,
       name: userDetails.name,
@@ -154,11 +153,15 @@ const signInController = asyncHandler(async (req, res, next) => {
     },
   });
 });
+
 const resetPassword = asyncHandler(async (req, res, next) => {
   const { universityEmail } = req.body;
+
   if (!universityEmail) {
-    return next(new CustomError("Univeristy Email is required", 404));
+    return next(new CustomError("University Email is required", 404));
   }
+
+  // Check if user exists
   const [[userDetails]] = await DB.execute(
     "SELECT * FROM users WHERE universityEmail = ?",
     [universityEmail]
@@ -167,26 +170,37 @@ const resetPassword = asyncHandler(async (req, res, next) => {
   if (!userDetails) {
     return next(new CustomError("User with this Email does not exist", 404));
   }
+
+  // Generate OTP
   const otp = Math.floor(100000 + Math.random() * 900000);
-  const messageContent = `Your otp to reset password is ${otp}. It will expire in 5 minutes`;
-  sendMail(universityEmail, "Reset Password", messageContent);
-  await DB.execute(
+
+  // Insert OTP and expiry into verification table
+  const [result] = await DB.execute(
     `INSERT INTO verification (universityEmail, otp, otpExpiryAt)
      VALUES (?, ?, NOW() + INTERVAL 5 MINUTE)`,
     [universityEmail, otp]
   );
-  const mailResponse = await transporter.sendMail(message);
+
+  if (result.affectedRows !== 1) {
+    return next(new CustomError("Could not create OTP, please try again", 500));
+  }
+
+  // Prepare mail content
+  const mailContent = `Your OTP to reset password is ${otp}. It will expire in 5 minutes`;
+
+  // Send mail (assuming sendMail returns response like in getSignupOtp)
+  const mailResponse = await sendMail(universityEmail, "Reset Password", mailContent);
+
   if (!mailResponse.accepted || mailResponse.accepted.length === 0) {
-    return next(
-      new CustomError("Unable to send OTP, Please try again later", 500)
-    );
+    return next(new CustomError("Unable to send OTP, please try again later", 500));
   }
 
   res.status(201).json({
     success: true,
-    message: "OTP send successfully",
+    message: "OTP sent successfully",
   });
 });
+
 
 const verifyResetPassword = asyncHandler(async (req, res, next) => {
   const { universityEmail, otp, newPassword } = req.body;
