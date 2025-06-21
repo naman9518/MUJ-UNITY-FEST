@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import "../../components/home component/heroSection.css"
 import Team from "../../utilis/Resuable/TeamMembers";
 import IntroVideo from "../../components/home component/IntroVideo";
 import AboutSection from "../../components/home component/AboutSection";

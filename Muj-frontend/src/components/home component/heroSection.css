@@ -1,0 +1,383 @@
+/* Enhanced Intro Video Section */
+.intro-video-section {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0; /* Remove extra padding */
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a1a1a;
+  box-sizing: border-box;
+}
+
+/* Animated background blur effect - Full screen coverage */
+.video-background-blur {
+  position: absolute;
+  inset: 0; /* Fill the entire section */
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  filter: blur(60px);
+  animation: backgroundFloat 25s ease-in-out infinite;
+  transition: background 0.8s ease;
+  opacity: 0.6;
+  background-blend-mode: overlay;
+  pointer-events: none;
+}
+
+@keyframes backgroundFloat {
+  0%, 100% { 
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    filter: blur(60px) hue-rotate(0deg);
+  }
+  25% { 
+    transform: translate(-20px, -30px) rotate(2deg) scale(1.1);
+    filter: blur(50px) hue-rotate(90deg);
+  }
+  50% { 
+    transform: translate(30px, -20px) rotate(-2deg) scale(1.05);
+    filter: blur(70px) hue-rotate(180deg);
+  }
+  75% { 
+    transform: translate(-10px, 25px) rotate(1deg) scale(1.08);
+    filter: blur(45px) hue-rotate(270deg);
+  }
+}
+
+.video-container {
+  width: min(90%, 1100px);
+  height: min(70vh, 480px); /* Reduce height for better fit */
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  z-index: 2;
+  
+  /* Enhanced shadow system */
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    0 8px 16px -8px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.video-container:hover {
+  box-shadow: 
+    0 35px 70px -15px rgba(0, 0, 0, 0.3),
+    0 15px 30px -10px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  
+  transform: translateY(-65px) scale(1.02);
+}
+
+.main-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  background: #e55511;
+  transition: all 0.4s ease;
+}
+
+/* Video overlay for better contrast */
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg, 
+    rgba(0, 0, 0, 0) 0%, 
+    rgba(0, 0, 0, 0.1) 70%, 
+    rgba(0, 0, 0, 0.3) 100%
+  );
+  pointer-events: none;
+  border-radius: 20px;
+}
+
+/* Enhanced mute button */
+.mute-button {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  padding: 16px;
+  font-size: 24px;
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  z-index: 10;
+  
+  /* Enhanced shadows */
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.3),
+    0 3px 10px rgba(0, 0, 0, 0.2);
+  
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.mute-button:hover {
+  background: rgba(255, 107, 0, 0.9);
+  color: #fff;
+  transform: scale(1.1);
+  box-shadow: 
+    0 12px 35px rgba(255, 107, 0, 0.4),
+    0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Scroll to content button */
+.scroll-button {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 16px 24px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+  color: #fff;
+  cursor: pointer;
+  z-index: 10;
+  
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  font-family: "Hind", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  
+  backdrop-filter: blur(15px);
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.2),
+    0 3px 10px rgba(0, 0, 0, 0.1);
+  
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+.scroll-button:hover {
+  background: rgba(255, 107, 0, 0.9);
+  border-color: rgba(255, 107, 0, 0.8);
+  transform: translateX(-50%) translateY(-5px);
+  box-shadow: 
+    0 15px 35px rgba(255, 107, 0, 0.3),
+    0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.scroll-text {
+  margin: 0;
+}
+
+.scroll-icon {
+  font-size: 20px;
+  animation: scrollBounce 1.5s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { 
+    box-shadow: 
+      0 8px 25px rgba(0, 0, 0, 0.2),
+      0 3px 10px rgba(0, 0, 0, 0.1),
+      0 0 0 0 rgba(255, 255, 255, 0.4);
+  }
+  50% { 
+    box-shadow: 
+      0 8px 25px rgba(0, 0, 0, 0.2),
+      0 3px 10px rgba(0, 0, 0, 0.1),
+      0 0 0 10px rgba(255, 255, 255, 0);
+  }
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .intro-video-section {
+    padding: 0;
+  }
+  .video-container {
+    width: min(95%, 900px);
+    height: min(65vh, 400px); /* Reduce height */
+  }
+}
+
+@media (max-width: 992px) {
+  .intro-video-section {
+    padding: 0;
+  }
+  .video-container {
+    width: min(98%, 700px);
+    height: min(60vh, 320px); /* Reduce height */
+    border-radius: 20px;
+  }
+  
+  .main-video {
+    border-radius: 16px;
+  }
+  
+  .video-overlay {
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .intro-video-section {
+    height: 100vh;
+    padding: 0;
+  }
+  
+  .video-container {
+    width: min(99%, 480px);
+    height: min(55vh, 220px); /* Reduce height */
+    border-radius: 16px;
+  }
+  
+  .main-video {
+    border-radius: 12px;
+  }
+  
+  .video-overlay {
+    border-radius: 12px;
+  }
+  
+  .mute-button {
+    bottom: 15px;
+    right: 15px;
+    padding: 14px;
+    font-size: 22px;
+  }
+  
+  .scroll-button {
+    bottom: 15px;
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+  
+  .scroll-text {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .intro-video-section {
+    height: 100vh;
+    padding: 0;
+  }
+  
+  .video-container {
+    width: 100%;
+    height: min(50vh, 180px); /* Reduce height */
+    border-radius: 12px;
+    max-width: 100vw;
+  }
+  
+  .main-video {
+    border-radius: 8px;
+  }
+  
+  .video-overlay {
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .intro-video-section {
+    padding: 5px;
+  }
+  
+  .video-container {
+    width: calc(100% - 10px);
+    height: min(75vh, 300px);
+    border-radius: 8px;
+  }
+  
+  .mute-button {
+    bottom: 12px;
+    right: 12px;
+    padding: 12px;
+    font-size: 20px;
+  }
+  
+  .scroll-button {
+    bottom: 12px;
+    padding: 12px 16px;
+  }
+  
+  .scroll-icon {
+    font-size: 18px;
+  }
+}
+
+/* Special handling for very short screens */
+@media (max-height: 600px) {
+  .intro-video-section {
+    padding: 10px;
+  }
+  
+  .video-container {
+    height: min(80vh, 400px);
+  }
+  
+  .mute-button {
+    bottom: 10px;
+    right: 10px;
+    padding: 10px;
+  }
+  
+  .scroll-button {
+    bottom: 10px;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+}
+
+/* Accessibility improvements */
+.mute-button:focus,
+.scroll-button:focus {
+  outline: 3px solid rgba(255, 107, 0, 0.6);
+  outline-offset: 2px;
+}
+
+/* Performance optimizations */
+.video-container,
+.video-background-blur {
+  will-change: transform;
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .video-background-blur {
+    animation: none;
+  }
+  
+  .scroll-button {
+    animation: none;
+  }
+  
+  .scroll-icon {
+    animation: none;
+  }
+  
+  .video-container {
+    transition: box-shadow 0.2s ease;
+  }
+  
+  .video-container:hover {
+    transform: none;
+  }
+}
