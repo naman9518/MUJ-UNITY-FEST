@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import SignUpSuccessfull from "./SignupSuccessfull";
 import useAuthStore from "../../../store/useAuthStore";
 
-
 const validationPatterns = {
   firstName: /^[A-Za-z]+$/,
   email: /@mujonline\.edu\.in$/,
@@ -19,10 +18,9 @@ const errorMessages = {
 };
 
 function SignUpModal({ toggleSignupModal, switchToLogin }) {
-
   const { sendOtp, loading, error, signupUser } = useAuthStore();
-  
   const [showSuccess, setShowSuccess] = useState(false);
+  const [otpSent, setOtpSent] = useState(false); // New state to track if OTP was sent
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -35,7 +33,6 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
     course: "",
     batch: "",
   });
-  
   const [errors, setErrors] = useState({});
   const [otpTimer, setOtpTimer] = useState(0);
   const [timerInterval, setTimerInterval] = useState(null);
@@ -79,48 +76,43 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  const validationResults = Object.keys(formData).reduce((acc, key) => {
-    acc[key] = validateField(key, formData[key]);
-    return acc;
-  }, {});
-  setErrors(validationResults);
-
-  if (Object.values(validationResults).every((msg) => !msg)) {
-
-    const finalFormData = {
-    name: `${formData.firstName} ${formData.lastName}`,
-    universityEmail: formData.email,
-    course: formData.course,
-    batch: formData.batch,
-    password: formData.password,
-    otp: formData.otp,
-    phone: formData.phoneNumber,
-    phone2: formData.alternatePhone,
-  };
-
-    const res = await signupUser(finalFormData);
-    if (res.success) {
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phoneNumber: "",
-        alternatePhone: "",
-        otp: "",
-        password: "",
-        confirmPassword: "",
-        course: "",
-        batch: "",
-      });
-      setShowSuccess(true);
-
-    } else {
-      alert(res.message); 
+    e.preventDefault();
+    const validationResults = Object.keys(formData).reduce((acc, key) => {
+      acc[key] = validateField(key, formData[key]);
+      return acc;
+    }, {});
+    setErrors(validationResults);
+    if (Object.values(validationResults).every((msg) => !msg)) {
+      const finalFormData = {
+        name: `${formData.firstName} ${formData.lastName}`,
+        universityEmail: formData.email,
+        course: formData.course,
+        batch: formData.batch,
+        password: formData.password,
+        otp: formData.otp,
+        phone: formData.phoneNumber,
+        phone2: formData.alternatePhone,
+      };
+      const res = await signupUser(finalFormData);
+      if (res.success) {
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phoneNumber: "",
+          alternatePhone: "",
+          otp: "",
+          password: "",
+          confirmPassword: "",
+          course: "",
+          batch: "",
+        });
+        setShowSuccess(true);
+      } else {
+        alert(res.message);
+      }
     }
-  }
-};
-
+  };
 
   const goToLogin = () => {
     setShowSuccess(false);
@@ -128,18 +120,22 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
     switchToLogin();
   };
 
-const handleGetOtp = async () => {
-  if (otpTimer === 0 && formData.email) {
-    const errorMsg = validateField("email", formData.email);
-    if (errorMsg) {
-      setErrors((prev) => ({ ...prev, email: errorMsg }));
-      return;
-    }
-    await sendOtp(formData.email);
-    setOtpTimer(15);
-  }
-};
+  const handleGetOtp = async () => {
+    if (otpTimer === 0 && formData.email) {
+      const errorMsg = validateField("email", formData.email);
+      if (errorMsg) {
+        setErrors((prev) => ({
+          ...prev,
+          email: errorMsg,
+        }));
+        return;
+      }
 
+      await sendOtp(formData.email);
+      setOtpTimer(15);
+      setOtpSent(true); // Set flag when OTP is sent
+    }
+  };
 
   const formatTimer = (seconds) => {
     const m = String(Math.floor(seconds / 60)).padStart(2, "0");
@@ -150,17 +146,28 @@ const handleGetOtp = async () => {
   if (showSuccess) return <SignUpSuccessfull goToLogin={goToLogin} />;
 
   return (
-    <div className="logout-modal-wrapper" onClick={() => toggleSignupModal(false)}>
+    <div
+      className="logout-modal-wrapper"
+      onClick={() => toggleSignupModal(false)}
+    >
       <div className="modal-contents" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2 className="modal-title">Sign up</h2>
-          <button className="modal-close-btn" onClick={() => toggleSignupModal(false)}>×</button>
+          <button
+            className="modal-close-btn"
+            onClick={() => toggleSignupModal(false)}
+          >
+            ×
+          </button>
         </div>
-        
-        <p className="modal-subtitle">Already have an account?
-          <span className="modal-signin" onClick={switchToLogin}>{" "}Sign in</span>
+        {error && <p className="error-text global-error">{error}</p>}
+        <p className="modal-subtitle">
+          Already have an account?
+          <span className="modal-signin" onClick={switchToLogin}>
+            {" "}
+            Sign in
+          </span>
         </p>
-        
         <form className="signup-form" onSubmit={handleSubmit}>
           <div className="form-row">
             <input
@@ -182,7 +189,6 @@ const handleGetOtp = async () => {
             />
           </div>
           {errors.firstName && <p className="error-message">{errors.firstName}</p>}
-          
           <div className="form-row">
             <input
               type="tel"
@@ -202,7 +208,6 @@ const handleGetOtp = async () => {
               onChange={handleInputChange}
             />
           </div>
-          
           <div className="form-row">
             <input
               type="email"
@@ -215,7 +220,6 @@ const handleGetOtp = async () => {
             />
           </div>
           {errors.email && <p className="error-message">{errors.email}</p>}
-          
           <div className="form-row">
             <div className="otp-combined">
               <input
@@ -236,8 +240,19 @@ const handleGetOtp = async () => {
               </button>
             </div>
           </div>
+          {/* New clarification message */}
+          {otpSent && (
+            <p className="otp-info-message" style={{ 
+              color: '#0066cc', 
+              fontSize: '14px', 
+              marginTop: '-25px',
+              marginBottom: '10px',
+              fontStyle: 'italic'
+            }}>
+              📧 Please check your university email ({formData.email}) for the OTP code.
+            </p>
+          )}
           {errors.otp && <p className="error-message">{errors.otp}</p>}
-          
           <div className="form-row">
             <select
               name="course"
@@ -256,7 +271,6 @@ const handleGetOtp = async () => {
             </select>
           </div>
           {errors.course && <p className="error-message">{errors.course}</p>}
-          
           <div className="form-row">
             <select
               name="batch"
@@ -267,12 +281,13 @@ const handleGetOtp = async () => {
             >
               <option value="">Select Batch*</option>
               {Array.from({ length: 9 }, (_, i) => (
-                <option key={i} value={`${i + 1}`}>{`Batch ${i + 1}`}</option>
+                <option key={i} value={`${i + 1}`}>
+                  {`Batch ${i + 1}`}
+                </option>
               ))}
             </select>
           </div>
           {errors.batch && <p className="error-message">{errors.batch}</p>}
-          
           <div className="form-row">
             <input
               type="password"
@@ -285,7 +300,6 @@ const handleGetOtp = async () => {
             />
           </div>
           {errors.password && <p className="error-message">{errors.password}</p>}
-          
           <div className="form-row">
             <input
               type="password"
@@ -297,8 +311,9 @@ const handleGetOtp = async () => {
               required
             />
           </div>
-          {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
-          
+          {errors.confirmPassword && (
+            <p className="error-message">{errors.confirmPassword}</p>
+          )}
           <div className="checkbox-row">
             <input type="checkbox" id="terms" required />
             <label htmlFor="terms">
@@ -319,13 +334,14 @@ const handleGetOtp = async () => {
                 style={{ color: "#f26522", textDecoration: "underline" }}
               >
                 Privacy Policy
-              </a>.
+              </a>
+              .
             </label>
           </div>
-          
-          <button type="submit" className="modal-submit">Sign up</button>
+          <button type="submit" className="modal-submit">
+            Sign up
+          </button>
         </form>
-        {error && <p className="error-text global-error">{error}</p>}
       </div>
     </div>
   );
