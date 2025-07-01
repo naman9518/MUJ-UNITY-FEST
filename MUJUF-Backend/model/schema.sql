@@ -45,11 +45,3 @@ CREATE TABLE IF NOT EXISTS contact_queries (
   message TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-
-
-
-
-
-
-

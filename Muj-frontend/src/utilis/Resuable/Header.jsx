@@ -8,6 +8,7 @@ import Signin from "../../pages/Auth/login/login";
 import Signup from "../../pages/Auth/signup/SignUp";
 import ProfilePage from "./profilepage";
 import "./header.css";
+import useAuthStore from "../../store/useAuthStore.js";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -19,14 +20,17 @@ const Header = () => {
   const { isLoggedIn, logout } = useAuth();
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const {user} = useAuthStore();
 
   useEffect(() => {
+    
     let lastScrollY = window.scrollY;
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
       setHidden(window.scrollY > 100 && window.scrollY > lastScrollY); 
       lastScrollY = window.scrollY;
     };
+
     
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);

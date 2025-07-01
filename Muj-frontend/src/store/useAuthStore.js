@@ -42,9 +42,10 @@ const useAuthStore = create((set) => ({
           universityEmail: email,
           password,
         },
-        { withCredentials: true } 
+        { withCredentials: true }
       );
       set({ user: data.userInfo, successMessage: data.message });
+      
       return true;
     } catch (err) {
       set({
@@ -80,6 +81,22 @@ const useAuthStore = create((set) => ({
       return true;
     } catch (err) {
       set({ error: err.response?.data?.message || "Password Reset Failed !" });
+      return false;
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  logout: async () => {
+    try {
+      set({ loading: true, error: null });
+      await API.post("/auth/signout", {}, { withCredentials: true });
+      set({ user: null, successMessage: "Logged out successfully" });
+      return true;
+    } catch (err) {
+      set({
+        error: err.response?.data?.message || "Logout failed",
+      });
       return false;
     } finally {
       set({ loading: false });

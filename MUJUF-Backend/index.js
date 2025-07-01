@@ -19,6 +19,9 @@ app.use(
 );
 
 //routes
+app.get("/", (req, res) => {
+  res.send("API is running fine");
+});
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/sponsor", sponsorRoute);
 app.use("/api/v1/contact", contactRoute);
