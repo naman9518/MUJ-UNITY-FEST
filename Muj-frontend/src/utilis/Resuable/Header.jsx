@@ -9,7 +9,6 @@ import Signup from "../../pages/Auth/signup/SignUp";
 import ProfilePage from "./profilepage";
 import LogoutConfirmationModal from "../../pages/Auth/logout/LogoutConfirmationModal.jsx";
 import "./header.css";
-import useAuthStore from "../../store/useAuthStore.js";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -25,7 +24,6 @@ const Header = () => {
   
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const {user} = useAuthStore();
 
   useEffect(() => {
     
