@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useAuth } from "../../contexts/authContext.jsx";
+import useAuthStore from "../../store/useAuthStore.js";
 import Logo from "../../assets/MUJ-Unity-Fest-Logo-6 1.svg";
 import Hamburger from "../../assets/burger-menu-svgrepo-com.svg";
 import Cross from "../../assets/cross-svgrepo-com.svg";
 import Signin from "../../pages/Auth/login/login";
 import Signup from "../../pages/Auth/signup/SignUp";
 import ProfilePage from "./profilepage";
+import LogoutConfirmationModal from "../../pages/Auth/logout/LogoutConfirmationModal.jsx";
 import "./header.css";
 
 const Header = () => {
@@ -16,7 +17,11 @@ const Header = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
   const [profileModalOpen, setProfileModalOpen] = useState(false);
-  const { isLoggedIn, logout } = useAuth();
+  const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
+
+  // Get user and logout function from Zustand store
+  const { user, logout: logoutFromStore, loading } = useAuthStore();
+  
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
@@ -24,30 +29,29 @@ const Header = () => {
     let lastScrollY = window.scrollY;
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
-      setHidden(window.scrollY > 100 && window.scrollY > lastScrollY); 
+      setHidden(window.scrollY > 100 && window.scrollY > lastScrollY);
       lastScrollY = window.scrollY;
     };
-    
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
     document.body.style.overflow = 
-      showLoginModal || showSignupModal || profileModalOpen ? "hidden" : "auto";
-  }, [showLoginModal, showSignupModal, profileModalOpen]);
+      showLoginModal || showSignupModal || profileModalOpen || showLogoutConfirmation 
+        ? "hidden" 
+        : "auto";
+  }, [showLoginModal, showSignupModal, profileModalOpen, showLogoutConfirmation]);
 
   useEffect(() => {
     const handleResize = () => {
       const newIsMobile = window.innerWidth < 768;
       setIsMobile(newIsMobile);
-      
       if (!newIsMobile && menuOpen) {
         setMenuOpen(false);
         document.body.classList.remove("menu-open");
       }
     };
-    
     window.addEventListener("resize", handleResize);
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
@@ -66,7 +70,7 @@ const Header = () => {
     setShowLoginModal(!showLoginModal);
     if (menuOpen) setMenuOpen(false);
   };
-  
+
   const toggleSignupModal = () => {
     setShowSignupModal(!showSignupModal);
     if (menuOpen) setMenuOpen(false);
@@ -84,16 +88,34 @@ const Header = () => {
 
   const handleLoginSuccess = () => setShowLoginModal(false);
 
-  const handleLogout = () => {
-    logout();
-    setMenuOpen(false);
+  // Handle logout button click - show confirmation
+  const handleLogoutClick = () => {
+    setShowLogoutConfirmation(true);
+    setMenuOpen(false); // Close menu if open
+  };
+
+  // Handle confirmed logout
+  const handleConfirmLogout = async () => {
+    try {
+      await logoutFromStore();
+      setShowLogoutConfirmation(false);
+      // Optionally redirect to home page or show success message
+      window.location.href = '/home';
+    } catch (error) {
+      console.error('Logout failed:', error);
+      // Handle logout error if needed
+    }
+  };
+
+  // Handle logout cancellation
+  const handleCancelLogout = () => {
+    setShowLogoutConfirmation(false);
   };
 
   const handleProfileModalChange = (isOpen) => {
     setProfileModalOpen(isOpen);
   };
 
-  // Close menu when clicking on a navigation link
   const handleNavLinkClick = () => {
     if (menuOpen) {
       setMenuOpen(false);
@@ -114,7 +136,6 @@ const Header = () => {
               <img src={Logo} alt="Logo" />
             </a>
           </div>
-          
           <nav>
             <ul className={`nav-menu ${menuOpen ? "open" : ""}`}>
               <li>
@@ -162,11 +183,10 @@ const Header = () => {
                   Contact Us
                 </a>
               </li>
-              
               {menuOpen && isMobile && (
                 <>
-                  {!isLoggedIn && <li className="menu-separator"></li>}
-                  {isLoggedIn && (
+                  {!user && <li className="menu-separator"></li>}
+                  {user && (
                     <li className="profile-section">
                       <div className="mobile-profile-wrapper">
                         <ProfilePage onModalChange={handleProfileModalChange} />
@@ -175,9 +195,13 @@ const Header = () => {
                     </li>
                   )}
                   <li className="auth-buttons-mobile">
-                    {isLoggedIn ? (
-                      <button className="btn btn-primary" onClick={handleLogout}>
-                        Logout
+                    {user ? (
+                      <button 
+                        className="btn btn-primary" 
+                        onClick={handleLogoutClick}
+                        disabled={loading}
+                      >
+                        {loading ? 'Logging out...' : 'Logout'}
                       </button>
                     ) : (
                       <>
@@ -200,7 +224,6 @@ const Header = () => {
               )}
             </ul>
           </nav>
-
           <div className="mobile-controls">
             <button
               className={`nav-toggle ${profileModalOpen ? "profile-active" : ""}`}
@@ -219,15 +242,14 @@ const Header = () => {
               />
             </button>
           </div>
-
           {!menuOpen && (
             <div className="auth-buttons">
-              {isLoggedIn && (
+              {user && (
                 <div className="profile-icon-wrapper">
                   <ProfilePage onModalChange={handleProfileModalChange} />
                 </div>
               )}
-              {!isLoggedIn ? (
+              {!user ? (
                 <>
                   <button
                     className="btn btn-primary"
@@ -243,15 +265,20 @@ const Header = () => {
                   </button>
                 </>
               ) : (
-                <button className="btn btn-primary" onClick={handleLogout}>
-                  Logout
+                <button 
+                  className="btn btn-primary" 
+                  onClick={handleLogoutClick}
+                  disabled={loading}
+                >
+                  {loading ? 'Logging out...' : 'Logout'}
                 </button>
               )}
             </div>
           )}
         </div>
       </header>
-      
+
+      {/* Existing modals */}
       {showLoginModal && (
         <Signin
           toggleLoginModal={toggleLoginModal}
@@ -259,13 +286,19 @@ const Header = () => {
           onLoginSuccess={handleLoginSuccess}
         />
       )}
-      
       {showSignupModal && (
         <Signup
           toggleSignupModal={toggleSignupModal}
           switchToLogin={switchToLogin}
         />
       )}
+
+      {/* New logout confirmation modal */}
+      <LogoutConfirmationModal
+        isOpen={showLogoutConfirmation}
+        onConfirm={handleConfirmLogout}
+        onCancel={handleCancelLogout}
+      />
     </>
   );
 };
