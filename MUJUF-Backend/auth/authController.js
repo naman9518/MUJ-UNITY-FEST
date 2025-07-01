@@ -109,7 +109,7 @@ const signInController = asyncHandler(async (req, res, next) => {
   if (!userDetails) {
     return next(
       new CustomError(
-        "User doesn't exists !!",
+        "User doesn't exists!",
         404
       )
     );

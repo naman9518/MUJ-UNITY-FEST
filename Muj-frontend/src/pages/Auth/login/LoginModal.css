@@ -26,7 +26,6 @@
     padding: 1.25rem;
     width: 90%;
   }
-  
   .modal-title {
     font-size: 1.75rem;
   }
@@ -87,7 +86,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
 }
 
 .modal-input {
@@ -99,7 +98,7 @@
   border-bottom: 1px solid #d1d5db;
   background: transparent;
   outline: none;
-  padding-bottom: 5px; 
+  padding-bottom: 5px;
 }
 
 .modal-input::placeholder {
@@ -114,8 +113,65 @@
   color: #f44;
   font-size: 12px;
   margin-top: 5px;
-  position: static; 
+  position: static;
   display: block;
+}
+
+/* Global Error Styling - Updated */
+.global-error {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin: 1rem 0 0 0;
+  color: #dc2626;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: slideInError 0.3s ease-out;
+  box-shadow: 0 1px 3px rgba(220, 38, 38, 0.1);
+}
+
+.global-error::before {
+  content: "⚠";
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+@keyframes slideInError {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Success Message Styling */
+.global-success {
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin: 1rem 0 0 0;
+  color: #16a34a;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: slideInError 0.3s ease-out;
+  box-shadow: 0 1px 3px rgba(22, 163, 74, 0.1);
+}
+
+.global-success::before {
+  content: "✓";
+  font-size: 1rem;
+  flex-shrink: 0;
 }
 
 .modal-options {
@@ -211,4 +267,256 @@
   to {
     transform: scale(1);
   }
+}
+
+.email-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.email-prefix-input {
+  width: 100%;
+  background: transparent;
+  z-index: 2;
+  position: relative;
+}
+
+.email-suffix-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  z-index: 1;
+  padding-bottom: 5px;
+}
+
+.email-user-text {
+  color: transparent;
+  font-size: 1rem;
+  white-space: pre;
+}
+
+.email-suffix {
+  color: #9ca3af;
+  font-size: 1rem;
+  user-select: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.email-input-container:has(.email-prefix-input:not(:placeholder-shown)) .email-suffix {
+  opacity: 1;
+  color: #6b7280;
+}
+
+.email-input-container:focus-within:has(.email-prefix-input:not(:placeholder-shown)) .email-suffix {
+  color: #4b5563;
+}
+
+.password-input-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  border-bottom: 1px solid #d1d5db;
+  transition: border-color 0.2s ease;
+}
+
+.password-input-container:focus-within {
+  border-bottom: 1px solid #ea580c;
+}
+
+.password-input {
+  flex: 1;
+  border: none !important;
+  border-bottom: none !important;
+  padding-right: 40px;
+  background: transparent;
+}
+
+.password-input:focus {
+  outline: none;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.password-toggle-btn:hover {
+  color: #ea580c;
+}
+
+.password-toggle-btn:focus {
+  outline: none;
+  color: #ea580c;
+}
+
+.email-input-container.input-error,
+.modal-input-wrapper.email-input-container:has(.input-error) {
+  border-bottom: 1px solid #f44;
+}
+
+.password-input-container.input-error,
+.modal-input-wrapper.password-input-container:has(.input-error) {
+  border-bottom: 1px solid #f44;
+}
+
+@media screen and (max-width: 640px) {
+  .email-suffix {
+    font-size: 0.9rem;
+  }
+  .email-user-text {
+    font-size: 0.9rem;
+  }
+  .password-toggle-btn {
+    right: 4px;
+  }
+  .global-error {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Additional styles for signup form consistency */
+.logout-modal-wrapper {
+  all: revert;
+  font-family: 'Inter', sans-serif;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(4px);
+  background-color: rgba(23, 23, 23, 0.7);
+  z-index: 1000;
+}
+
+.modal-contents {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 624px;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-input {
+  font-size: 1rem;
+  width: 100%;
+  height: 52px;
+  color: #27272a;
+  border: none;
+  border-bottom: 1px solid #d1d5db;
+  background: transparent;
+  outline: none;
+  padding-bottom: 5px;
+}
+
+.form-input::placeholder {
+  color: #a3a3a3;
+}
+
+.form-input.input-error {
+  border-bottom: 1px solid #f44;
+}
+
+.error-message {
+  color: #f44;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.otp-combined {
+  display: flex;
+  gap: 0.5rem;
+  align-items: end;
+}
+
+.otp-input {
+  flex: 1;
+}
+
+.get-otp-btn {
+  background-color: #ea580c;
+  color: white;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  height: 52px;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.get-otp-btn:hover:not(:disabled) {
+  background-color: #d9480f;
+}
+
+.get-otp-btn:disabled {
+  background-color: #e0e0e0;
+  color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.checkbox-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.checkbox-row label {
+  font-size: 0.875rem;
+  color: #475569;
+  line-height: 1.4;
+}
+
+.modal-signin {
+  font-weight: 600;
+  color: #ea580c;
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+.modal-signin:hover {
+  text-decoration: underline;
 }
