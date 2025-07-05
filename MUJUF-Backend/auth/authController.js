@@ -7,6 +7,7 @@ import dotenv from "dotenv/config";
 import nodemailer from "nodemailer";
 import sendMail from "../utils/sendMail.js";
 
+//Signup OTP Generator
 const getSignupOtp = asyncHandler(async (req, res, next) => {
   const { universityEmail } = req.body;
   if (!universityEmail || !universityEmail.includes("@mujonline.edu.in")) {
@@ -49,6 +50,7 @@ const getSignupOtp = asyncHandler(async (req, res, next) => {
   });
 });
 
+//Signup Controller
 const singupController = asyncHandler(async (req, res, next) => {
   console.log(req.body);
   const { name, universityEmail, course, password, batch, phone, otp, phone2 } =
@@ -95,6 +97,7 @@ const singupController = asyncHandler(async (req, res, next) => {
   });
 });
 
+//SignIn Controller
 const signInController = asyncHandler(async (req, res, next) => {
   const { universityEmail, password } = req.body;
 
@@ -107,12 +110,7 @@ const signInController = asyncHandler(async (req, res, next) => {
   );
 
   if (!userDetails) {
-    return next(
-      new CustomError(
-        "User doesn't exists!",
-        404
-      )
-    );
+    return next(new CustomError("User doesn't exists!", 404));
   }
 
   const isCorrectPassword = await bcrypt.compare(
@@ -129,7 +127,7 @@ const signInController = asyncHandler(async (req, res, next) => {
       expiresIn: process.env.JWT_EXPIRY_DAYS,
     }
   );
-  
+
   res.cookie("token", jwtToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV !== "development",
@@ -154,6 +152,7 @@ const signInController = asyncHandler(async (req, res, next) => {
   });
 });
 
+//Reset Password OTP Generator
 const resetPassword = asyncHandler(async (req, res, next) => {
   const { universityEmail } = req.body;
 
@@ -189,10 +188,16 @@ const resetPassword = asyncHandler(async (req, res, next) => {
   const mailContent = `Your OTP to reset password is ${otp}. It will expire in 5 minutes`;
 
   // Send mail (assuming sendMail returns response like in getSignupOtp)
-  const mailResponse = await sendMail(universityEmail, "Reset Password", mailContent);
+  const mailResponse = await sendMail(
+    universityEmail,
+    "Reset Password",
+    mailContent
+  );
 
   if (!mailResponse.accepted || mailResponse.accepted.length === 0) {
-    return next(new CustomError("Unable to send OTP, please try again later", 500));
+    return next(
+      new CustomError("Unable to send OTP, please try again later", 500)
+    );
   }
 
   res.status(201).json({
@@ -201,7 +206,7 @@ const resetPassword = asyncHandler(async (req, res, next) => {
   });
 });
 
-
+//Reset Password Controller
 const verifyResetPassword = asyncHandler(async (req, res, next) => {
   const { universityEmail, otp, newPassword } = req.body;
 
@@ -235,6 +240,55 @@ const verifyResetPassword = asyncHandler(async (req, res, next) => {
   });
 });
 
+//Update Profile Controller
+const updateProfile = asyncHandler(async (req, res, next) => {
+  const { name, phone, phone2, batch, course, image, email } = req.body;
+  const userId = req.user.id;
+  
+  if (!name && !phone && !phone2 && !batch && !course && !image && !email) {
+    return next(new CustomError("Koi ek field to bharo", 400));
+  }
+
+  try {
+    const updates = [];
+    const values = [];
+
+    if (name) updates.push("name = ?"), values.push(name);
+    if (phone) updates.push("phone = ?"), values.push(phone);
+    if (phone2 !== undefined) updates.push("phone2 = ?"), values.push(phone2 || null);
+    if (batch) updates.push("batch = ?"), values.push(batch);
+    if (course) updates.push("course = ?"), values.push(course);
+    if (image !== undefined) updates.push("image = ?"), values.push(image || null);
+
+    if (email) {
+      const [[{ email: oldEmail }]] = await DB.execute("SELECT email FROM users WHERE id = ?", [userId]);
+      if (oldEmail && oldEmail !== email) {
+        updates.push("oldEmail = ?");
+        values.push(oldEmail);
+      }
+      updates.push("email = ?");
+      values.push(email);
+    }
+
+    await DB.execute(`UPDATE users SET ${updates.join(", ")} WHERE id = ?`, [...values, userId]);
+
+    const [[updatedUser]] = await DB.execute(
+      "SELECT id, name, universityEmail, phone, phone2, batch, course, image, email, oldEmail, role FROM users WHERE id = ?",
+      [userId]
+    );
+
+    res.status(200).json({ success: true, message: "Profile updated", userInfo: updatedUser });
+  } catch (err) {
+    if (err.code === "ER_DUP_ENTRY") {
+      if (err.message.includes("'phone'")) return next(new CustomError("Phone No. already exists", 400));
+      if (err.message.includes("'email'")) return next(new CustomError("Email already exists", 400));
+    }
+    next(new CustomError("Something went wrong", 500));
+  }
+});
+
+
+//Signout Controller
 const signoutController = asyncHandler(async (req, res, next) => {
   res.clearCookie("token", {
     httpOnly: true,
@@ -255,4 +309,5 @@ export {
   resetPassword,
   verifyResetPassword,
   signoutController,
+  updateProfile
 };

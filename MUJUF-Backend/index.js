@@ -1,4 +1,5 @@
 import express from "express";
+import cookieParser from "cookie-parser";
 import "dotenv/config";
 import DB from "./model/db.js";
 import CustomError from "./middleware/customError.js";
@@ -7,9 +8,11 @@ import authRoute from "./auth/authRoute.js";
 import sponsorRoute from "./sponsor/sponsorRoute.js";
 import contactRoute from "./contact/contactRoute.js";
 import cors from "cors";
+
 //App setup
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 app.use(
   cors({
