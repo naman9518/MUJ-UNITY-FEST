@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import axios from "axios";
 import API from "../api/api.js";
 
 const useAuthStore = create(
@@ -59,36 +58,6 @@ const useAuthStore = create(
         }
       },
 
-      // New logout function
-      logout: async () => {
-        try {
-          set({ loading: true, error: null });
-          
-          // If you have a logout API endpoint, call it here
-          // await API.post("/auth/logout", {}, { withCredentials: true });
-          
-          // Clear user state
-          set({ 
-            user: null, 
-            error: null, 
-            successMessage: "Logged out successfully",
-            loading: false 
-          });
-          
-          // Clear any additional localStorage items if needed
-          localStorage.removeItem('isLoggedIn');
-          localStorage.removeItem('userEmail');
-          
-          return true;
-        } catch (err) {
-          set({
-            error: err.response?.data?.message || "Logout failed",
-            loading: false
-          });
-          return false;
-        }
-      },
-
       sendResetOtp: async ({ email }) => {
         set({ error: null, loading: true });
         try {
@@ -116,6 +85,35 @@ const useAuthStore = create(
             error: err.response?.data?.message || "Password Reset Failed !",
           });
           return false;
+        } finally {
+          set({ loading: false });
+        }
+      },
+
+      logout: async () => {
+        set({ error: null, loading: true });
+        try {
+          const { data } = await API.get("/auth/signout");
+          set({ user: null, successMessage: data.message });
+          return true;
+        } catch (err) {
+          set({ error: err.response?.data?.message || "Logout failed !!" });
+        } finally {
+          set({ loading: false });
+        }
+      },
+
+      editProfile: async (updatedFields) => {
+        set({error: null, loading: true});
+        try {
+          const { data } = await API.put("/auth/update-profile", updatedFields);
+            set((state) => ({
+              user: { ...state.user, ...data.userInfo },
+            }));
+            return true;
+        } catch (err) {
+          set({ error: err.response?.data?.message || "Edit profile failed " })
+          return false
         } finally {
           set({ loading: false });
         }

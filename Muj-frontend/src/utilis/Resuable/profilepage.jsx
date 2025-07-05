@@ -1,168 +1,105 @@
-// Update your ProfilePage.jsx with these changes
-
 import { useState, useEffect } from "react";
-import { useAuth } from "../../contexts/authContext.jsx";
+import useAuthStore from "../../store/useAuthStore";
+import Styles from "./profilepage.module.css";
 import { CgProfile } from "react-icons/cg";
 import { FiEdit2, FiTrash2, FiCheck, FiX } from "react-icons/fi";
-import Styles from "./profilepage.module.css";
 
-const ProfilePage = ({ onModalChange }) => { // Add onModalChange prop
-  const emptyState = {
-    fullname: { oldname: "", newname: "" },
-    phoneNumber: { oldPhoneNumber: "", newPhoneNumber: "" },
-    alternateNumber: { oldAlternateNumber: "", newAlternateNumber: "" },
-    UniversityMail: { oldUniversityMail: "", newUniversityMail: "" },
-    Course: { oldCourse: "", newCourse: "" },
-    Batch: { oldBatch: "", newBatch: "" },
-    image: { oldImage: "", newImage: "" },
-  };
-
-  const { isLoggedIn, user } = useAuth();
-  const [value, setValue] = useState(() => {
-    const storedProfile = localStorage.getItem("userProfile");
-    return storedProfile ? JSON.parse(storedProfile) : emptyState;
-  });
-  const [tempValue, setTempValue] = useState(value);
+const ProfilePage = ({ onModalChange }) => {
+  const { user, editProfile } = useAuthStore();
   const [showModal, setShowModal] = useState(false);
-  const [updateSuccess, setUpdateSuccess] = useState(false);
-  const [hasImage, setHasImage] = useState(!!value.image.oldImage);
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    phone2: "",
+    email: "",
+    universityEmail: "",
+    course: "",
+    batch: "",
+    image: "",
+  });
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    if (isLoggedIn && user?.email) {
-      setValue((prev) => ({
-        ...prev,
-        UniversityMail: {
-          oldUniversityMail: user.email,
-          newUniversityMail: user.email,
-        },
-      }));
-      setTempValue((prev) => ({
-        ...prev,
-        UniversityMail: {
-          oldUniversityMail: user.email,
-          newUniversityMail: user.email,
-        },
-      }));
-    }
-  }, [isLoggedIn, user]);
-
-  // Notify parent component about modal state changes
-  useEffect(() => {
-    if (onModalChange) {
-      onModalChange(showModal);
-    }
+    if (onModalChange) onModalChange(showModal);
   }, [showModal, onModalChange]);
 
   const openModal = () => {
+    if (user) {
+      setFormData({
+        name: user.name || "",
+        phone: user.phone || "",
+        phone2: user.phone2 || "",
+        email: user.email || "",
+        universityEmail: user.universityEmail || "",
+        course: user.course.toUpperCase() || "",
+        batch: user.batch || "",
+        image: user.image || "",
+      });
+    }
+    setErrors({});
     setShowModal(true);
     document.body.style.overflow = "hidden";
   };
 
   const closeModal = () => {
-    setTempValue(value);
     setShowModal(false);
     document.body.style.overflow = "auto";
   };
 
   const handleChange = (e) => {
-    const { name, value: newValue } = e.target;
-    const [mainKey, subKey] = name.split(".");
-    setTempValue((prev) => ({
-      ...prev,
-      [mainKey]: { ...prev[mainKey], [subKey]: newValue },
-    }));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
   };
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setTempValue((prev) => ({
-          ...prev,
-          image: { ...prev.image, newImage: reader.result },
-        }));
+        setFormData((prev) => ({ ...prev, image: reader.result }));
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const removeProfileImage = () => {
-    setTempValue((prev) => ({
-      ...prev,
-      image: { oldImage: "", newImage: "" },
-    }));
-    setValue((prev) => ({
-      ...prev,
-      image: { oldImage: "", newImage: "" },
-    }));
-    setHasImage(false);
-    localStorage.setItem(
-      "userProfile",
-      JSON.stringify({ ...value, image: { oldImage: "", newImage: "" } })
-    );
+  const removeImage = () => {
+    setFormData((prev) => ({ ...prev, image: "" }));
   };
 
-  const saveProfile = () => {
-    const updated = {};
-    for (let key in value) {
-      if (key === "image") {
-        updated.image = {
-          oldImage: tempValue.image.newImage,
-          newImage: tempValue.image.newImage,
-        };
-      } else {
-        updated[key] = {
-          old: tempValue[key][`new${Object.keys(tempValue[key])[1].slice(3)}`],
-          ...tempValue[key],
-        };
-      }
+  const validate = () => {
+    const newErrors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (formData.email && !emailRegex.test(formData.email)) {
+      newErrors.email = "Enter a valid personal email";
     }
-    setValue(updated);
-    setUpdateSuccess(true);
-    setShowModal(false);
-    setHasImage(!!tempValue.image.newImage);
-    document.body.style.overflow = "auto";
-    localStorage.setItem("userProfile", JSON.stringify(updated));
-    setTimeout(() => setUpdateSuccess(false), 3000);
+    return newErrors;
   };
 
-  const ProfileField = ({ label, name, subKey, readOnly = false }) => (
-    <div className={Styles.whole}>
-      <div className={Styles.details}>{label}</div>
-      <input
-        name={`${name}.${subKey}`}
-        onChange={handleChange}
-        value={tempValue[name][subKey]}
-        className={`${Styles.inputs} ${readOnly ? Styles.grey : ""}`}
-        placeholder={label}
-        readOnly={readOnly}
-      />
-    </div>
-  );
+  const saveProfile = async () => {
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+    const res = await editProfile(formData);
+    if (res) {
+      closeModal();
+    }
+  };
 
   return (
     <>
       <div className={Styles.profileIconContainer} onClick={openModal}>
-        {hasImage ? (
-          <img
-            src={value.image.oldImage}
-            className={Styles.profileIconImage}
-            alt="Profile"
-          />
+        {user?.image ? (
+          <img src={user.image} className={Styles.profileIconImage} alt="Profile" />
         ) : (
           <div className={Styles.profileIconInitials}>
-            {value.fullname.oldname ? (
-              value.fullname.oldname
-                .split(" ")
-                .map((n) => n[0])
-                .join("")
-            ) : (
-              <CgProfile className={Styles.profileIconSvg} />
-            )}
+            {user?.name ? user.name[0] : <CgProfile className={Styles.profileIconSvg} />}
           </div>
         )}
       </div>
+
       {showModal && (
         <div className={Styles.modalOverlay}>
           <div className={Styles.modalContent}>
@@ -172,20 +109,11 @@ const ProfilePage = ({ onModalChange }) => { // Add onModalChange prop
                 <FiX size={24} />
               </button>
             </div>
+
             <div className={Styles.profileImageSection}>
               <div className={Styles.imageContainer}>
-                {tempValue.image.newImage ? (
-                  <img
-                    src={tempValue.image.newImage}
-                    className={Styles.profileImage}
-                    alt="Profile"
-                  />
-                ) : value.image.oldImage ? (
-                  <img
-                    src={value.image.oldImage}
-                    className={Styles.profileImage}
-                    alt="Profile"
-                  />
+                {formData.image ? (
+                  <img src={formData.image} className={Styles.profileImage} alt="Profile" />
                 ) : (
                   <div className={Styles.defaultImage}>
                     <CgProfile size={60} />
@@ -196,65 +124,64 @@ const ProfilePage = ({ onModalChange }) => { // Add onModalChange prop
                 <label className={Styles.imageActionButton}>
                   <FiEdit2 size={16} />
                   <span>Change</span>
-                  <input
-                    onChange={handleImageChange}
-                    type="file"
-                    style={{ display: "none" }}
-                    accept="image/*"
-                  />
+                  <input type="file" accept="image/*" hidden onChange={handleImageChange} />
                 </label>
-                {(tempValue.image.newImage || value.image.oldImage) && (
-                  <button
-                    className={`${Styles.imageActionButton} ${Styles.deleteButton}`}
-                    onClick={removeProfileImage}
-                  >
+                {formData.image && (
+                  <button className={`${Styles.imageActionButton} ${Styles.deleteButton}`} onClick={removeImage}>
                     <FiTrash2 size={16} />
                     <span>Remove</span>
                   </button>
                 )}
               </div>
             </div>
+
             <div className={Styles.formSection}>
-              <ProfileField label="Full Name" name="fullname" subKey="newname" />
-              <ProfileField
-                label="Phone Number"
-                name="phoneNumber"
-                subKey="newPhoneNumber"
+              <Input label="Full Name" name="name" value={formData.name} onChange={handleChange} />
+              <Input label="Phone Number" name="phone" value={formData.phone} onChange={handleChange} />
+              <Input label="Alternate Number" name="phone2" value={formData.phone2} onChange={handleChange} />
+              <Input
+                label="Personal Email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                error={errors.email}
               />
-              <ProfileField
-                label="Alternate Number"
-                name="alternateNumber"
-                subKey="newAlternateNumber"
-              />
-              <ProfileField
+              <Input
                 label="University Mail"
-                name="UniversityMail"
-                subKey="newUniversityMail"
-                readOnly={true}
+                name="universityEmail"
+                value={formData.universityEmail}
+                readOnly
               />
-              <ProfileField label="Course" name="Course" subKey="newCourse" />
-              <ProfileField label="Batch" name="Batch" subKey="newBatch" />
+              <Input label="Course" name="course" value={formData.course} onChange={handleChange} />
+              <Input label="Batch" name="batch" value={formData.batch} onChange={handleChange} />
             </div>
+
             <div className={Styles.modalFooter}>
-              <button className={Styles.cancelButton} onClick={closeModal}>
-                Cancel
-              </button>
+              <button className={Styles.cancelButton} onClick={closeModal}>Cancel</button>
               <button className={Styles.saveButton} onClick={saveProfile}>
-                <FiCheck size={18} />
-                Save Changes
+                <FiCheck size={18} /> Save Changes
               </button>
             </div>
           </div>
         </div>
       )}
-      {updateSuccess && (
-        <div className={Styles.successNotification}>
-          <FiCheck size={20} />
-          Profile updated successfully!
-        </div>
-      )}
     </>
   );
 };
+
+const Input = ({ label, name, value, onChange, readOnly = false, error }) => (
+  <div className={Styles.whole}>
+    <div className={Styles.details}>{label}</div>
+    <input
+      className={`${Styles.inputs} ${readOnly ? Styles.grey : ""}`}
+      name={name}
+      value={value}
+      onChange={onChange}
+      readOnly={readOnly}
+      placeholder={label}
+    />
+    {error && <div style={{ color: "red", fontSize: "0.8rem", marginTop: "0.25rem" }}>{error}</div>}
+  </div>
+);
 
 export default ProfilePage;

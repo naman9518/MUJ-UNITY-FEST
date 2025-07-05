@@ -19,8 +19,7 @@ const Header = () => {
   const [profileModalOpen, setProfileModalOpen] = useState(false);
   const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
 
-  // Get user and logout function from Zustand store
-  const { user, logout: logoutFromStore, loading } = useAuthStore();
+  const { user, logout, error, loading } = useAuthStore();
   
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -98,13 +97,13 @@ const Header = () => {
   // Handle confirmed logout
   const handleConfirmLogout = async () => {
     try {
-      await logoutFromStore();
+      const isLoggedOut = await logout();
+      if(isLoggedOut){
       setShowLogoutConfirmation(false);
-      // Optionally redirect to home page or show success message
       window.location.href = '/home';
+      }
     } catch (error) {
       console.error('Logout failed:', error);
-      // Handle logout error if needed
     }
   };
 
