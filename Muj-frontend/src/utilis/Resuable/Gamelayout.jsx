@@ -3,7 +3,7 @@ import React from 'react';
 import './game.css';
 import Team from './TeamMembers';
 
-const GameLayout = ({ title, tagline, image, aboutText, howToPlay, rules }) => {
+const GameLayout = ({ title, tagline, image, aboutText, howToPlay, rules, onRegisterClick }) => {
   return (
     <main>
       {/* Game Header */}
@@ -24,7 +24,7 @@ const GameLayout = ({ title, tagline, image, aboutText, howToPlay, rules }) => {
             <h2>About the <span className="highlight">game</span></h2>
             <p>{aboutText}</p>
             <div className="registration-cta">
-              <a href="#" className="btn btn-primary">Register Now</a>
+              <a href="#" className="btn btn-primary" onClick={onRegisterClick}>Register Now</a>
             </div>
           </div>
         </div>

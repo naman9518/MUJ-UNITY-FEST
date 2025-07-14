@@ -1,8 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import GameLayout from "../../../../utilis/Resuable/Gamelayout";;
 import speedTypingImage from "../../../../assets/speed-typing.svg";
+import useAuthStore from '../../../../store/useAuthStore';
+
+const LoginPromptPopup = ({ onClose }) => (
+  <div className="reminder-popup">
+    <div className="reminder-content">
+      <h3>🔒 Login Required</h3>
+      <p>You need to be logged in to register for this event.</p>
+      <button className="btn btn-primary" onClick={onClose}>Okay</button>
+    </div>
+  </div>
+);
 
 const SpeedTyping = () => {
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const { user } = useAuthStore();
+
+  const handleRegisterClick = (e) => {
+    if (!user) {
+      e.preventDefault();
+      setShowLoginPrompt(true);
+    }
+  };
+
+  const handleCloseLoginPrompt = () => {
+    setShowLoginPrompt(false);
+  };
+
   const howToPlay = [
     "Individual participation – each participant competes solo.",
     "At the start of the competition, you will be given a typing passage to replicate as quickly and accurately as possible.",
@@ -21,14 +46,20 @@ const SpeedTyping = () => {
   ];
 
   return (
-    <GameLayout
-      title="Speed Typing"
-      tagline="Crack clues. Race the clock. Find the treasure!"
-      image={speedTypingImage}
-      aboutText="Think you can type faster than your friends? Here’s your chance to prove it! The MUJ Speed Typing Competition is a fast-paced event that challenges you to type as quickly and accurately as possible. The key is speed and accuracy – because the faster you type, the higher your score!"
-      howToPlay={howToPlay}
-      rules={rules}
-    />
+    <React.Fragment>
+      <div className={`main-wrapper ${showLoginPrompt ? 'blurred' : ''}`}>
+        <GameLayout
+          title="Speed Typing"
+          tagline="Crack clues. Race the clock. Find the treasure!"
+          image={speedTypingImage}
+          aboutText="Think you can type faster than your friends? Here’s your chance to prove it! The MUJ Speed Typing Competition is a fast-paced event that challenges you to type as quickly and accurately as possible. The key is speed and accuracy – because the faster you type, the higher your score!"
+          howToPlay={howToPlay}
+          rules={rules}
+          onRegisterClick={handleRegisterClick}
+        />
+      </div>
+      {showLoginPrompt && <LoginPromptPopup onClose={handleCloseLoginPrompt} />}
+    </React.Fragment>
   );
 };
 

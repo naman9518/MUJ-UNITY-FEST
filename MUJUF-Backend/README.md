@@ -8,7 +8,7 @@ ROUTES:-
    SUCCESS Response example : {success : true, message : "OTP sent successfully"}
    ERROR Response example : {success : false, message : "This is an error"}
 
-2. Sinup
+2. Signup
    Route: http://localhost:8000/api/v1/auth/signup (post)
    Request example : {name : "Sumit", universityEmail : "sumit.33333333@mujonline.edu.in", "password" : "SUmit@2222", phone : 8888888888, batch : 5, "course" : "mca"}
    Response example : {success : true, message : "Sign up successful. Sign in to continue"}

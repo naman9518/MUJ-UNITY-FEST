@@ -18,7 +18,7 @@ const errorMessages = {
 };
 
 function SignUpModal({ toggleSignupModal, switchToLogin }) {
-  const { sendOtp, loading, error, signupUser } = useAuthStore();
+  const { sendOtp, loading, error, signupUser, clearMessages } = useAuthStore();
   const [showSuccess, setShowSuccess] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [formData, setFormData] = useState({
@@ -36,6 +36,12 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
   const [errors, setErrors] = useState({});
   const [otpTimer, setOtpTimer] = useState(0);
   const [timerInterval, setTimerInterval] = useState(null);
+
+  useEffect(() => {
+    return () => {
+      clearMessages();
+    };
+  }, [clearMessages]);
 
   useEffect(() => {
     if (otpTimer > 0) {
@@ -123,6 +129,11 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
     switchToLogin();
   };
 
+  const handleSwitchToLogin = () => {
+    clearMessages();
+    switchToLogin();
+  };
+
   const handleGetOtp = async () => {
     if (otpTimer === 0 && formData.email) {
       const errorMsg = validateField("email", formData.email);
@@ -168,7 +179,7 @@ function SignUpModal({ toggleSignupModal, switchToLogin }) {
 
         <p className="signup-modal-subtitle">
           Already have an account?
-          <span className="signup-modal-signin" onClick={switchToLogin}>
+          <span className="signup-modal-signin" onClick={handleSwitchToLogin}>
             {" "}
             Sign in
           </span>

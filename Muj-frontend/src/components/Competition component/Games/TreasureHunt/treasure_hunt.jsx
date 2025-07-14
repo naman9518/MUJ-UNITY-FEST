@@ -1,9 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import GameLayout from "../../../../utilis/Resuable/Gamelayout";;
 import speedTypingImage from "../../../../assets/treasure-hunt.svg"
+import useAuthStore from '../../../../store/useAuthStore';
 
+const LoginPromptPopup = ({ onClose }) => (
+  <div className="reminder-popup">
+    <div className="reminder-content">
+      <h3>🔒 Login Required</h3>
+      <p>You need to be logged in to register for this event.</p>
+      <button className="btn btn-primary" onClick={onClose}>Okay</button>
+    </div>
+  </div>
+);
 
 const TreasureHunt = () => {
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const { user } = useAuthStore();
+
+  const handleRegisterClick = (e) => {
+    if (!user) {
+      e.preventDefault();
+      setShowLoginPrompt(true);
+    }
+  };
+
+  const handleCloseLoginPrompt = () => {
+    setShowLoginPrompt(false);
+  };
+
   const howToPlay = [
     "Teams of 2-3 members only.",
         "Navigate through the 360-degree virtual campus tour to discover hidden challenges.",
@@ -22,14 +46,20 @@ const TreasureHunt = () => {
   ];
 
   return (
-    <GameLayout
-    title="Treasure Hunt"
-    tagline="Crack clues. Race the clock. Find the treasure!"
-    image={speedTypingImage}
-     aboutText="Step into the ultimate adventure across the MUJ campus! The Treasure Hunt is not just a game – it’s a test of wit, teamwork, and quick thinking. Each clue brings you closer to victory... and further into the mystery. Compete with the best minds, solve hidden puzzles, and race against time. Do you have what it takes to find the final treasure?"
-    howToPlay={howToPlay}
-    rules={rules}
-    />
+    <React.Fragment>
+      <div className={`main-wrapper ${showLoginPrompt ? 'blurred' : ''}`}>
+        <GameLayout
+          title="Treasure Hunt"
+          tagline="Crack clues. Race the clock. Find the treasure!"
+          image={speedTypingImage}
+          aboutText="Step into the ultimate adventure across the MUJ campus! The Treasure Hunt is not just a game – it’s a test of wit, teamwork, and quick thinking. Each clue brings you closer to victory... and further into the mystery. Compete with the best minds, solve hidden puzzles, and race against time. Do you have what it takes to find the final treasure?"
+          howToPlay={howToPlay}
+          rules={rules}
+          onRegisterClick={handleRegisterClick}
+        />
+      </div>
+      {showLoginPrompt && <LoginPromptPopup onClose={handleCloseLoginPrompt} />}
+    </React.Fragment>
   );
 };
 

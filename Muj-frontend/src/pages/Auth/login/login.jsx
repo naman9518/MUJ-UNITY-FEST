@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SuccessMessage from "./SuccessMessage";
 import ResetPassword from "./resetpassword.jsx";
 import "./LoginModal.css";
@@ -143,7 +143,13 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { login, error } = useAuthStore();
+  const { login, error, clearMessages } = useAuthStore();
+
+  useEffect(() => {
+    return () => {
+      clearMessages();
+    };
+  }, [clearMessages]);
 
   const validateField = (field, value) => {
     switch (field) {
@@ -238,6 +244,11 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
     setShowSuccess(false);
   };
 
+  const handleSwitchToSignup = () => {
+    clearMessages();
+    switchToSignup();
+  };
+
   if (showResetPassword) {
     return (
       <div className="login-modal-wrapper">
@@ -293,7 +304,7 @@ const LoginModal = ({ toggleLoginModal, switchToSignup, onLoginSuccess }) => {
           <span>Don't have an account yet?</span>
           <span
             className="modal-signup"
-            onClick={switchToSignup}
+            onClick={handleSwitchToSignup}
             style={{ cursor: "pointer" }}
           >
             {" "}
