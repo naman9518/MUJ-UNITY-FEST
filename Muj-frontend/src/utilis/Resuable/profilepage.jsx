@@ -7,6 +7,7 @@ import { FiEdit2, FiTrash2, FiCheck, FiX } from "react-icons/fi";
 const ProfilePage = ({ onModalChange }) => {
   const { user, editProfile } = useAuthStore();
   const [showModal, setShowModal] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -38,11 +39,13 @@ const ProfilePage = ({ onModalChange }) => {
     }
     setErrors({});
     setShowModal(true);
+    setIsEditMode(false);
     document.body.style.overflow = "hidden";
   };
 
   const closeModal = () => {
     setShowModal(false);
+    setIsEditMode(false);
     document.body.style.overflow = "auto";
   };
 
@@ -84,7 +87,7 @@ const ProfilePage = ({ onModalChange }) => {
     }
     const res = await editProfile(formData);
     if (res) {
-      closeModal();
+      setIsEditMode(false);
     }
   };
 
@@ -104,7 +107,7 @@ const ProfilePage = ({ onModalChange }) => {
         <div className={Styles.modalOverlay}>
           <div className={Styles.modalContent}>
             <div className={Styles.modalHeader}>
-              <h2 className={Styles.modalTitle}>Edit Profile</h2>
+              <h2 className={Styles.modalTitle}>Profile</h2>
               <button className={Styles.closeButton} onClick={closeModal}>
                 <FiX size={24} />
               </button>
@@ -120,31 +123,34 @@ const ProfilePage = ({ onModalChange }) => {
                   </div>
                 )}
               </div>
-              <div className={Styles.imageActions}>
-                <label className={Styles.imageActionButton}>
-                  <FiEdit2 size={16} />
-                  <span>Change</span>
-                  <input type="file" accept="image/*" hidden onChange={handleImageChange} />
-                </label>
-                {formData.image && (
-                  <button className={`${Styles.imageActionButton} ${Styles.deleteButton}`} onClick={removeImage}>
-                    <FiTrash2 size={16} />
-                    <span>Remove</span>
-                  </button>
-                )}
-              </div>
+              {isEditMode && (
+                <div className={Styles.imageActions}>
+                  <label className={Styles.imageActionButton}>
+                    <FiEdit2 size={16} />
+                    <span>Change</span>
+                    <input type="file" accept="image/*" hidden onChange={handleImageChange} />
+                  </label>
+                  {formData.image && (
+                    <button className={`${Styles.imageActionButton} ${Styles.deleteButton}`} onClick={removeImage}>
+                      <FiTrash2 size={16} />
+                      <span>Remove</span>
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
 
             <div className={Styles.formSection}>
-              <Input label="Full Name" name="name" value={formData.name} onChange={handleChange} />
-              <Input label="Phone Number" name="phone" value={formData.phone} onChange={handleChange} />
-              <Input label="Alternate Number" name="phone2" value={formData.phone2} onChange={handleChange} />
+              <Input label="Full Name" name="name" value={formData.name} onChange={handleChange} readOnly={!isEditMode} />
+              <Input label="Phone Number" name="phone" value={formData.phone} onChange={handleChange} readOnly={!isEditMode} />
+              <Input label="Alternate Number" name="phone2" value={formData.phone2} onChange={handleChange} readOnly={!isEditMode} />
               <Input
                 label="Personal Email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 error={errors.email}
+                readOnly={!isEditMode}
               />
               <Input
                 label="University Mail"
@@ -152,15 +158,26 @@ const ProfilePage = ({ onModalChange }) => {
                 value={formData.universityEmail}
                 readOnly
               />
-              <Input label="Course" name="course" value={formData.course} onChange={handleChange} />
-              <Input label="Batch" name="batch" value={formData.batch} onChange={handleChange} />
+              <Input label="Course" name="course" value={formData.course} onChange={handleChange} readOnly={!isEditMode} />
+              <Input label="Batch" name="batch" value={formData.batch} onChange={handleChange} readOnly={!isEditMode} />
             </div>
 
             <div className={Styles.modalFooter}>
-              <button className={Styles.cancelButton} onClick={closeModal}>Cancel</button>
-              <button className={Styles.saveButton} onClick={saveProfile}>
-                <FiCheck size={18} /> Save Changes
-              </button>
+              {!isEditMode ? (
+                <button className={Styles.editButton} onClick={() => setIsEditMode(true)}>
+                  <FiEdit2 size={18} /> Edit Profile
+                </button>
+              ) : (
+                <>
+                  <button className={Styles.cancelButton} onClick={() => {
+                    setIsEditMode(false);
+                    // Reset form data if needed
+                  }}>Cancel</button>
+                  <button className={Styles.saveButton} onClick={saveProfile}>
+                    <FiCheck size={18} /> Save Changes
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>

@@ -253,6 +253,24 @@
   background-color:#e55511
 }
 
+.editButton {
+  background-color: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.editButton:hover {
+  background-color: #2563eb;
+}
+
 .successNotification{
   position:fixed;
   bottom:20px;
