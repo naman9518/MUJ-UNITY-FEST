@@ -19,6 +19,7 @@ const ProfilePage = ({ onModalChange }) => {
     image: "",
   });
   const [errors, setErrors] = useState({});
+  const [updateSuccess, setUpdateSuccess] = useState(false);
 
   useEffect(() => {
     if (onModalChange) onModalChange(showModal);
@@ -88,6 +89,11 @@ const ProfilePage = ({ onModalChange }) => {
     const res = await editProfile(formData);
     if (res) {
       setIsEditMode(false);
+      setUpdateSuccess(true);
+      setTimeout(() => {
+        setUpdateSuccess(false);
+        closeModal();
+      }, 2000);
     }
   };
 
@@ -180,6 +186,12 @@ const ProfilePage = ({ onModalChange }) => {
               )}
             </div>
           </div>
+        </div>
+      )}
+      {updateSuccess && (
+        <div className={Styles.successNotification}>
+          <FiCheck size={20} />
+          Profile updated successfully!
         </div>
       )}
     </>
