@@ -4,7 +4,8 @@ USE muj;
 CREATE TABLE IF NOT EXISTS users (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(200) NOT NULL,
-    email VARCHAR(50) ,
+    email VARCHAR(50) UNIQUE,
+    oldEmail VARCHAR(100),
     password VARCHAR(100) NOT NULL,
     phone BIGINT UNSIGNED NOT NULL UNIQUE,
     role ENUM("user", "admin", "member") NOT NULL DEFAULT "user",
